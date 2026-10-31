@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quality Passport – AranyaValue</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="passport">
+<main>
+  <div class="crumbs"><a href="my-batches.html">My Batches</a><i data-i="right"></i><a id="bc" href="#">HV-001</a><i data-i="right"></i><b>Quality Passport</b></div>
+  <div class="pagehead">
+    <div><h1>Quality Passport</h1><p>Complete information about this batch, including quality details, traceability and key events.</p></div>
+    <div class="actions">
+      <button class="btn" id="share"><i data-i="share"></i> Share Passport</button>
+      <button class="btn" id="print"><i data-i="file"></i> Download / Print</button>
+      <a class="btn" href="audit.html" id="hist"><i data-i="clock"></i> View Audit History</a>
+      <a class="btn primary" href="create-batch.html"><i data-i="pencil"></i> Edit Batch</a>
+    </div>
+  </div>
+
+  <section class="card pp-head" style="margin-bottom:12px">
+    <div class="pic" id="pic"></div>
+    <div style="padding:10px 0">
+      <div class="row wrap"><h2 id="pname">Honey</h2><span class="chip pill" style="background:#fff;border:1px solid var(--line2)" id="pid">HV-001</span><button class="iconbtn" id="cp" aria-label="Copy batch ID" style="border:0;background:none;color:var(--g600)"><i data-i="copy"></i></button></div>
+      <p style="margin-top:6px;font-size:15px" id="psub">10 kg &nbsp;•&nbsp; Wild Honey</p>
+      <div class="row wrap mt8" id="pchips"></div>
+    </div>
+    <div class="grade-box"><div class="row between"><b style="font-weight:600">Estimated Grade</b><i data-i="info" style="color:var(--muted)"></i></div><b style="font-size:20px;display:block;margin:2px 0">-</b><span class="sub">Awaiting quality assessment</span></div>
+  </section>
+
+  <div class="tabs" role="tablist" id="tabs" data-group="pp">
+    <button class="tab active" role="tab" aria-selected="true" data-tab="ov"><i data-i="file"></i> Overview</button>
+    <button class="tab" role="tab" data-tab="qd"><i data-i="flask"></i> Quality Details</button>
+    <button class="tab" role="tab" data-tab="tr"><i data-i="hexa"></i> Traceability</button>
+    <button class="tab" role="tab" data-tab="pc"><i data-i="chart"></i> Price Comparison</button>
+    <button class="tab" role="tab" data-tab="dp"><i data-i="image"></i> Documents &amp; Photos</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div data-panel="ov" data-group="pp">
+    <div class="pp-grid">
+      <section class="card">
+        <div class="sec-head"><span class="sec-ic"><i data-i="leaf"></i></span><div class="t"><b>Batch Overview</b><span>Key information about this forest produce batch.</span></div></div>
+        <div class="kv-2">
+          <div>
+            <div class="kv"><span class="sec-ic orange"><i data-i="drop"></i></span><div><b>Produce Type</b><span id="ov-type">Honey</span></div></div>
+            <div class="kv"><span class="sec-ic orange"><i data-i="sun"></i></span><div><b>Local/Common Name</b><span id="ov-local">Wild Honey</span></div></div>
+            <div class="kv"><span class="sec-ic orange"><i data-i="bag"></i></span><div><b>Quantity</b><span id="ov-qty">10 kg</span></div></div>
+            <div class="kv"><span class="sec-ic"><i data-i="user"></i></span><div><b>Collector / Group</b><span>Ramesh Tudu</span><small>Individual Collector</small></div></div>
+            <div class="kv"><span class="sec-ic blue"><i data-i="file"></i></span><div><b>Description</b><span>Wild forest honey collected from natural hives in Sal forest area.</span></div></div>
+          </div>
+          <div>
+            <div class="kv"><span class="sec-ic blue"><i data-i="calendar"></i></span><div><b>Collection Date</b><span id="ov-date">10 Oct 2026</span></div></div>
+            <div class="kv"><span class="sec-ic purple"><i data-i="pin"></i></span><div><b>Collection Location</b><span id="ov-loc">Jhargram, West Bengal</span><small>Block: Jhargram &nbsp;|&nbsp; Village: Belpahari</small></div></div>
+            <div class="kv"><span class="sec-ic"><i data-i="leaf"></i></span><div><b>Collection Method</b><span>Traditional (Wild Collection)</span><small>Collected from natural hives</small></div></div>
+            <div class="kv"><span class="sec-ic teal"><i data-i="settings"></i></span><div><b>Post-Harvest Handling</b><span>Filtered, cleaned</span></div></div>
+            <div class="kv"><span class="sec-ic orange"><i data-i="package"></i></span><div><b>Storage &amp; Packaging</b><span>Stored in clean, dry containers</span><small>Food-grade plastic container</small></div></div>
+          </div>
+        </div>
+      </section>
+      <section class="card">
+        <div class="sec-head"><span class="sec-ic"><i data-i="package"></i></span><div class="t"><b>Traceability &amp; QR Code</b><span>Use this QR code to identify this batch.</span></div></div>
+        <div class="row" style="gap:12px;align-items:center"><div id="qr" class="qr" role="img" aria-label="QR code for this batch"></div>
+          <div class="card tint" style="padding:10px 12px;flex:1"><small class="sub">Batch ID</small><div class="row between"><b style="font-size:20px" id="qid">HV-001</b><button class="iconbtn" id="cp2" aria-label="Copy batch ID" style="border:0;background:none"><i data-i="copy"></i></button></div></div></div>
+        <p class="sub mt8">Scan this QR code to view basic batch information.</p>
+        <a class="link" href="verify.html?batch=HV-001" id="vlink" style="display:inline-block;margin:6px 0">Open public verify page →</a>
+        <div class="notice amber sm mt8"><i data-i="info"></i><span>QR verification is for information only. It does not guarantee quality, safety or price.</span></div>
+      </section>
+      <section class="card">
+        <div class="row between"><div class="row"><span class="sec-ic sm blue"><i data-i="clock"></i></span><h2 style="font-size:16px">Batch Timeline</h2></div><a class="link" href="audit.html">View All</a></div>
+        <div class="timeline mt12">
+          <div class="tl done"><i></i><div><b>Batch Created</b><small>10 Oct 2026, 10:30 AM</small><small>Batch information recorded</small></div></div>
+          <div class="tl done"><i></i><div><b>Submitted for Assessment</b><small>12 Oct 2026, 04:20 PM</small><small>Batch submitted for quality assessment</small></div></div>
+          <div class="tl now"><i></i><div><b>Under Assessment</b><small>14 Oct 2026, 09:15 AM</small><small>Quality assessment in progress</small></div></div>
+          <div class="tl"><i></i><div><b>-</b><small>Price comparison pending</small></div></div>
+          <div class="tl"><i></i><div><b>-</b><small>No further updates yet</small></div></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- shared lower area -->
+  <div class="pp-grid mt12" style="grid-template-columns:minmax(0,1.9fr) minmax(0,.9fr)">
+    <div class="grid">
+      <section class="card" data-panel="ov" data-group="pp" id="qsec">
+        <div class="row between"><div class="sec-head" style="margin:0"><span class="sec-ic purple"><i data-i="flask"></i></span><div class="t"><b>Quality Information</b><span>Recorded quality details for this batch.</span></div></div><button class="link" data-goto="qd">View Details</button></div>
+        <div class="qgrid mt12" id="qgrid"></div>
+      </section>
+      <section class="card" data-panel="qd" data-group="pp" hidden>
+        <div class="sec-head"><span class="sec-ic purple"><i data-i="flask"></i></span><div class="t"><b>Quality Details</b><span>Every parameter with its source and status.</span></div></div>
+        <div class="tblwrap"><table class="tbl"><thead><tr><th>Parameter</th><th>Value</th><th>Source</th><th>Status</th></tr></thead><tbody id="qtbl"></tbody></table></div>
+        <div class="notice blue sm mt12"><i data-i="info"></i><span>Parameters marked pending or not recorded can be added after laboratory or quality assessment.</span></div>
+      </section>
+      <section class="card" data-panel="tr" data-group="pp" hidden>
+        <div class="sec-head"><span class="sec-ic"><i data-i="hexa"></i></span><div class="t"><b>Traceability</b><span>Where this batch came from and how it moved.</span></div></div>
+        <div class="tblwrap"><table class="tbl"><thead><tr><th>Step</th><th>Detail</th><th>Recorded</th></tr></thead><tbody>
+          <tr><td>Collection</td><td>Wild collection, Jhargram, West Bengal</td><td>10 Oct 2026</td></tr>
+          <tr><td>Handling</td><td>Filtered, cleaned; stored in food-grade container</td><td>10 Oct 2026</td></tr>
+          <tr><td>Submitted</td><td>Sent for buyer / cooperative quality assessment</td><td>12 Oct 2026</td></tr>
+          <tr><td>Assessment</td><td>In progress</td><td>14 Oct 2026</td></tr></tbody></table></div>
+        <p class="sub mt8">The history behind these events is in the <a class="link" href="audit.html">Audit Ledger</a>.</p>
+      </section>
+      <section class="card" data-panel="pc" data-group="pp" hidden>
+        <div class="sec-head"><span class="sec-ic amber"><i data-i="chart"></i></span><div class="t"><b>Price Comparison</b><span>Sample/demo offers — not real prices.</span></div></div>
+        <div class="tblwrap"><table class="tbl"><thead><tr><th>Buyer</th><th>Offered Price (₹/kg)</th><th>Status</th></tr></thead><tbody>
+          <tr><td>GreenLife Buyers</td><td>520</td><td><span class="chip elig">● Eligible</span></td></tr><tr><td>Forest Foods Co.</td><td>480</td><td><span class="chip cond">● Conditional</span></td></tr><tr><td>Tribal Mart</td><td>450</td><td><span class="chip rejected">● Not Eligible</span></td></tr><tr><td>Eco Essentials</td><td>-</td><td><span class="chip unk">● Unknown</span></td></tr></tbody></table></div>
+        <a class="btn primary mt12" href="quality-price.html">See full quality-to-price analysis <i data-i="arrow"></i></a>
+      </section>
+      <section class="card" id="docs" data-panel="ov" data-group="pp">
+        <div class="sec-head" style="margin:0 0 10px"><span class="sec-ic sm"><i data-i="image"></i></span><div class="t"><b>Photos and Documents</b><span>Photos, documents and other evidence related to this batch.</span></div><button class="link" style="margin-left:auto" data-goto="dp">View All</button></div>
+        <div class="docs" id="docgrid"></div>
+      </section>
+      <section class="card" data-panel="dp" data-group="pp" hidden>
+        <div class="sec-head"><span class="sec-ic"><i data-i="image"></i></span><div class="t"><b>Documents &amp; Photos</b><span>Evidence attached to this batch.</span></div></div>
+        <div class="docs" id="docgrid2"></div>
+        <input type="file" id="upf" hidden multiple accept="image/png,image/jpeg,application/pdf">
+      </section>
+    </div>
+    <section class="what" data-panel="ov" data-group="pp" style="align-self:start">
+      <div class="row" style="align-items:flex-start"><i data-i="bulb" style="font-size:28px;color:var(--amber)"></i><div><h2 style="font-size:17px">What This Means</h2><p style="color:var(--ink2);margin-top:6px;font-size:13px">This passport shows the information recorded for this batch. Buyers may look at these details to understand the quality and compare with their requirements.</p></div></div>
+      <div class="inner"><ul class="list-check">
+        <li><i data-i="cc"></i>This batch is currently under quality assessment.</li><li><i data-i="cc"></i>Moisture content and color have been recorded.</li><li><i data-i="cc"></i>Some quality parameters are still pending or not recorded.</li><li><i data-i="cc"></i>Final grade and price comparison will be available after assessment.</li></ul></div>
+    </section>
+  </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('av:ready',()=>{
+  const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+  const id=AV.params.get('id')||'HV-001';
+  const b=AV.batches.find(x=>x.id===id)||AV.batches[0];
+  document.title=`Quality Passport ${b.id} – AranyaValue`;
+  $('#bc').textContent=b.id;$('#pname').textContent=b.name;$('#pid').textContent=b.id;$('#qid').textContent=b.id;
+  $('#psub').innerHTML=`${b.qty} ${b.unit} &nbsp;•&nbsp; ${b.local}`;$('#ov-type').textContent=b.name;$('#ov-local').textContent=b.local;$('#ov-qty').textContent=b.qty+' '+b.unit;$('#ov-date').textContent=b.date;$('#ov-loc').textContent=b.loc;
+  $('#pic').innerHTML=AV.img(b.img,'',b.name);
+  $('#pchips').innerHTML=`${AV.chip(b.status,'download')}<span class="chip blue">${AV.ic('download')} Submitted on 12 Oct 2026</span>`;
+  $('#vlink').href='verify.html?batch='+b.id;
+  // QR
+  try{const q=qrcode(0,'M');q.addData(new URL('verify.html?batch='+b.id,location.href).href);q.make();$('#qr').innerHTML=q.createSvgTag({cellSize:3,margin:0,scalable:true})}catch(e){$('#qr').innerHTML=AV.ic('qr')}
+  // quality
+  const Q=[['drop','blue','Moisture Content','18%','Measured','Measured using moisture meter','Moisture meter'],['palette','amber','Color','Dark Amber','Measured','Visual assessment (photo evidence)','Visual assessment'],['sparkle','amber','Purity','-','Pending','Awaiting lab/quality assessment','—'],['leaf','','Foreign Matter','Not Detected','Measured','Visual inspection','Visual inspection'],['flask','purple','Adulteration Test','-','Not Recorded','Not tested yet','—'],['file','purple','Additional Remarks','-','Not Recorded','Not available','—']];
+  const tg=s=>s==='Measured'?'':s==='Pending'?'pend':'none';
+  $('#qgrid').innerHTML=Q.map(q=>`<div class="qitem"><span class="sec-ic ${q[1]}">${AV.ic(q[0])}</span><div style="min-width:0"><small style="color:var(--ink)">${q[2]}</small><b>${q[3]}</b><small>${q[5]}</small></div><span class="tag ${tg(q[4])}">${q[4]}</span></div>`).join('');
+  $('#qtbl').innerHTML=Q.map(q=>`<tr><td>${q[2]}</td><td>${q[3]}</td><td>${q[6]}</td><td>${q[4]==='Measured'?'<span class="chip done">Measured</span>':q[4]==='Pending'?'<span class="chip draft">Pending</span>':'<span class="chip gray">Not Recorded</span>'}</td></tr>`).join('');
+  // docs
+  const doc=(n,t,d)=>`<div class="doc">${AV.img(n,'',t)}<div><b>${t}</b><small>${d}</small></div></div>`;
+  const grid=`${doc('honey-1','Collection Photo','10 Oct 2026')}${doc('honey-2','Product Close-up','10 Oct 2026')}${doc('honey-3','Packaging','10 Oct 2026')}<div class="doc file">${AV.ic('file')}<b>Collection Note</b><small>PDF • 120 KB</small></div><label class="doc up" tabindex="0"><span>${AV.ic('upload')}<br>Upload More<br>Photos / Documents</span></label>`;
+  $('#docgrid').innerHTML=grid;$('#docgrid2').innerHTML=grid;
+  $$('.doc.up').forEach(u=>{const open=()=>$('#upf').click();u.onclick=open;u.onkeydown=e=>e.key==='Enter'&&open()});
+  $('#upf').onchange=e=>{AV.toast(e.target.files.length+' file(s) selected. Uploads are not stored in this demo.')};
+  // tabs
+  AV.tabs($('#tabs'));
+  $$('[data-goto]').forEach(x=>x.onclick=()=>$(`.tab[data-tab="${x.dataset.goto}"]`).click());
+  // actions
+  const copy=()=>{navigator.clipboard&&navigator.clipboard.writeText(b.id);AV.toast('Batch ID '+b.id+' copied')};$('#cp').onclick=copy;$('#cp2').onclick=copy;
+  $('#print').onclick=()=>print();
+  $('#share').onclick=async()=>{const u=new URL('verify.html?batch='+b.id,location.href).href;try{if(navigator.share){await navigator.share({title:'AranyaValue passport '+b.id,url:u})}else{await navigator.clipboard.writeText(u);AV.toast('Public verify link copied')}}catch(e){}};
+  $('#hist').href='audit.html?batch='+b.id;
+});
+</script>
+</body></html>

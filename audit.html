@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audit Ledger – AranyaValue</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="audit">
+<main>
+  <section class="hero"><h1>Audit Ledger</h1><p>Review recorded events and changes for your batches.</p></section>
+
+  <div class="notice mb12" style="background:#eef6ec;justify-content:space-between"><div class="row" style="gap:14px"><i data-i="shieldcheck"></i><div><b>This is a hash-linked, tamper-evident event history maintained within AranyaValue.</b>It helps track changes to batch information. It is not a public blockchain.</div></div>
+    <button class="btn sm" id="learn"><i data-i="info"></i> Learn More</button></div>
+
+  <div class="row wrap mb12">
+    <div class="searchbox" style="flex:1.6"><i data-i="search"></i><label class="sr" for="q">Search</label><input class="inp" id="q" placeholder="Search by batch ID, event or keyword…"></div>
+    <select class="sel" id="ft" aria-label="Event type" style="flex:1;height:44px"><option>All Event Types</option><option>Batch Created</option><option>Batch Updated</option><option>Submitted for Assessment</option><option>Assessment Started</option><option>Assessment Result</option></select>
+    <select class="sel" id="fb" aria-label="Batch" style="flex:1;height:44px"><option>All Batches</option><option>HV-001</option><option>MA-003</option><option>MP-005</option><option>SS-007</option></select>
+    <div class="row" style="flex:1.3;border:1px solid var(--line2);border-radius:8px;background:#fff;padding:0 10px;height:44px"><i data-i="calendar"></i><label class="sr" for="d1">From</label><input id="d1" type="date" value="2026-09-10" style="border:0;font-size:13px;background:none;flex:1;min-width:0"><span>–</span><label class="sr" for="d2">To</label><input id="d2" type="date" value="2026-10-31" style="border:0;font-size:13px;background:none;flex:1;min-width:0"></div>
+    <button class="btn" id="clr" style="height:44px">Clear Filters</button>
+  </div>
+
+  <div class="au-grid">
+    <section class="card" style="padding:0">
+      <div style="padding:16px 16px 8px"><h2 style="font-size:19px">Event History</h2><p class="sub" id="showing" style="font-size:13px"></p></div>
+      <div class="tblwrap" style="border:0;border-radius:0"><table class="tbl"><thead><tr><th><button id="sortd" class="link" style="color:var(--ink);font-size:12px">Date &amp; Time <span id="arr">⇅</span></button></th><th>Batch ID</th><th>Event Type</th><th>Details</th><th>Actor / Role</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+      <div id="empty" class="empty" hidden><i data-i="hexa"></i><b>No events found</b>Try changing your filters or date range.</div>
+      <div class="row between wrap" style="padding:14px 16px"><label class="row sub" style="font-size:12.5px">Rows per page <select class="sel" id="rp" style="width:80px;height:36px"><option>5</option><option selected>10</option><option>20</option></select></label><div class="pager" id="pg"></div></div>
+    </section>
+    <aside class="card" id="detail" style="padding:0"></aside>
+  </div>
+</main>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('av:ready',()=>{
+  const $=s=>document.querySelector(s),A=AV.ic;
+  const E=(i,iso,t,ty,det,actor,role,desc,data)=>({i,iso,t,ty,det,actor,role,desc,data});
+  const TY={'Batch Created':['blue','plus','file'],'Batch Updated':['green','pencil','file'],'Submitted for Assessment':['purple','upload','file'],'Assessment Started':['amber','clock','sun'],'Assessment Result':['red','alert','alert']};
+  const ICC={'Batch Created':['#dce9fb','#2563eb'],'Batch Updated':['#d9f0dd','#166534'],'Submitted for Assessment':['#e6dcfa','#6d28d9'],'Assessment Started':['#fdecc8','#b45309'],'Assessment Result':['#fde0e0','#b91c1c']};
+  const hv=[['Produce Type','Honey'],['Quantity','10 kg'],['Collection Date','10 Oct 2026'],['Collection Location','Jhargram, West Bengal'],['Collection Method','Traditional (Wild Collection)'],['Initial Notes','Wild forest honey collected from natural hives in Sal forest area.']];
+  const D=[
+   E(1,'2026-10-12T16:20','12 Oct 2026, 04:20 PM','Submitted for Assessment','Batch submitted to buyer for quality assessment','Ramesh Tudu','Collector','Batch HV-001 was submitted for buyer quality assessment.',hv,'HV-001'),
+   E(2,'2026-10-12T15:15','12 Oct 2026, 03:15 PM','Batch Updated','Added storage details','Ramesh Tudu','Collector','Storage details were added to the batch.',[['Storage','Stored in clean, dry containers'],['Packaging','Food-grade plastic container']]),
+   E(3,'2026-10-10T10:30','10 Oct 2026, 10:30 AM','Batch Created','Initial batch information recorded','Ramesh Tudu','Collector','Batch created with basic information including produce type, quantity and collection details.',hv),
+   E(4,'2026-10-14T09:15','14 Oct 2026, 09:15 AM','Assessment Started','Quality assessment in progress','GreenLife Buyers','Buyer','The buyer started the quality assessment.',[['Status','In Assessment']]),
+   E(5,'2026-10-14T17:40','14 Oct 2026, 05:40 PM','Assessment Result','Rejected: Moisture content higher than required','GreenLife Buyers','Buyer','Assessment result recorded: moisture content higher than required.',[['Result','Rejected'],['Reason','Moisture content higher than required']]),
+   E(6,'2026-10-10T14:10','10 Oct 2026, 02:10 PM','Batch Created','Initial batch information recorded','Ramesh Tudu','Collector','Batch created with basic information.',[['Produce Type','Mahua Flowers'],['Quantity','25 kg']]),
+   E(7,'2026-10-11T11:25','11 Oct 2026, 11:25 AM','Batch Updated','Added drying method','Ramesh Tudu','Collector','Drying method was added.',[['Drying','Raised platform']]),
+   E(8,'2026-10-13T15:50','13 Oct 2026, 03:50 PM','Assessment Result','Conditional: Color is darker than preferred grade','Forest Foods Co.','Buyer','Conditional assessment result recorded.',[['Result','Conditional'],['Reason','Color darker than preferred grade']]),
+   E(9,'2026-10-08T09:40','8 Oct 2026, 09:40 AM','Batch Created','Initial batch information recorded','Ramesh Tudu','Collector','Batch created.',[['Produce Type','Medicinal Plants'],['Quantity','5 kg']]),
+   E(10,'2026-10-09T16:10','9 Oct 2026, 04:10 PM','Batch Updated','Added packaging details','Ramesh Tudu','Collector','Packaging details were added.',[['Packaging','Clean cloth bags']])];
+  [D[0],D[1],D[2],D[3],D[4]].forEach(e=>e.b='HV-001');[D[5],D[6],D[7]].forEach(e=>e.b='MA-003');D[8].b='MP-005';D[9].b='SS-007';
+  D.forEach(e=>e.data=e.data||[]);
+  // fix argument shift for events 1 (extra batch arg)
+  D[0].data=hv;
+  // pad to 42 sample events with generated entries
+  const gen=[];for(let n=0;n<32;n++){const t=['Batch Updated','Batch Created','Assessment Started'][n%3],b=['MA-003','MP-005','SS-007','HV-001'][n%4];gen.push({i:11+n,iso:`2026-09-${String(12+n%17).padStart(2,'0')}T1${n%9}:00`,t:`${12+n%17} Sep 2026, 0${1+n%9}:00 ${n%2?'AM':'PM'}`,ty:t,det:t==='Batch Created'?'Initial batch information recorded':t==='Batch Updated'?'Batch information updated':'Quality assessment in progress',actor:t==='Assessment Started'?'GreenLife Buyers':'Ramesh Tudu',role:t==='Assessment Started'?'Buyer':'Collector',desc:'Sample earlier event.',data:[['Note','Sample event (demo)']],b})}
+  const ALL=D.concat(gen);
+  let sort=-1,page=1,sel=3;
+  const filt=()=>{const q=$('#q').value.toLowerCase(),t=$('#ft').value,b=$('#fb').value,d1=$('#d1').value,d2=$('#d2').value;
+    return ALL.filter(e=>(!q||(e.b+e.ty+e.det+e.actor).toLowerCase().includes(q))&&(t==='All Event Types'||e.ty===t)&&(b==='All Batches'||e.b===b)&&(!d1||e.iso.slice(0,10)>=d1)&&(!d2||e.iso.slice(0,10)<=d2)).sort((a,b)=>sort*(a.iso<b.iso?-1:1))};
+  const draw=()=>{const L=filt(),n=+$('#rp').value,tp=Math.max(1,Math.ceil(L.length/n));page=Math.min(page,tp);const S=L.slice((page-1)*n,page*n);
+    $('#showing').textContent=L.length?`Showing ${(page-1)*n+1}–${(page-1)*n+S.length} of ${L.length} events`:'Showing 0 events';$('#empty').hidden=!!L.length;
+    $('#rows').innerHTML=S.map(e=>{const c=ICC[e.ty];return `<tr class="evrow ${e.i===sel?'picked':''}" data-i="${e.i}" tabindex="0"><td><span class="row"><span class="evic" style="background:${c[0]};color:${c[1]}">${A(TY[e.ty][1])}</span>${e.t.replace(', ',',<br>')}</span></td><td>${e.b}</td><td><span class="chip" style="background:${c[0]};color:${c[1]}">${A(TY[e.ty][1])}${e.ty}</span></td><td style="font-size:12.5px;min-width:150px">${e.det}</td><td style="font-size:12.5px">${e.actor}<br><span class="sub">${e.role}</span></td><td>${A('right')}</td></tr>`}).join('');
+    $('#rows').querySelectorAll('tr').forEach(r=>{const go=()=>{sel=+r.dataset.i;draw()};r.onclick=go;r.onkeydown=e=>e.key==='Enter'&&go()});
+    AV.pager($('#pg'),Math.min(tp,5),page,p=>{page=p;draw()});detail()};
+  const detail=()=>{const e=ALL.find(x=>x.i===sel);if(!e){$('#detail').innerHTML='<div class="empty"><b>Select an event</b></div>';return}const c=ICC[e.ty];
+    $('#detail').innerHTML=`<div class="row between" style="padding:16px 16px 0"><h2 style="font-size:19px">Event Details</h2><button class="iconbtn" id="cl" aria-label="Close details" style="border:0">${A('x')}</button></div>
+    <div class="row" style="padding:14px 16px;gap:12px;align-items:flex-start"><span class="evic" style="background:${c[0]};color:${c[1]};width:42px;height:42px">${A(TY[e.ty][1])}</span><div style="flex:1"><b style="font-size:16px">${e.ty}</b><div class="sub" style="color:var(--ink2)">${e.det}</div></div><div style="text-align:right;font-size:12.5px;color:var(--ink2)">${e.t.split(', ')[0]}<br>${e.t.split(', ')[1]}</div></div>
+    <div style="padding:0 16px"><div class="dl"><b style="grid-column:1/3;font-size:13px">Batch ID</b><span class="card tint" style="padding:6px 12px">${e.b}</span></div><div class="dl"><b style="grid-column:1/3;font-size:13px">Actor</b><span class="row" style="background:#f4f8f2;border-radius:8px;padding:5px 10px">${AV.img('avatar','thumb',e.actor).replace('class="thumb"','class="thumb" style="border-radius:50%"')}${e.actor} <span class="chip gray" style="margin-left:6px">${e.role}</span></span></div><div class="dl"><b style="grid-column:1/3;font-size:13px">Description</b><span style="font-size:12.5px;color:var(--ink2)">${e.desc}</span></div></div>
+    <div style="padding:8px 16px"><div class="row"><span class="sec-ic sm">${A('file')}</span><b>Recorded Data</b></div><div class="tblwrap mt8"><table class="tbl"><thead><tr><th>Field</th><th>Value (After)</th></tr></thead><tbody>${e.data.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td></tr>`).join('')}</tbody></table></div></div>
+    <div style="padding:8px 16px 16px"><button class="row between" id="tech" aria-expanded="true" style="width:100%;background:none;border:0;padding:6px 0"><span class="row"><span class="sec-ic sm">${A('hexa')}</span><b>Technical Information</b></span>${A('up2')}</button>
+      <div id="tbody"><div class="dl" style="grid-template-columns:110px 1fr"><span>Event ID</span><span class="row mono">EVT-2026${String(e.i).padStart(2,'0')}10-${String(e.i).padStart(3,'0')} <button class="iconbtn" id="cpe" aria-label="Copy event ID" style="border:0;width:24px;height:24px">${A('copy')}</button></span></div><div class="dl" style="grid-template-columns:110px 1fr"><span>Recorded At</span><span>${e.t.replace(', ',', ')}:14 (IST)</span></div><div class="dl" style="grid-template-columns:110px 1fr"><span>Data Integrity</span><span>Included in internal hash-linked audit trail ${A('info')}</span></div>
+      <div class="notice blue sm mt8"><i data-i="info"></i><span>This is a tamper-evident record maintained within AranyaValue. It is not a public blockchain.</span></div></div></div>`;
+    AV.hydrate($('#detail'));
+    $('#cl').onclick=()=>{sel=-1;detail()};
+    $('#tech').onclick=()=>{const b=$('#tbody');b.hidden=!b.hidden;$('#tech').setAttribute('aria-expanded',!b.hidden)};
+    $('#cpe').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText('EVT-'+e.i);AV.toast('Event ID copied')}};
+  ['q','ft','fb','d1','d2','rp'].forEach(i=>$('#'+i).addEventListener('input',()=>{page=1;draw()}));
+  $('#sortd').onclick=()=>{sort*=-1;$('#arr').textContent=sort<0?'↓':'↑';draw()};
+  $('#clr').onclick=()=>{$('#q').value='';$('#ft').selectedIndex=0;$('#fb').selectedIndex=0;$('#d1').value='2026-09-10';$('#d2').value='2026-10-31';page=1;draw()};
+  const pb=AV.params.get('batch');if(pb)$('#fb').value=pb;
+  $('#learn').onclick=()=>AV.confirmBox({title:'About this ledger',text:'Each event stores a hash of its content plus the previous event\'s hash, so edits to older records become detectable. It is kept inside AranyaValue only and is not a public blockchain.',ok:'Got it',cancel:'Close'});
+  draw();
+});
+</script>
+</body></html>

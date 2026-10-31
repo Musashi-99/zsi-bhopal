@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Create Batch – AranyaValue</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="create-batch">
+<main>
+  <section class="hero"><div class="hero-row"><span class="hero-icon"><i data-i="leaf"></i></span><div><h1>Create New Batch</h1><p>Record your forest produce batch with key information. This helps buyers understand your quality and compare prices.</p></div></div></section>
+
+  <nav class="stepper" id="stepper" aria-label="Progress">
+    <button class="step active" data-s="1"><i>1</i><div><b>Produce &amp; Quantity</b><small>What are you collecting?</small></div></button>
+    <button class="step" data-s="2"><i>2</i><div><b>Collection Details</b><small>When and where?</small></div></button>
+    <button class="step" data-s="3"><i>3</i><div><b>Handling &amp; Storage</b><small>How was it processed?</small></div></button>
+    <button class="step" data-s="4"><i>4</i><div><b>Review &amp; Save</b><small>Check and submit</small></div></button>
+  </nav>
+
+  <form id="form" novalidate>
+  <div class="cb-grid">
+    <div>
+      <!-- STEP 1 -->
+      <section class="card step-p" data-s="1">
+        <div class="sec-head"><span class="sec-ic"><i data-i="package"></i></span><div class="t"><b style="font-size:19px">1. Produce and Quantity</b><span>Tell us what you have collected and how much.</span></div></div>
+        <div class="form-grid">
+          <div class="field c3"><label for="ptype">Produce Type <i>*</i></label>
+            <select class="sel" id="ptype" required><option value="Honey">🍯 Honey</option><option>Mahua Flowers</option><option>Medicinal Plants</option><option>Seeds &amp; Nuts</option><option>Other NTFP</option></select></div>
+          <div class="field c3"><label for="lname">Local/Common Name <i>*</i></label><input class="inp" id="lname" value="Wild Honey" required>
+            <span class="errmsg">Enter the local or common name.</span>
+            <span class="hint">Name used in your local area (e.g., Mahua, Sal Seed, Tendu Leaf)</span></div>
+          <div class="field c2"><label for="qty">Quantity <i>*</i></label><input class="inp" id="qty" type="number" min="0.1" step="0.1" value="10" required><span class="errmsg">Enter a quantity greater than 0.</span></div>
+          <div class="field c2"><label for="unit">Unit <i>*</i></label><select class="sel" id="unit"><option>kg</option><option>g</option><option>quintal</option><option>litre</option></select></div>
+          <div class="field c2"><label for="grade">Estimated Grade <small>(Optional)</small></label><select class="sel" id="grade"><option value="">Select grade</option><option>Grade A</option><option>Grade B</option><option>Grade C</option><option>Raw / Ungraded</option></select>
+            <span class="hint">If you are not sure, you can keep this empty.</span></div>
+          <div class="field c6"><label for="desc">Description <small>(Optional)</small></label>
+            <textarea class="txa" id="desc" maxlength="500" rows="4" placeholder="Add any additional details about your produce (e.g., flower source, type, special characteristics)…"></textarea>
+            <span class="hint" style="text-align:right" id="dcount">0/500</span></div>
+          <div class="field c6"><label>Photos <small>(Optional)</small></label>
+            <span class="hint">Add photos of your produce, packaging or collection process. This helps buyers understand the quality.</span>
+            <div class="photos" id="photos">
+              <label class="upload" id="drop" style="width:282px;height:103px" tabindex="0"><i data-i="upload"></i><b>Click to upload photos</b><small>PNG, JPG up to 5 MB each</small><input type="file" id="file" accept="image/png,image/jpeg" multiple hidden></label>
+            </div>
+            <span class="errmsg" id="photoerr" style="display:none">Only PNG or JPG images up to 5 MB are accepted.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2 -->
+      <section class="card step-p" data-s="2" hidden>
+        <div class="sec-head"><span class="sec-ic blue"><i data-i="pin"></i></span><div class="t"><b style="font-size:19px">2. Collection Details</b><span>When, where and how was it collected?</span></div></div>
+        <div class="form-grid">
+          <div class="field c3"><label for="cdate">Collection Date <i>*</i></label><input class="inp" id="cdate" type="date" value="2026-10-10" required><span class="errmsg">Choose the collection date.</span></div>
+          <div class="field c3"><label for="method">Collection Method <i>*</i></label><select class="sel" id="method"><option>Traditional (Wild Collection)</option><option>Managed / Cultivated</option><option>Group Collection</option></select></div>
+          <div class="field c2"><label for="state">State <i>*</i></label><select class="sel" id="state"><option>West Bengal</option><option>Odisha</option><option>Jharkhand</option></select></div>
+          <div class="field c2"><label for="dist">District <i>*</i></label><input class="inp" id="dist" value="Jhargram" required><span class="errmsg">Enter the district.</span></div>
+          <div class="field c2"><label for="block">Block / Village</label><input class="inp" id="block" value="Jhargram / Belpahari"></div>
+          <div class="field c6"><label for="cnote">Collection notes <small>(Optional)</small></label><textarea class="txa" id="cnote" rows="3" placeholder="e.g. Collected from natural hives in Sal forest area."></textarea></div>
+        </div>
+      </section>
+
+      <!-- STEP 3 -->
+      <section class="card step-p" data-s="3" hidden>
+        <div class="sec-head"><span class="sec-ic amber"><i data-i="leaf"></i></span><div class="t"><b style="font-size:19px">3. Handling and Storage</b><span>How was the produce handled after collection?</span></div></div>
+        <div class="form-grid">
+          <div class="field c6"><label>Post-harvest handling <small>(select all that apply)</small></label>
+            <div class="chipsel"><label><input type="checkbox" name="hand" value="Filtered" checked><span>Filtered</span></label><label><input type="checkbox" name="hand" value="Cleaned" checked><span>Cleaned</span></label><label><input type="checkbox" name="hand" value="Sun-dried"><span>Sun-dried</span></label><label><input type="checkbox" name="hand" value="Sorted"><span>Sorted</span></label><label><input type="checkbox" name="hand" value="No added sugar"><span>No added sugar</span></label></div></div>
+          <div class="field c3"><label for="store">Storage <i>*</i></label><select class="sel" id="store"><option>Stored in clean, dry containers</option><option>Cool, ventilated room</option><option>Open / uncovered</option></select></div>
+          <div class="field c3"><label for="pack">Packaging <i>*</i></label><select class="sel" id="pack"><option>Food-grade plastic container</option><option>Glass jar</option><option>Cloth / jute bag</option><option>Other</option></select></div>
+          <div class="field c3"><label for="moist">Moisture content % <small>(if measured)</small></label><input class="inp" id="moist" type="number" min="0" max="100" step="0.1" value="18"><span class="hint">Measured using moisture meter</span></div>
+          <div class="field c3"><label for="color">Colour <small>(visual)</small></label><input class="inp" id="color" value="Dark Amber"></div>
+        </div>
+      </section>
+
+      <!-- STEP 4 -->
+      <section class="card step-p" data-s="4" hidden>
+        <div class="sec-head"><span class="sec-ic"><i data-i="check"></i></span><div class="t"><b style="font-size:19px">4. Review and Save</b><span>Check everything before saving or submitting for assessment.</span></div></div>
+        <div id="review"></div>
+        <div class="notice amber sm mt12"><i data-i="info"></i><span>Submitting sends this batch for quality assessment. It does not guarantee any grade, buyer offer or price.</span></div>
+      </section>
+    </div>
+
+    <aside class="grid" style="align-content:start">
+      <div class="card tint"><div class="row" style="align-items:flex-start"><i data-i="bulb" style="font-size:30px;color:var(--amber)"></i><div><h3>Why this information matters?</h3><p class="sub" style="color:var(--ink2);margin-top:8px;font-size:13px">Buyers look at the type of produce, quantity and basic details to understand the quality and compare with their requirements.</p></div></div></div>
+      <div class="card amber"><div class="row" style="align-items:flex-start"><i data-i="leaf" style="font-size:28px;color:var(--g600)"></i><div><h3>Tips for better value</h3>
+        <ul style="margin:10px 0 0;padding-left:18px;font-size:13px;color:var(--ink2);display:flex;flex-direction:column;gap:6px"><li>Use the correct produce type and local name.</li><li>Add clear photos of your produce.</li><li>If you know the grade or type, it can help buyers give better offers.</li></ul></div></div></div>
+      <div class="card tint"><div class="row"><i data-i="package" style="font-size:26px;color:var(--g600)"></i><h3>Common produce types</h3></div>
+        <div id="common" class="mt8"></div></div>
+    </aside>
+  </div>
+
+  <div class="formbar">
+    <button type="button" class="btn" id="cancel">Cancel</button>
+    <div class="row wrap"><button type="button" class="btn" id="back" hidden><i data-i="left"></i> Back</button><button type="button" class="btn" id="draft"><i data-i="save"></i> Save as Draft</button><button type="submit" class="btn primary" id="next">Continue <i data-i="arrow"></i></button></div>
+  </div>
+  </form>
+</main>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('av:ready',()=>{
+  const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+  let step=1;
+  const common=[['honey','Honey','Wild honey, multi-floral honey, etc.'],['mahua','Mahua Flowers','Dried mahua flowers'],['medicinal','Medicinal Plants','Ashwagandha, Shatavari, etc.'],['seeds','Seeds & Nuts','Sal seeds, tamarind, etc.'],['ntfp','Other NTFP','Resin, lac, gums, leaves, etc.']];
+  $('#common').innerHTML=common.map(c=>`<div class="ptype">${AV.img(c[0],'',c[1])}<div><b>${c[1]}</b><span>${c[2]}</span></div></div>`).join('');
+  $('#desc').oninput=e=>$('#dcount').textContent=e.target.value.length+'/500';
+  // photos
+  const photos=$('#photos'),file=$('#file');
+  const addPhoto=(src,name)=>{const d=document.createElement('div');d.className='photo';d.innerHTML=`<img src="${src}" alt="${name}"><button type="button" aria-label="Remove ${name}">${AV.ic('x')}</button>`;d.querySelector('button').onclick=()=>d.remove();photos.append(d)};
+  ['honey-1','honey-2','honey-3'].forEach(n=>addPhoto(`assets/img/${n}.jpg`,'Sample photo '+n));
+  const handle=files=>{let bad=false;[...files].forEach(f=>{if(!/^image\/(png|jpeg)$/.test(f.type)||f.size>5*1048576){bad=true;return}const r=new FileReader();r.onload=()=>addPhoto(r.result,f.name);r.readAsDataURL(f)});$('#photoerr').style.display=bad?'block':'none';if(bad)AV.toast('Some files were skipped (PNG/JPG, max 5 MB).','err')};
+  file.onchange=()=>handle(file.files);
+  $('#drop').onkeydown=e=>(e.key==='Enter'||e.key===' ')&&(e.preventDefault(),file.click());
+  ['dragover','dragenter'].forEach(ev=>$('#drop').addEventListener(ev,e=>{e.preventDefault();$('#drop').classList.add('over')}));
+  ['dragleave','drop'].forEach(ev=>$('#drop').addEventListener(ev,e=>{e.preventDefault();$('#drop').classList.remove('over')}));
+  $('#drop').addEventListener('drop',e=>handle(e.dataTransfer.files));
+
+  const valid=s=>{let ok=true;$$(`.step-p[data-s="${s}"] [required]`).forEach(el=>{const bad=!el.value.trim()||(el.type==='number'&&+el.value<=0);el.closest('.field').classList.toggle('bad',bad);if(bad&&ok){el.focus();ok=false}});return ok};
+  const review=()=>{const v=id=>$('#'+id).value||'—';const h=$$('[name=hand]:checked').map(x=>x.value).join(', ')||'—';
+    $('#review').innerHTML=[['Produce type',v('ptype')],['Local name',v('lname')],['Quantity',v('qty')+' '+v('unit')],['Estimated grade',v('grade')||'Not provided'],['Collection date',v('cdate')],['Location',`${v('block')}, ${v('dist')}, ${v('state')}`],['Method',v('method')],['Handling',h],['Storage',v('store')],['Packaging',v('pack')],['Photos',$$('.photo').length+' attached']].map(r=>`<div class="sumline"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')};
+  const go=n=>{step=n;$$('.step-p').forEach(p=>p.hidden=+p.dataset.s!==n);
+    $$('.step').forEach(b=>{const s=+b.dataset.s;b.classList.toggle('active',s===n);b.classList.toggle('done',s<n);b.querySelector('i').innerHTML=s<n?AV.ic('check'):s});
+    $('#back').hidden=n===1;$('#next').innerHTML=n===4?AV.ic('check')+' Submit for Assessment':'Continue '+AV.ic('arrow');if(n===4)review();scrollTo({top:0,behavior:'smooth'})};
+  $$('.step').forEach(b=>b.onclick=()=>{const t=+b.dataset.s;if(t<=step||valid(step)&&t===step+1)go(t);else if(t>step)AV.toast('Complete this step first.','err')});
+  $('#back').onclick=()=>go(step-1);
+  $('#form').onsubmit=e=>{e.preventDefault();if(!valid(step))return;if(step<4)return go(step+1);
+    AV.toast('Batch HV-001 submitted for assessment (demo).');setTimeout(()=>location.href='passport.html?id=HV-001',900)};
+  $('#draft').onclick=()=>AV.toast('Draft saved. You can continue from My Batches.');
+  $('#cancel').onclick=async()=>{if(await AV.confirmBox({title:'Discard this batch?',text:'Anything you entered on this form will be lost.',ok:'Discard',cancel:'Keep editing',danger:1}))location.href='dashboard.html'};
+});
+</script>
+</body></html>

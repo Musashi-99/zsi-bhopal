@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign in – AranyaValue</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-noshell="1">
+<div class="login-page">
+  <div class="login-bg"></div>
+  <section class="login-left">
+    <div class="brand"><span id="lg"></span><div><b>Aranya<span>Value</span></b><small>Forest Produce Quality-to-Price Intelligence Platform</small></div></div>
+    <h1>Forest Produce<br>Quality-to-Price<br>Intelligence</h1>
+    <p class="tag-line">Know your quality. Understand your price.<br>Improve your value.</p>
+    <div class="feats">
+      <div class="feat"><span class="sec-ic"><i data-i="leaf"></i></span>Better<br>Quality</div>
+      <div class="feat"><span class="sec-ic"><i data-i="chart"></i></span>Better<br>Opportunities</div>
+      <div class="feat"><span class="sec-ic"><i data-i="users"></i></span>Greener<br>Tomorrow</div>
+    </div>
+    <div class="login-foot">
+      <div><i data-i="tree"></i>Forest<br>Communities</div>
+      <div><i data-i="leaf"></i>Sustainable<br>Value Chains</div>
+      <div><i data-i="users"></i>Stronger<br>Livelihoods</div>
+    </div>
+  </section>
+  <section class="login-right">
+    <div class="lang"><i data-i="globe"></i>
+      <label class="sr" for="lang">Language</label>
+      <select class="sel" id="lang"><option>English</option><option disabled>हिन्दी (coming soon)</option><option disabled>বাংলা (coming soon)</option></select></div>
+    <form class="login-card" id="f" novalidate>
+      <h2>Welcome back!</h2>
+      <p class="lead">Sign in to continue to AranyaValue</p>
+      <div class="field" id="fe"><label for="email">Email Address</label>
+        <div class="inp-ic"><i data-i="mail"></i><input class="inp" id="email" type="email" placeholder="Enter your email address" autocomplete="email"></div>
+        <span class="errmsg">Enter a valid email address.</span></div>
+      <div class="field" id="fp"><label for="pw">Password</label>
+        <div class="inp-ic"><i data-i="lock"></i><input class="inp" id="pw" type="password" placeholder="Enter your password" autocomplete="current-password" style="padding-right:48px">
+          <button type="button" class="tog" id="tog" aria-label="Show password"><i data-i="eye"></i></button></div>
+        <span class="errmsg">Password must be at least 6 characters.</span></div>
+      <div style="text-align:right;margin:-8px 0 22px"><button type="button" class="link" id="forgot" style="font-size:14px">Forgot password?</button></div>
+      <button class="btn primary block" id="go" type="submit"><i data-i="lock"></i> Sign In</button>
+      <div class="or">or</div>
+      <div class="secure"><i data-i="shieldcheck"></i><div><b>Secure Access</b><span>Your information is protected and used only for authenticated access to AranyaValue.</span></div></div>
+      <p class="hint mt12" style="position:relative;z-index:2">Demo build: any email and a password of 6+ characters will sign you in. No data is sent anywhere.</p>
+    </form>
+  </section>
+</div>
+<script src="js/app.js"></script>
+<script>
+const $=s=>document.querySelector(s);$('#lg').outerHTML=AV.logo;
+$('#tog').onclick=()=>{const p=$('#pw'),s=p.type==='password';p.type=s?'text':'password';$('#tog').innerHTML=AV.ic(s?'eyeoff':'eye');$('#tog').setAttribute('aria-label',s?'Hide password':'Show password')};
+$('#forgot').onclick=()=>AV.toast('Password recovery is handled by your existing authentication system.');
+$('#f').onsubmit=e=>{e.preventDefault();
+  const ok1=/^\S+@\S+\.\S+$/.test($('#email').value),ok2=$('#pw').value.length>=6;
+  $('#fe').classList.toggle('bad',!ok1);$('#fp').classList.toggle('bad',!ok2);
+  if(!(ok1&&ok2))return (ok1?$('#pw'):$('#email')).focus();
+  const b=$('#go');b.disabled=true;b.textContent='Signing in…';
+  setTimeout(()=>location.href='dashboard.html',600)};
+</script>
+</body></html>
