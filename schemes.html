@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
 <title>Government Schemes – AranyaValue</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -11,8 +11,8 @@
   <div class="notice mb12" style="background:#eef6ec"><i data-i="info" style="font-size:30px"></i><span>This page provides information to help you find relevant schemes. Please check the official website for complete and updated details. AranyaValue is not affiliated with any government department.</span></div>
   <div class="notice amber sm mb12"><i data-i="alert"></i><span><b style="display:inline">Demo content:</b> scheme summaries below are placeholders written for this prototype and have <b style="display:inline">not yet been verified</b> against official sources. Each card shows “Last verified: Pending” until a source check is recorded. Always rely on the official portal link.</span></div>
 
-  <div class="row wrap mb12" style="align-items:flex-end">
-    <div class="searchbox" style="flex:1.6"><i data-i="search"></i><label class="sr" for="q">Search schemes</label><input class="inp" id="q" placeholder="Search schemes by name, keyword or department…"></div>
+  <div class="filters mb12">
+    <div class="searchbox grow"><i data-i="search"></i><label class="sr" for="q">Search schemes</label><input class="inp" id="q" placeholder="Search schemes by name, keyword or department…"></div>
     <label class="fgroup"><span>State</span><select class="sel" id="fs"><option>All States</option><option>West Bengal</option><option>Odisha</option><option>Jharkhand</option></select></label>
     <label class="fgroup"><span>Beneficiary Type</span><select class="sel" id="fb"><option>All</option><option>Tribal Collectors</option><option>Tribal SHGs</option><option>Individuals &amp; Groups</option><option>Beekeepers</option></select></label>
     <label class="fgroup"><span>Topic</span><select class="sel" id="ft"><option>All</option><option>Price Support</option><option>Value Addition</option><option>Forest Conservation</option><option>Livelihood Support</option></select></label>
@@ -21,7 +21,7 @@
 
   <div class="sc-grid">
     <section class="card" style="padding:12px">
-      <div class="row between mb12"><span id="count" style="font-size:13px"></span><label class="row" style="font-size:12.5px">Sort by <select class="sel" id="sort" style="width:140px;height:36px"><option>Relevance</option><option>Name (A–Z)</option></select></label></div>
+      <div class="row between mb12"><span id="count" style="font-size:13px"></span><label class="row" style="font-size:12.5px">Sort by <select class="sel narrow" id="sort"><option>Relevance</option><option>Name (A–Z)</option></select></label></div>
       <div id="list"></div>
       <div id="empty" class="empty" hidden><i data-i="search"></i><b>No schemes found</b>Try clearing the filters.</div>
     </section>
@@ -49,7 +49,7 @@ document.addEventListener('av:ready',()=>{
     $('#list').innerHTML=L.map(s=>`<article class="scard ${S[sel]===s?'picked':''}" data-i="${S.indexOf(s)}" tabindex="0" role="button" aria-label="${s.n}">${AV.img(s.img,'',s.n)}<div style="flex:1;min-width:0"><h3>${s.n}</h3><div class="sub" style="color:var(--ink2);font-size:12.5px;margin-top:2px">${s.dep}${s.gov?', '+s.gov:''}</div><div class="row wrap mt8" style="gap:6px">${s.tags.map(t=>`<span class="stag ${cls[t[1]]}">${t[0]}</span>`).join('')}</div><p>${s.d}</p></div><div class="r"><span class="stag cg">Central Government</span><span class="row" style="gap:6px">${A('calendar')}<span>Last verified<br><b style="font-weight:500">Pending</b></span></span><button class="btn primary block sm" style="margin-top:auto">View Details ${A('arrow')}</button></div></article>`).join('');
     $('#list').querySelectorAll('.scard').forEach(c=>{const go=()=>{sel=+c.dataset.i;draw()};c.onclick=go;c.onkeydown=e=>(e.key==='Enter'||e.key===' ')&&(e.preventDefault(),go())});detail()};
   const detail=()=>{const s=S[sel];if(!s){$('#detail').innerHTML='<div class="empty"><b>Select a scheme</b></div>';return}
-    $('#detail').innerHTML=`<div class="row" style="align-items:flex-start;gap:14px">${AV.img(s.img,'',s.n).replace('<img','<img style="width:100px;height:90px;border-radius:8px;object-fit:cover"')}<div style="flex:1"><div class="row between" style="align-items:flex-start"><h2 style="font-size:17px">${s.n}</h2><button class="iconbtn" id="x" aria-label="Close" style="border:0">${A('x')}</button></div><div class="sub" style="color:var(--ink2)">${s.dep}<br>${s.gov}</div><div class="row wrap mt8" style="gap:6px">${s.tags.map(t=>`<span class="stag ${cls[t[1]]}">${t[0]}</span>`).join('')}</div></div></div>
+    $('#detail').innerHTML=`<div class="row" style="align-items:flex-start;gap:14px">${AV.img(s.img,'sc-detail-img',s.n)}<div class="grow"><div class="row between" style="align-items:flex-start"><h2 style="font-size:17px">${s.n}</h2><button class="iconbtn" id="x" aria-label="Close" style="border:0">${A('x')}</button></div><div class="sub" style="color:var(--ink2)">${s.dep}<br>${s.gov}</div><div class="row wrap mt8" style="gap:6px">${s.tags.map(t=>`<span class="stag ${cls[t[1]]}">${t[0]}</span>`).join('')}</div></div></div>
     <div class="card mt12" style="padding:12px"><div class="row"><span style="color:var(--g600)">${A('file')}</span><b>Overview</b></div><p style="font-size:12.5px;color:var(--ink2);margin-top:6px">${s.ov}</p></div>
     <div class="card mt12" style="padding:12px"><div class="row"><span style="color:var(--g600)">${A('file')}</span><b>Key Information</b></div><div class="mt8">
       <div class="kvs"><span>${A('building')}</span><b>Administering Department</b><span>${s.dep}<br>${s.gov}</span></div>

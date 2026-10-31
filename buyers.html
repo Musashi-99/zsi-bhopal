@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
 <title>Buyers – AranyaValue</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -8,8 +8,8 @@
 <main>
   <section class="hero"><h1>Buyers</h1><p>Explore buyer requirements and find potential matches for your produce.</p></section>
 
-  <div class="row wrap mb12" style="align-items:flex-end">
-    <div class="searchbox" style="flex:2"><i data-i="search"></i><label class="sr" for="q">Search buyers</label><input class="inp" id="q" placeholder="Search by buyer name or produce type…"></div>
+  <div class="filters mb12">
+    <div class="searchbox grow"><i data-i="search"></i><label class="sr" for="q">Search buyers</label><input class="inp" id="q" placeholder="Search by buyer name or produce type…"></div>
     <label class="fgroup"><span>Produce Category</span><select class="sel" id="cat"><option>All Categories</option><option>Honey</option><option>Medicinal Plants</option><option>Seeds &amp; Nuts</option><option>Mahua Flowers</option><option>Nuts</option></select></label>
     <label class="fgroup"><span>Location</span><select class="sel" id="loc"><option>All Locations</option><option>West Bengal</option><option>Jharkhand</option><option>Odisha</option><option>Karnataka</option><option>Delhi</option><option>Assam</option></select></label>
     <label class="fgroup"><span>Buyer Type</span><select class="sel" id="typ"><option>All Types</option><option>Private Company</option><option>Processor</option><option>Cooperative</option><option>Retail &amp; Export</option><option>Retailer</option></select></label>
@@ -60,7 +60,7 @@ document.addEventListener('av:ready',()=>{
      rq:`<div class="sec-head"><span class="sec-ic sm"><i data-i="file"></i></span><b>Requirements</b></div><div class="keyreq" style="font-size:13.5px">${b.r}</div><p class="sub mt12">Compare these requirements with your batch on the <a class="link" href="quality-price.html">Quality to Price</a> page.</p>`,
      sp:`<div class="sec-head"><span class="sec-ic sm"><i data-i="package"></i></span><b>Supported Produce</b></div><div class="supp">${sup(b)}</div>`,
      ct:`<div class="sec-head"><span class="sec-ic sm"><i data-i="mail"></i></span><b>Contact</b></div><p style="color:var(--ink2);font-size:13.5px">Contact details are not shown in this demo. Sample buyer profiles do not include real contact information.</p><button class="btn mt12" id="ask">${A('mail')} Request contact details</button>`};
-    $('#detail').innerHTML=`<div class="det-head"><span class="blogo" style="width:64px;height:64px">${A(b.ic)}</span><div><h2 style="font-size:20px;display:inline">${b.n}</h2> <span class="chip ${ver[b.v]}">${b.v}</span><div class="sub mt8">${b.t} • ${A('pin')} ${b.l}</div><p style="margin-top:8px;color:var(--ink2);font-size:13px">${b.d}</p></div></div>
+    $('#detail').innerHTML=`<div class="det-head"><span class="blogo lg">${A(b.ic)}</span><div class="grow"><h2 style="font-size:20px;display:inline">${b.n}</h2> <span class="chip ${ver[b.v]}">${b.v}</span><div class="sub mt8">${b.t} • ${A('pin')} ${b.l}</div><p style="margin-top:8px;color:var(--ink2);font-size:13px">${b.d}</p></div></div>
       <div class="tabs line mt12" role="tablist" id="dt" style="gap:16px">${tabs.map(t=>`<button role="tab" class="tab ${t[0]===tab?'active':''}" data-t="${t[0]}" style="padding:0 2px;font-size:13px">${A(t[1])}${t[2]}</button>`).join('')}</div>
       <div class="mt12">${body[tab]}</div>
       <div class="notice amber sm mt12"><i data-i="info"></i><span>Please contact the buyer directly to confirm the latest requirements, pricing and procurement process. AranyaValue does not guarantee any offers or partnerships.</span></div>`;

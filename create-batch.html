@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
 <title>Create Batch – AranyaValue</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -37,7 +37,7 @@
           <div class="field c6"><label>Photos <small>(Optional)</small></label>
             <span class="hint">Add photos of your produce, packaging or collection process. This helps buyers understand the quality.</span>
             <div class="photos" id="photos">
-              <label class="upload" id="drop" style="width:282px;height:103px" tabindex="0"><i data-i="upload"></i><b>Click to upload photos</b><small>PNG, JPG up to 5 MB each</small><input type="file" id="file" accept="image/png,image/jpeg" multiple hidden></label>
+              <label class="upload tile" id="drop" tabindex="0"><i data-i="upload"></i><b>Click to upload photos</b><small>PNG, JPG up to 5 MB each</small><input type="file" id="file" accept="image/png,image/jpeg" multiple hidden></label>
             </div>
             <span class="errmsg" id="photoerr" style="display:none">Only PNG or JPG images up to 5 MB are accepted.</span>
           </div>
@@ -117,7 +117,8 @@ document.addEventListener('av:ready',()=>{
     $('#review').innerHTML=[['Produce type',v('ptype')],['Local name',v('lname')],['Quantity',v('qty')+' '+v('unit')],['Estimated grade',v('grade')||'Not provided'],['Collection date',v('cdate')],['Location',`${v('block')}, ${v('dist')}, ${v('state')}`],['Method',v('method')],['Handling',h],['Storage',v('store')],['Packaging',v('pack')],['Photos',$$('.photo').length+' attached']].map(r=>`<div class="sumline"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')};
   const go=n=>{step=n;$$('.step-p').forEach(p=>p.hidden=+p.dataset.s!==n);
     $$('.step').forEach(b=>{const s=+b.dataset.s;b.classList.toggle('active',s===n);b.classList.toggle('done',s<n);b.querySelector('i').innerHTML=s<n?AV.ic('check'):s});
-    $('#back').hidden=n===1;$('#next').innerHTML=n===4?AV.ic('check')+' Submit for Assessment':'Continue '+AV.ic('arrow');if(n===4)review();scrollTo({top:0,behavior:'smooth'})};
+    $('#back').hidden=n===1;$('#next').innerHTML=n===4?AV.ic('check')+' Submit for Assessment':'Continue '+AV.ic('arrow');if(n===4)review();scrollTo({top:0,behavior:'smooth'});
+    const active=document.querySelector('.step.active');if(active)active.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'})};
   $$('.step').forEach(b=>b.onclick=()=>{const t=+b.dataset.s;if(t<=step||valid(step)&&t===step+1)go(t);else if(t>step)AV.toast('Complete this step first.','err')});
   $('#back').onclick=()=>go(step-1);
   $('#form').onsubmit=e=>{e.preventDefault();if(!valid(step))return;if(step<4)return go(step+1);

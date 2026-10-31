@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
 <title>Quality Passport – AranyaValue</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -59,7 +59,7 @@
       </section>
       <section class="card">
         <div class="sec-head"><span class="sec-ic"><i data-i="package"></i></span><div class="t"><b>Traceability &amp; QR Code</b><span>Use this QR code to identify this batch.</span></div></div>
-        <div class="row" style="gap:12px;align-items:center"><div id="qr" class="qr" role="img" aria-label="QR code for this batch"></div>
+        <div class="row qr-row" style="gap:12px;align-items:center"><div id="qr" class="qr" role="img" aria-label="QR code for this batch"></div>
           <div class="card tint" style="padding:10px 12px;flex:1"><small class="sub">Batch ID</small><div class="row between"><b style="font-size:20px" id="qid">HV-001</b><button class="iconbtn" id="cp2" aria-label="Copy batch ID" style="border:0;background:none"><i data-i="copy"></i></button></div></div></div>
         <p class="sub mt8">Scan this QR code to view basic batch information.</p>
         <a class="link" href="verify.html?batch=HV-001" id="vlink" style="display:inline-block;margin:6px 0">Open public verify page →</a>
@@ -79,7 +79,7 @@
   </div>
 
   <!-- shared lower area -->
-  <div class="pp-grid mt12" style="grid-template-columns:minmax(0,1.9fr) minmax(0,.9fr)">
+  <div class="pp-grid two mt12">
     <div class="grid">
       <section class="card" data-panel="ov" data-group="pp" id="qsec">
         <div class="row between"><div class="sec-head" style="margin:0"><span class="sec-ic purple"><i data-i="flask"></i></span><div class="t"><b>Quality Information</b><span>Recorded quality details for this batch.</span></div></div><button class="link" data-goto="qd">View Details</button></div>

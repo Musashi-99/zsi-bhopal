@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
 <title>Dashboard – AranyaValue</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -19,13 +19,15 @@
       <div class="two">
         <div class="card">
           <div class="row between"><div><h2>Batch Overview</h2><p class="sub">Your batches by product type</p></div>
-            <select class="sel" id="period" style="width:140px;height:36px" aria-label="Period"><option>This Month</option><option>Last Month</option><option>All Time</option></select></div>
-          <div class="bars" id="bars" aria-label="Batches by product type"></div>
-          <div class="bar-labels" id="barl"></div>
+            <select class="sel narrow" id="period" aria-label="Period"><option>This Month</option><option>Last Month</option><option>All Time</option></select></div>
+          <div class="bars-wrap">
+            <div class="bars" id="bars" aria-label="Batches by product type"></div>
+            <div class="bar-labels" id="barl"></div>
+          </div>
         </div>
         <div class="card">
           <h2>Batch Status</h2>
-          <div class="row mt16" style="gap:22px">
+          <div class="row mt16 status-donut">
             <div class="donut" id="donut" role="img" aria-label="Batch status distribution"><div><span><b id="dtotal">8</b><small>Total Batches</small></span></div></div>
             <div class="legend" id="legend"></div>
           </div>
@@ -37,14 +39,14 @@
         <div id="attn" class="mt8"></div>
       </div>
 
-      <div class="grid" style="grid-template-columns:minmax(0,1fr) minmax(0,.95fr)">
+      <div class="grid split-2">
         <div class="card">
           <div class="row between"><h2 style="font-size:16px">Recently Updated Batches</h2><a class="link" href="my-batches.html">View All</a></div>
           <div class="tblwrap mt12"><table class="tbl rows"><thead><tr><th>Batch ID</th><th>Product</th><th>Quantity</th><th>Status</th><th>Last Updated</th><th></th></tr></thead><tbody id="recent"></tbody></table></div>
         </div>
         <div class="card">
           <div class="row between"><div class="row"><span class="sec-ic sm"><i data-i="bulb"></i></span><h2 style="font-size:16px">Quality-to-Price Insight <span class="sub" style="font-weight:400">(Sample)</span></h2></div><a class="link" href="quality-price.html">View Details</a></div>
-          <div class="row mt12" style="gap:12px"><img style="width:82px;height:64px;border-radius:8px;object-fit:cover" src="assets/img/honey.jpg" alt="Honey"><div><b style="font-size:15px">Honey (HV-001)</b><div class="sub" style="color:var(--ink2);margin-top:3px">Grade: Raw &nbsp;|&nbsp; Quantity: 10 kg</div></div></div>
+          <div class="row mt12" style="gap:12px"><img class="insight-pic" src="assets/img/honey.jpg" alt="Honey"><div class="grow"><b style="font-size:15px">Honey (HV-001)</b><div class="sub" style="color:var(--ink2);margin-top:3px">Grade: Raw &nbsp;|&nbsp; Quantity: 10 kg</div></div></div>
           <div class="tblwrap mt12"><table class="tbl"><thead><tr><th>Buyer</th><th>Offered Price (₹/kg)</th><th>Status</th></tr></thead>
             <tbody>
               <tr><td><span class="row"><i data-i="leaf" class="up"></i>GreenLife Buyers</span></td><td>520</td><td><span class="chip elig">● Eligible</span></td></tr>
@@ -59,7 +61,7 @@
 
     <aside class="dash-left" style="align-content:start">
       <div class="card promo">
-        <div class="img" style="background-image:url(assets/img/promo-hands.jpg),var(--hero-fb);height:120px"></div>
+        <div class="img" style="background-image:url(assets/img/promo-hands.jpg),var(--hero-fb)"></div>
         <div class="body"><h3>Forest Produce<br>Quality-to-Price Passport</h3>
           <p style="margin:10px 0;color:var(--ink2)">Document your produce journey, compare buyer requirements and make informed decisions.</p>
           <a class="btn primary block" href="create-batch.html"><i data-i="plus"></i> Create New Batch <i data-i="arrow"></i></a></div>
@@ -99,7 +101,7 @@ document.addEventListener('av:ready',()=>{
   $('#donut').style.background='conic-gradient('+seg.map(s=>{const a=acc/8*100;acc+=s[1];return `${s[2]} ${a}% ${acc/8*100}%`}).join(',')+')';
   $('#legend').innerHTML=seg.map(s=>`<div><span class="dot" style="background:${s[2]}"></span>${s[0]}<b>${s[1]}</b></div>`).join('');
   const att=[['HV-001','Honey','Draft','Complete collection details','Continue','honey','create-batch.html'],['MA-003','Mahua Flowers','Submitted','Quality assessment pending','View','mahua','passport.html?id=MA-003'],['HP-002','Honey','Rejected','Review rejection reason','View','honey','rejection.html?id=HP-002']];
-  $('#attn').innerHTML=att.map(a=>`<div class="att-row"><img class="thumb" src="assets/img/${a[5]}.jpg" alt=""><span>${a[0]}</span><span>${a[1]}</span>${AV.chip(a[2])}<span>${a[3]}</span><a class="btn sm outline-g" href="${a[6]}">${a[4]}</a>${A('right')}</div>`).join('');
+  $('#attn').innerHTML=att.map(a=>`<div class="att-row"><img class="thumb" src="assets/img/${a[5]}.jpg" alt=""><div class="main"><b>${a[0]}</b> <span>${a[1]}</span></div><a class="btn sm outline-g" href="${a[6]}">${a[4]}</a><span class="meta">${AV.chip(a[2])}<span>${a[3]}</span></span></div>`).join('');
   $('#recent').innerHTML=AV.batches.slice(0,5).map(b=>`<tr data-h="passport.html?id=${b.id}"><td>${b.id}</td><td><span class="row">${AV.img(b.img,'thumb',b.name)}${b.name}</span></td><td>${b.qty} ${b.unit}</td><td>${AV.chip(b.status)}</td><td>${b.upd}</td><td>${A('right')}</td></tr>`).join('');
   $('#recent').onclick=e=>{const r=e.target.closest('tr');r&&(location.href=r.dataset.h)};
   const acts=[['file','','Batch HV-001 (Honey) submitted for quality assessment','2 hours ago'],['handshake','blue','New offer received from GreenLife Buyers','4 hours ago'],['check','','Assessment completed for batch MA-003','5 hours ago'],['alert','red','Rejection recorded for batch HP-002','1 day ago'],['file','blue','New buyer specification added (Medicinal Plants)','1 day ago']];

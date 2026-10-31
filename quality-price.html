@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
 <title>Quality to Price – AranyaValue</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -11,11 +11,11 @@
   <div class="qp-top">
     <section class="card">
       <h3>Select Batch</h3><p class="sub">Choose a batch to compare with buyer requirements and offers.</p>
-      <div class="sel-batch"><div id="sbimg"></div><div style="flex:1"><b style="font-size:15px" id="sbt">HV-001 &nbsp;|&nbsp; Honey</b><div class="sub" style="color:var(--ink2);margin-top:3px" id="sbs">10 kg • Collected on 10 Oct 2026</div></div><span id="sbc"></span><i data-i="down"></i>
+      <div class="sel-batch"><div id="sbimg"></div><div class="grow"><b style="font-size:15px" id="sbt">HV-001 &nbsp;|&nbsp; Honey</b><div class="sub" style="color:var(--ink2);margin-top:3px" id="sbs">10 kg • Collected on 10 Oct 2026</div></div><span id="sbc"></span><i data-i="down"></i>
         <select id="batch" aria-label="Select batch"></select></div>
     </section>
     <section class="card"><h3>Batch Summary</h3>
-      <div class="row mt8" style="gap:14px;align-items:flex-start"><div id="bsimg"></div><div style="flex:1"><b style="font-size:17px" id="bsid">HV-001</b><div style="color:var(--ink2)" id="bsloc">Wild Honey</div><div class="row wrap mt8" style="gap:14px;font-size:12px;color:var(--ink2)" id="bsmeta"></div></div><div><small class="sub">Current Status</small><div id="bsst"></div></div></div>
+      <div class="row mt8" style="gap:14px;align-items:flex-start"><div id="bsimg"></div><div class="grow"><b style="font-size:17px" id="bsid">HV-001</b><div style="color:var(--ink2)" id="bsloc">Wild Honey</div><div class="row wrap mt8" style="gap:14px;font-size:12px;color:var(--ink2)" id="bsmeta"></div></div><div><small class="sub">Current Status</small><div id="bsst"></div></div></div>
     </section>
   </div>
 
@@ -75,7 +75,7 @@ document.addEventListener('av:ready',()=>{
   const offers=[['GreenLife Buyers',520,'Mostly meets',4,'#22a05a','elig','Eligible','Accepts wild honey with moisture ≤ 20%.'],['Forest Foods Co.',480,'Partially meets',3,'#f5a623','cond','Conditional','Prefers light amber color and higher purity.'],['Tribal Mart',450,'Partially meets',2,'#f5a623','rejected','Not Eligible','Requires moisture ≤ 16% and lab test report.'],['Eco Essentials','-','Requirements not available',0,'','unk','Unknown','No active offer at the moment.']];
   $('#offers').innerHTML=offers.map(o=>`<tr><td><span class="row">${A('leaf','up')}${o[0]}</span></td><td><b>${o[1]}</b></td><td>${o[3]?`${o[2]}<div class="row"><div class="offer-bar"><i style="width:${o[3]/5*100}%;background:${o[4]}"></i></div><small>${o[3]}/5</small></div>`:`<span class="sub">${o[2]}</span>`}</td><td><span class="chip ${o[5]}">● ${o[6]}</span></td><td style="font-size:12.5px">${o[7]}</td><td><a class="btn xs" href="buyers.html?buyer=${encodeURIComponent(o[0])}">View Details ${A('arrow')}</a></td></tr>`).join('');
   const imps=[['Reduce moisture content','Current: 18%  |  Target (Tribal Mart): ≤ 16%','Further drying may help meet higher grade requirements.','post-harvest.html'],['Get purity testing done','Purity test results can help you qualify for more buyers and potentially better prices.','','post-harvest.html'],['Add adulteration test certificate','A laboratory test can build buyer trust and may open access to premium offers.','','create-batch.html']];
-  $('#imps').innerHTML=imps.map((m,i)=>`<a class="imp" href="${m[3]}"><span class="n">${i+1}</span><div style="flex:1"><b>${m[0]}</b><small>${m[1]}</small>${m[2]?`<small>${m[2]}</small>`:''}</div>${A('right')}</a>`).join('');
+  $('#imps').innerHTML=imps.map((m,i)=>`<a class="imp" href="${m[3]}"><span class="n">${i+1}</span><div class="grow"><b>${m[0]}</b><small>${m[1]}</small>${m[2]?`<small>${m[2]}</small>`:''}</div>${A('right')}</a>`).join('');
   const upd=()=>{const b=AV.batches.find(x=>x.id===sel.value);
     $('#sbimg').innerHTML=AV.img(b.img,'',b.name);$('#bsimg').innerHTML=AV.img(b.img,'',b.name);
     $('#sbt').innerHTML=`${b.id} &nbsp;|&nbsp; ${b.name}`;$('#sbs').textContent=`${b.qty} ${b.unit} • Collected on ${b.date}`;$('#sbc').innerHTML=AV.chip(b.status,'download');

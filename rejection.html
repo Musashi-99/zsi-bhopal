@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
 <title>Rejection &amp; Recovery – AranyaValue</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -11,11 +11,11 @@
   <div class="rj-grid">
     <div>
       <div class="notice mb12" style="background:#fff;border-color:var(--line)"><i data-i="bulb" style="color:var(--amber)"></i><span>A batch may be rejected or marked conditional if it does not fully meet a buyer's requirements. Review the reason, compare with your batch details and take practical steps to improve or try other buyers.</span></div>
-      <div class="row wrap mb12" id="pills" style="gap:12px"></div>
-      <div class="row mb12" style="flex-wrap:nowrap">
-        <div class="searchbox" style="flex:1.4;min-width:130px"><i data-i="search"></i><label class="sr" for="q">Search</label><input class="inp" id="q" placeholder="Search by batch ID, produce, buyer…" style="height:42px"></div>
-        <select class="sel" id="fp" aria-label="Produce" style="width:118px;height:42px;padding-left:8px"><option>All Produce</option><option>Honey</option><option>Mahua Flowers</option><option>Medicinal Plants</option><option>Seeds &amp; Nuts</option></select>
-        <select class="sel" id="fb" aria-label="Buyer" style="width:118px;height:42px;padding-left:8px"><option>All Buyers</option><option>Tribal Mart</option><option>Forest Foods Co.</option><option>GreenLife Buyers</option><option>Eco Essentials</option></select>
+      <div class="rpills" id="pills"></div>
+      <div class="filters mb12">
+        <div class="searchbox grow"><i data-i="search"></i><label class="sr" for="q">Search</label><input class="inp" id="q" placeholder="Search by batch ID, produce, buyer…"></div>
+        <select class="sel half" id="fp" aria-label="Produce"><option>All Produce</option><option>Honey</option><option>Mahua Flowers</option><option>Medicinal Plants</option><option>Seeds &amp; Nuts</option></select>
+        <select class="sel half" id="fb" aria-label="Buyer"><option>All Buyers</option><option>Tribal Mart</option><option>Forest Foods Co.</option><option>GreenLife Buyers</option><option>Eco Essentials</option></select>
         <button class="btn" id="srt" style="height:42px;padding:0 10px;font-size:12.5px"><i data-i="sort"></i> Latest First</button>
       </div>
       <div id="list"></div>
@@ -48,20 +48,20 @@ document.addEventListener('av:ready',()=>{
     $('#list').querySelectorAll('.rcard').forEach(c=>{const go=()=>{sel=c.dataset.id;draw()};c.onclick=go;c.onkeydown=e=>(e.key==='Enter'||e.key===' ')&&(e.preventDefault(),go())})};
   const drawDetail=()=>{const d=D.find(x=>x.id===sel);if(!d){$('#detail').innerHTML='<div class="empty"><b>Select a batch</b></div>';return}
     const rq=d.id==='HV-001'?R.HV:[['Primary requirement',d.reason.replace(/\.$/,''),'See batch record',d.st==='Rejected'?'x':'c']];
-    $('#detail').innerHTML=`<div style="padding:16px;border-bottom:1px solid var(--line)"><div class="row" style="gap:16px;align-items:flex-start;flex-wrap:wrap">${AV.img(d.img,'',d.p).replace('<img','<img style="width:78px;height:78px;border-radius:8px;object-fit:cover"')}<div style="flex:1"><div class="row"><b style="font-size:19px">${d.id}</b>${AV.chip(d.st,'plus')}</div><div style="color:var(--ink2);margin-top:2px">${d.p} • ${d.q} kg</div><div style="color:var(--ink2)">Buyer: ${d.b}</div><div class="sub">Submitted on ${d.sub} &nbsp;|&nbsp; Reviewed on ${d.d}</div></div><a class="btn sm" href="passport.html?id=${d.id}">View Quality Passport ${A('ext')}</a></div></div>
+    $('#detail').innerHTML=`<div style="padding:16px;border-bottom:1px solid var(--line)"><div class="row" style="gap:16px;align-items:flex-start;flex-wrap:wrap">${AV.img(d.img,'thumb-lg',d.p)}<div class="grow"><div class="row"><b style="font-size:19px">${d.id}</b>${AV.chip(d.st,'plus')}</div><div style="color:var(--ink2);margin-top:2px">${d.p} • ${d.q} kg</div><div style="color:var(--ink2)">Buyer: ${d.b}</div><div class="sub">Submitted on ${d.sub} &nbsp;|&nbsp; Reviewed on ${d.d}</div></div><a class="btn sm" href="passport.html?id=${d.id}">View Quality Passport ${A('ext')}</a></div></div>
     <div style="padding:16px"><div class="row"><span class="sec-ic sm red">${A('alert')}</span><h2 style="font-size:17px">${d.st==='Rejected'?'Rejection':'Conditional'} Details</h2></div>
     <div class="alert-red mt8" style="${d.st==='Conditional'?'background:#fdf0d4;border-color:#f3dba5;color:#b45309':''}">${d.reason}<small>Source: ${d.src}</small></div>
     <div class="row mt16"><span class="sec-ic sm">${A('file')}</span><b style="font-size:15px">Requirement vs Your Batch</b></div>
     <div class="tblwrap mt8"><table class="tbl"><thead><tr><th>Parameter</th><th>Buyer Requirement<br>(${d.b})</th><th>Your Batch (${d.id})</th><th>Result</th></tr></thead><tbody>${rq.map(r=>{const s=res[r[3]];return `<tr><td>${r[0]}</td><td>${r[1]}</td><td style="${r[3]==='x'?'color:var(--red-ink)':''}">${r[2]}</td><td><span class="chip ${s[2]}">${A(s[1])}${s[0]}</span></td></tr>`}).join('')}</tbody></table></div>
-    <div class="grid mt16" style="grid-template-columns:1fr 1fr">
+    <div class="grid cols-2 mt16">
       <div class="card amber" style="padding:12px"><div class="row"><span style="color:var(--amber)">${A('bulb')}</span><b>Why This May Have Happened</b></div><ul class="bullets mt8"><li>Higher moisture content can lead to poor shelf life and higher risk of spoilage.</li><li>It may happen if the produce was not dried/settled properly or was stored in a humid environment.</li><li>Buyers often require lower moisture content for better storage stability and quality.</li></ul></div>
       <div class="card tint" style="padding:12px"><div class="row"><span style="color:var(--g600)">${A('leaf')}</span><b>Possible Next Steps</b></div><div class="steps-n mt8">${['Further dry or settle the produce to reduce moisture content.','Store in a clean, dry, sealed container.','Get moisture content tested again if possible.','Try other buyers who may accept higher moisture or different grades.'].map((t,i)=>`<div><i>${i+1}</i>${t}</div>`).join('')}</div><p class="hint mt8" style="display:flex;gap:6px">${A('info')}These are general suggestions and do not guarantee acceptance or a higher price.</p></div></div>
     <div class="row mt16"><span class="sec-ic sm">${A('file')}</span><b style="font-size:15px">Record Your Action</b></div>
-    <form id="af" novalidate class="grid mt8" style="grid-template-columns:1.1fr 1.3fr .9fr;align-items:start">
+    <form id="af" novalidate class="grid cols-3-uneven mt8">
       <div class="field"><label for="ac">Action Taken <i>*</i></label><select class="sel" id="ac">${['Re-drying / Further drying','Sorting / Grading','Re-cleaning','Re-packaging','Lab test','Contact buyer','Try other buyers'].map(o=>`<option ${o===d.action?'selected':''}>${o}</option>`).join('')}</select></div>
       <div class="field"><label for="nt">Notes <small>(Optional)</small></label><textarea class="txa" id="nt" maxlength="500" style="min-height:58px">${d.note}</textarea><span class="hint" style="text-align:right" id="nc">${d.note.length}/500</span></div>
       <div class="field"><label for="ss">Status</label><select class="sel" id="ss">${['Not Started','In Progress','Completed'].map(o=>`<option ${o===d.stat?'selected':''}>${o}</option>`).join('')}</select></div>
-      <div class="field" style="grid-column:1 / 3"><label for="fu">Follow-up Date <small>(Optional)</small></label><input class="inp" id="fu" type="date" value="${d.follow}"><span class="errmsg">Follow-up date can't be in the past.</span></div>
+      <div class="field span-2"><label for="fu">Follow-up Date <small>(Optional)</small></label><input class="inp" id="fu" type="date" value="${d.follow}"><span class="errmsg">Follow-up date can't be in the past.</span></div>
       <div style="align-self:end"><button class="btn primary block" type="submit" style="height:48px">Save Update</button></div></form></div>`;
     $('#nt').oninput=e=>$('#nc').textContent=e.target.value.length+'/500';
     $('#af').onsubmit=e=>{e.preventDefault();const f=$('#fu').value;const bad=f&&f<'2026-10-31';$('#fu').closest('.field').classList.toggle('bad',!!bad);if(bad)return $('#fu').focus();

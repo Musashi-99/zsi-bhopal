@@ -89,11 +89,14 @@
     s.style.cssText = (t.getAttribute('style') || '') + `;--c:${color}`;
     s.textContent = emoji; s.setAttribute('role', 'img'); s.setAttribute('aria-label', t.alt || key); s.title = 'Placeholder – add assets/img/' + key + '.jpg';
     t.replaceWith(s);
-    requestAnimationFrame(() => { const r = s.getBoundingClientRect(); s.style.fontSize = Math.max(14, Math.min(r.width, r.height) * .5) + 'px'; });
   }, true);
-  const img = (n, cls, alt) => `<img class="${cls || ''}" src="assets/img/${n}.jpg" alt="${alt || ''}">`;
+  const img = (n, cls, alt) => `<img class="${cls || ''}" src="assets/img/${n}.jpg" alt="${alt || ''}" loading="lazy">`;
 
-  const logo = `<svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><radialGradient id="avgrad" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#34b45a"/><stop offset="1" stop-color="#0f6b34"/></radialGradient></defs><circle cx="32" cy="32" r="30" fill="url(#avgrad)" stroke="#e9f6e4" stroke-width="2"/><path d="M32 10c6 4 10 9 6 15-4-1-7-3-8-7-1-3 0-6 2-8Z" fill="#fff"/><path d="M32 24c-6-5-13-4-15 1 2 4 8 5 15 2Z" fill="#fff"/><path d="M32 24c6-5 13-4 15 1-2 4-8 5-15 2Z" fill="#fff"/><circle cx="23" cy="43" r="8.5" fill="#f59e0b"/><circle cx="41" cy="43" r="8.5" fill="#f59e0b"/><path d="M18 43h10M36 43h10M23 38v10M41 38v10" stroke="#b45309" stroke-width="1.5" opacity=".6"/></svg>`;
+  let logoN = 0;
+  const logoSvg = () => {
+    const id = 'avgrad' + (++logoN);
+    return `<svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><radialGradient id="${id}" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#34b45a"/><stop offset="1" stop-color="#0f6b34"/></radialGradient></defs><circle cx="32" cy="32" r="30" fill="url(#${id})" stroke="#e9f6e4" stroke-width="2"/><path d="M32 10c6 4 10 9 6 15-4-1-7-3-8-7-1-3 0-6 2-8Z" fill="#fff"/><path d="M32 24c-6-5-13-4-15 1 2 4 8 5 15 2Z" fill="#fff"/><path d="M32 24c6-5 13-4 15 1-2 4-8 5-15 2Z" fill="#fff"/><circle cx="23" cy="43" r="8.5" fill="#f59e0b"/><circle cx="41" cy="43" r="8.5" fill="#f59e0b"/><path d="M18 43h10M36 43h10M23 38v10M41 38v10" stroke="#b45309" stroke-width="1.5" opacity=".6"/></svg>`;
+  };
 
   const NAV = [
     ['dashboard', 'Dashboard', 'home', 'dashboard.html'],
@@ -117,7 +120,7 @@
     const top = document.createElement('header');
     top.className = 'topbar';
     top.innerHTML = `<button class="burger" aria-label="Open menu" aria-expanded="false">${ic('menu')}</button>
-      <a class="brand" href="dashboard.html" aria-label="AranyaValue home">${logo}<div><b>Aranya<span>Value</span></b><small>Forest Produce Quality-to-Price Intelligence Platform</small></div></a>
+      <a class="brand" href="dashboard.html" aria-label="AranyaValue home">${logoSvg()}<div><b>Aranya<span>Value</span></b><small>Forest Produce Quality-to-Price Intelligence Platform</small></div></a>
       <div class="top-right">
         <div style="position:relative"><button class="bell" aria-label="Notifications (3 unread)" aria-haspopup="true">${ic('bell')}<em>3</em></button>
           <div class="menu notif" id="notif"><h4>Notifications</h4>
@@ -138,10 +141,26 @@
     tg(top.querySelector('.bell'), top.querySelector('#notif')); tg(top.querySelector('.userbtn'), top.querySelector('#umenu'));
     document.addEventListener('click', () => document.querySelectorAll('.menu.open').forEach((x) => x.classList.remove('open')));
     const bg = top.querySelector('.burger');
-    const setNav = (o) => { side.classList.toggle('open', o); scrim.classList.toggle('on', o); bg.setAttribute('aria-expanded', o); };
+    const navMq = matchMedia('(max-width:900px)');
+    const setNav = (o) => {
+      const open = !!o && navMq.matches;
+      side.classList.toggle('open', open);
+      scrim.classList.toggle('on', open);
+      bg.setAttribute('aria-expanded', String(open));
+      const trap = navMq.matches && !open;
+      try { side.inert = trap; } catch (err) {}
+      side.toggleAttribute('aria-hidden', trap);
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
     bg.addEventListener('click', () => setNav(!side.classList.contains('open')));
     scrim.addEventListener('click', () => setNav(false));
-    document.addEventListener('keydown', (e) => e.key === 'Escape' && setNav(false));
+    side.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setNav(false)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setNav(false); });
+    navMq.addEventListener('change', () => setNav(false));
+    setNav(false);
+    const closeMenus = () => document.querySelectorAll('.menu.open').forEach((x) => x.classList.remove('open'));
+    window.addEventListener('resize', closeMenus);
+    window.addEventListener('scroll', (e) => { if (e.target.closest && e.target.closest('.menu')) return; closeMenus(); }, true);
   }
 
   // toasts + confirm
@@ -155,7 +174,8 @@
   function confirmBox({ title, text, ok = 'Confirm', cancel = 'Cancel', danger }) {
     return new Promise((res) => {
       const bg = document.createElement('div'); bg.className = 'modal-bg open';
-      bg.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-label="${title}"><h3></h3><p></p><div class="acts"><button class="btn" data-x="0"></button><button class="btn primary ${danger ? 'danger' : ''}" data-x="1"></button></div></div>`;
+      bg.innerHTML = `<div class="modal" role="dialog" aria-modal="true"><h3></h3><p></p><div class="acts"><button class="btn" data-x="0"></button><button class="btn primary ${danger ? 'danger' : ''}" data-x="1"></button></div></div>`;
+      bg.querySelector('.modal').setAttribute('aria-label', title);
       bg.querySelector('h3').textContent = title; bg.querySelector('p').textContent = text;
       const [c, o] = bg.querySelectorAll('button'); c.textContent = cancel; o.textContent = ok;
       const done = (v) => { bg.remove(); res(v); };
@@ -170,7 +190,42 @@
       ts.forEach((x) => { x.classList.toggle('active', x === t); x.setAttribute('aria-selected', x === t); });
       document.querySelectorAll('[data-panel]').forEach((p) => { if (p.dataset.group === (root.dataset.group || '')) p.hidden = p.dataset.panel !== t.dataset.tab; });
       onChange && onChange(t.dataset.tab);
+      const sc = t.closest('.tabs');
+      if (sc && sc.scrollWidth > sc.clientWidth + 4) t.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
     }));
+  }
+  function installSheets() {
+    const detail = document.getElementById('detail');
+    if (!detail || !detail.closest('.buy-grid,.au-grid,.sc-grid,.rj-grid')) return;
+    const mq = matchMedia('(max-width:900px)');
+    const open = () => {
+      if (!mq.matches) return;
+      document.body.classList.add('sheet-on');
+      if (!history.state || !history.state.sheet) history.pushState({ sheet: 1 }, '');
+    };
+    const close = () => document.body.classList.remove('sheet-on');
+    new MutationObserver(() => {
+      if (detail.querySelector(':scope > .sheet-x')) return;
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn sheet-x';
+      b.innerHTML = ic('left') + ' Back';
+      b.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        close();
+        if (history.state && history.state.sheet) history.back();
+      });
+      detail.prepend(b);
+    }).observe(detail, { childList: true });
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.bcard,.rcard,.scard,tr.evrow')) open();
+      if (e.target.closest('#cl,#x')) close();
+    });
+    window.addEventListener('popstate', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    mq.addEventListener('change', () => { if (!mq.matches) close(); });
+    if (mq.matches && /[?&](id|buyer)=/.test(location.search)) open();
   }
   const pager = (el, total, cur, cb) => {
     el.innerHTML = `<button aria-label="Previous page" ${cur === 1 ? 'disabled' : ''} data-p="${cur - 1}">${ic('left')}</button>` +
@@ -194,7 +249,35 @@
     { id: 'MA-008', name: 'Mahua Flowers', local: 'Dried Mahua', qty: 18, unit: 'kg', status: 'Completed', upd: '5 days ago', img: 'mahua', date: '25 Sep 2026', loc: 'Jhargram, West Bengal' }
   ];
 
-  window.AV = { ic, img, logo, toast, confirmBox, tabs, pager, chip, fmt, batches, hydrate, params: new URLSearchParams(location.search) };
-  const init = () => { shell(); hydrate(); document.dispatchEvent(new Event('av:ready')); };
+  window.AV = { ic, img, get logo() { return logoSvg(); }, toast, confirmBox, tabs, pager, chip, fmt, batches, hydrate, params: new URLSearchParams(location.search) };
+  function installPageTransitions() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.addEventListener('click', (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target.closest('a[href]');
+      if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+      let url;
+      try { url = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
+      if (url.origin !== location.origin) return;
+      if (url.pathname === location.pathname && url.search === location.search) return;
+      if (document.body.classList.contains('is-leaving')) { e.preventDefault(); return; }
+      e.preventDefault();
+      document.body.classList.add('is-leaving');
+      setTimeout(() => { location.href = url.href; }, 230);
+    });
+  }
+  const init = () => {
+    shell();
+    installSheets();
+    installPageTransitions();
+    hydrate();
+    document.addEventListener('click', (e) => {
+      const el = e.target.closest('.tab,.step,.stage');
+      if (!el) return;
+      const sc = el.closest('.tabs,.stepper,.ph-stages');
+      if (sc && sc.scrollWidth > sc.clientWidth + 4) el.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+    });
+    document.dispatchEvent(new Event('av:ready'));
+  };
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', init) : init();
 })();

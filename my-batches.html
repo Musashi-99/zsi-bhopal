@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
 <title>My Batches – AranyaValue</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -11,15 +11,15 @@
     <p>View, search and manage every forest produce batch you have recorded.</p>
     <a class="btn primary hero-cta" href="create-batch.html"><i data-i="plus"></i> Create New Batch</a>
   </section>
-  <div class="row wrap mb12" style="align-items:flex-end">
-    <div class="searchbox"><i data-i="search"></i><label class="sr" for="q">Search batches</label><input class="inp" id="q" placeholder="Search by batch ID, produce or name…"></div>
-    <label class="fgroup"><span>Status</span><select class="sel" id="st"><option>All</option><option>Draft</option><option>Submitted</option><option>In Assessment</option><option>Completed</option><option>Rejected</option></select></label>
-    <label class="fgroup"><span>Produce</span><select class="sel" id="pr"><option>All</option><option>Honey</option><option>Mahua Flowers</option><option>Medicinal Plants</option><option>Seeds &amp; Nuts</option><option>Other NTFP</option></select></label>
+  <div class="filters mb12">
+    <div class="searchbox grow"><i data-i="search"></i><label class="sr" for="q">Search batches</label><input class="inp" id="q" placeholder="Search by batch ID, produce or name…"></div>
+    <label class="fgroup half"><span>Status</span><select class="sel" id="st"><option>All</option><option>Draft</option><option>Submitted</option><option>In Assessment</option><option>Completed</option><option>Rejected</option></select></label>
+    <label class="fgroup half"><span>Produce</span><select class="sel" id="pr"><option>All</option><option>Honey</option><option>Mahua Flowers</option><option>Medicinal Plants</option><option>Seeds &amp; Nuts</option><option>Other NTFP</option></select></label>
     <button class="btn" id="clr" style="height:44px">Clear Filters</button>
   </div>
   <div class="card">
     <div class="row between mb12"><b id="count"></b><span class="sub">Sample/demo data</span></div>
-    <div class="tblwrap"><table class="tbl rows"><thead><tr><th>Batch ID</th><th>Product</th><th>Local name</th><th>Quantity</th><th>Status</th><th>Last updated</th><th style="width:210px">Actions</th></tr></thead><tbody id="rows"></tbody></table></div>
+    <div class="tblwrap"><table class="tbl rows"><thead><tr><th>Batch ID</th><th>Product</th><th>Local name</th><th>Quantity</th><th>Status</th><th>Last updated</th><th class="col-actions">Actions</th></tr></thead><tbody id="rows"></tbody></table></div>
     <div id="empty" class="empty" hidden><i data-i="package"></i><b>No batches match your filters</b>Try a different search or clear the filters.<div class="mt12"><button class="btn" id="clr2">Clear Filters</button></div></div>
   </div>
 </main>
@@ -34,7 +34,7 @@ document.addEventListener('av:ready',()=>{
     const L=AV.batches.filter(b=>(s==='All'||b.status===s)&&(pr==='All'||b.name===pr)&&(!q||(b.id+b.name+b.local).toLowerCase().includes(q)));
     $('#count').textContent=`Showing ${L.length} of ${AV.batches.length} batches`;
     $('#empty').hidden=!!L.length;
-    $('#rows').innerHTML=L.map(b=>{const a=act(b);return `<tr><td><b>${b.id}</b></td><td><span class="row">${AV.img(b.img,'thumb',b.name)}${b.name}</span></td><td>${b.local}</td><td>${b.qty} ${b.unit}</td><td>${AV.chip(b.status)}</td><td>${b.upd}</td><td><span class="row"><a class="btn xs outline-g" href="${a[1]}">${a[0]}</a><a class="btn xs" href="quality-price.html?id=${b.id}">Price</a><button class="iconbtn" data-del="${b.id}" aria-label="Delete ${b.id}" style="width:28px;height:28px">${AV.ic('trash')}</button></span></td></tr>`}).join('');
+    $('#rows').innerHTML=L.map(b=>{const a=act(b);return `<tr><td><b>${b.id}</b></td><td><span class="row">${AV.img(b.img,'thumb',b.name)}${b.name}</span></td><td>${b.local}</td><td>${b.qty} ${b.unit}</td><td>${AV.chip(b.status)}</td><td>${b.upd}</td><td><span class="row"><a class="btn xs outline-g" href="${a[1]}">${a[0]}</a><a class="btn xs" href="quality-price.html?id=${b.id}">Price</a><button class="iconbtn" data-del="${b.id}" aria-label="Delete ${b.id}">${AV.ic('trash')}</button></span></td></tr>`}).join('');
     $('#rows').querySelectorAll('[data-del]').forEach(x=>x.onclick=async()=>{
       const id=x.dataset.del; if(await AV.confirmBox({title:'Remove '+id+'?',text:'This only removes the sample row from this demo list.',ok:'Remove',danger:1})){const i=AV.batches.findIndex(b=>b.id===id);AV.batches.splice(i,1);render();AV.toast(id+' removed (demo)')}});
   };

@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
 <title>Batch Passport Verification – AranyaValue</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -13,19 +13,19 @@
   <h1>Batch Passport Verification</h1>
   <h2>Scan. Verify. Know the Story.</h2>
   <p>This page shows publicly available information about a forest produce batch recorded on AranyaValue.</p>
-  <form id="lookup" class="row mt16" style="max-width:460px" novalidate><label class="sr" for="bid">Batch ID</label><input class="inp" id="bid" placeholder="Enter a batch ID, e.g. HV-001" style="background:#fff"><button class="btn primary" type="submit">Verify</button></form>
+  <form id="lookup" class="row mt16 lookup" novalidate><label class="sr" for="bid">Batch ID</label><input class="inp" id="bid" placeholder="Enter a batch ID, e.g. HV-001" style="background:#fff"><button class="btn primary" type="submit">Verify</button></form>
 </header>
 
 <div class="pub-wrap" id="found">
   <div class="pub-col">
     <section class="card"><div class="prod-top"><div id="pimg"></div>
-      <div style="flex:1"><span class="chip amber" style="background:#fdecc8">🌿 Forest Produce</span><h2 id="pn">Wild Forest Honey</h2><small class="sub">Batch ID</small><div class="row"><b style="font-size:22px" id="pid">HV-001</b><button class="iconbtn" id="cp" aria-label="Copy batch ID" style="border:0;background:none"><i data-i="copy"></i></button></div>
+      <div class="grow"><span class="chip amber" style="background:#fdecc8">🌿 Forest Produce</span><h2 id="pn">Wild Forest Honey</h2><small class="sub">Batch ID</small><div class="row"><b style="font-size:22px" id="pid">HV-001</b><button class="iconbtn" id="cp" aria-label="Copy batch ID" style="border:0;background:none"><i data-i="copy"></i></button></div>
         <div class="row wrap mt8"><span class="chip green pill" style="font-size:12.5px"><i data-i="cc"></i> Record Found</span><span class="chip green pill" style="font-size:12.5px"><i data-i="cc"></i> Basic Information Available</span></div></div>
-      <div class="notice sm" style="max-width:190px;align-self:flex-start"><i data-i="leaf"></i><span>This is a publicly viewable summary of the batch passport. Some details are hidden to protect collector privacy.</span></div></div>
+      <div class="notice sm note-side"><i data-i="leaf"></i><span>This is a publicly viewable summary of the batch passport. Some details are hidden to protect collector privacy.</span></div></div>
       <div class="mini-stats"><div><i data-i="package"></i><div>Quantity<b id="pq">10 kg</b></div></div><div><i data-i="calendar"></i><div>Collection Date<b id="pd">10 Oct 2026</b></div></div><div><i data-i="leaf"></i><div>Produce Type<b id="pt">Forest Honey</b><small>(Non-Timber Forest Produce)</small></div></div><div><i data-i="shieldcheck"></i><div>Status<br><span class="chip green" id="ps">Assessed</span></div></div></div></section>
 
     <section class="card"><div class="sec-head"><span class="sec-ic"><i data-i="file"></i></span><div class="t"><b style="font-size:18px">About This Batch</b><span>Key information from the batch passport.</span></div></div>
-      <div class="grid" style="grid-template-columns:1.5fr 1fr;align-items:start"><div class="tblwrap"><table class="tbl"><tbody id="about"></tbody></table></div>
+      <div class="grid split-2"><div class="tblwrap"><table class="tbl fit"><tbody id="about"></tbody></table></div>
       <div class="card tint" style="padding:12px"><div class="row" style="align-items:flex-start"><i data-i="shieldcheck" style="color:var(--g600);font-size:22px"></i><div><b>What is this?</b><p class="sub" style="color:var(--ink2);margin-top:4px">This information was recorded by the collector or group on AranyaValue. It describes how the produce was collected and handled.</p></div></div></div></div></section>
 
     <section class="card"><div class="sec-head"><span class="sec-ic"><i data-i="image"></i></span><div class="t"><b style="font-size:18px">Photos</b><span>Images from the batch record (publicly shared).</span></div></div>
@@ -48,7 +48,7 @@
   </div>
 </div>
 
-<div class="pub-wrap" id="nf" hidden style="grid-template-columns:1fr;max-width:720px"><section class="card empty"><i data-i="search"></i><b>Batch not found</b>The batch ID <b style="display:inline" id="nfid"></b> may be incorrect or not available publicly. Try HV-001.</section></div>
+<div class="pub-wrap solo" id="nf" hidden><section class="card empty"><i data-i="search"></i><b>Batch not found</b>The batch ID <b style="display:inline" id="nfid"></b> may be incorrect or not available publicly. Try HV-001.</section></div>
 
 <script src="js/app.js"></script>
 <script>
@@ -64,7 +64,7 @@ document.addEventListener('av:ready',()=>{
     $('#pn').textContent=hv?'Wild Forest Honey':b.local;$('#pid').textContent=b.id;$('#pq').textContent=b.qty+' '+b.unit;$('#pd').textContent=b.date;$('#pt').textContent=b.name;
     $('#ps').textContent=['Completed','Rejected'].includes(b.status)?'Assessed':b.status;
     $('#pimg').innerHTML=AV.img(b.img,'',b.name);
-    $('#about').innerHTML=[['Produce Name',hv?'Wild Forest Honey':b.local],['Collected From',b.loc],['Collection Method','Traditional (Wild Collection)'],['Initial Processing',hv?'Filtered, no added sugar':'Cleaned and sorted'],['Storage','Stored in clean, food-grade containers']].map(r=>`<tr><td style="background:#f6f9f4;width:36%;font-size:12.5px;color:var(--ink2)">${r[0]}</td><td>${r[1]}</td></tr>`).join('');
+    $('#about').innerHTML=[['Produce Name',hv?'Wild Forest Honey':b.local],['Collected From',b.loc],['Collection Method','Traditional (Wild Collection)'],['Initial Processing',hv?'Filtered, no added sugar':'Cleaned and sorted'],['Storage','Stored in clean, food-grade containers']].map(r=>`<tr><td style="background:#f6f9f4;font-size:12.5px;color:var(--ink2)">${r[0]}</td><td>${r[1]}</td></tr>`).join('');
     $('#gal').innerHTML=['honey-1','honey-2','flower','forest'].map(n=>AV.img(n,'','Batch photo')).join('');
     $('#qual').innerHTML=[['Moisture Content','18%','Lab Assessment','<span class="chip green">'+A('cc')+' Meets Requirement</span>'],['Color','Amber','Visual Assessment','<span class="chip blue">'+A('cc')+' Recorded</span>'],['Purity','Not recorded','—','<span class="chip gray">'+A('minus')+' Not Available</span>'],['Foreign Matter','Not detected','Lab Assessment','<span class="chip green">'+A('cc')+' Meets Requirement</span>']].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('');
     const T=[['10 Oct 2026','user','Batch Created','Initial batch information recorded'],['10 Oct 2026','truck','Submitted for Assessment','Batch submitted to buyer/cooperative'],['12 Oct 2026','flask','Quality Assessment Completed','Assessed by buyer'],['14 Oct 2026','handshake','Available for Offers','Batch listed for eligible buyers']];

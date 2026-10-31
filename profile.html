@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
 <title>Profile &amp; Settings – AranyaValue</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -24,8 +24,8 @@
         <div class="row between wrap"><div class="sec-head" style="margin:0"><span class="sec-ic"><i data-i="user"></i></span><div class="t"><b style="font-size:18px">Profile Information</b><span>Your basic information and contact details.</span></div></div>
           <div class="notice blue sm" style="max-width:340px"><i data-i="info"></i><span>Keep your information up to date so buyers and cooperatives can contact you when needed.</span></div></div>
         <div class="row mt16" style="align-items:flex-start;gap:26px;flex-wrap:wrap">
-          <div style="text-align:center;font-size:12.5px;color:var(--ink2)"><div style="position:relative;display:inline-block"><span id="av"></span><button type="button" class="iconbtn" id="cam" aria-label="Change photo" style="position:absolute;right:-2px;bottom:0;border-radius:50%;width:26px;height:26px;background:#0f2a1d;color:#fff;border:2px solid #fff"><i data-i="camera"></i></button></div><div style="margin-top:6px;color:var(--ink)">Upload Photo</div><small class="sub">JPG, PNG (Max 2 MB)</small><input type="file" id="pic" accept="image/png,image/jpeg" hidden></div>
-          <div class="form-grid" style="flex:1;min-width:280px;grid-template-columns:repeat(2,1fr)">
+          <div style="text-align:center;font-size:12.5px;color:var(--ink2)"><div style="position:relative;display:inline-block"><span id="av"></span><button type="button" class="iconbtn cam" id="cam" aria-label="Change photo"><i data-i="camera"></i></button></div><div style="margin-top:6px;color:var(--ink)">Upload Photo</div><small class="sub">JPG, PNG (Max 2 MB)</small><input type="file" id="pic" accept="image/png,image/jpeg" hidden></div>
+          <div class="form-grid pair grow">
             <div class="field"><label for="fn">Full Name <i>*</i></label><input class="inp" id="fn" value="Ramesh Tudu" required><span class="errmsg">Name is required.</span></div>
             <div class="field"><label for="role">Role</label><input class="inp" id="role" value="Collector" readonly></div>
             <div class="field"><label for="ph">Phone Number <i>*</i></label><input class="inp" id="ph" value="+91 98765 43210" required inputmode="tel"><span class="errmsg">Enter a valid 10-digit phone number.</span></div>
@@ -36,7 +36,7 @@
 
       <section class="card" id="s-organization">
         <div class="sec-head"><span class="sec-ic"><i data-i="users"></i></span><div class="t"><b style="font-size:18px">Organization / Collector Group</b><span>Information about your collector group or organization (if applicable).</span></div></div>
-        <div class="form-grid" style="grid-template-columns:repeat(2,1fr)">
+        <div class="form-grid pair">
           <div class="field"><label for="gn">Group / Organization Name</label><input class="inp" id="gn" value="Jhargram Forest Collectors Group"></div>
           <div class="field"><label for="gt">Group Type</label><select class="sel" id="gt"><option selected>Collector Group</option><option>Cooperative</option><option>Self-Help Group</option><option>Individual</option></select></div>
           <div class="field"><label for="cp">Contact Person</label><input class="inp" id="cp" value="Ramesh Tudu"></div>
@@ -46,12 +46,12 @@
 
       <section class="card" id="s-location">
         <div class="sec-head"><span class="sec-ic"><i data-i="pin"></i></span><div class="t"><b style="font-size:18px">Location Details</b><span>Your primary location for collection activities.</span></div></div>
-        <div class="form-grid" style="grid-template-columns:repeat(4,1fr)">
+        <div class="form-grid quad">
           <div class="field"><label for="st">State <i>*</i></label><select class="sel" id="st"><option>West Bengal</option><option>Odisha</option><option>Jharkhand</option></select></div>
           <div class="field"><label for="di">District <i>*</i></label><select class="sel" id="di"><option>Jhargram</option><option>Purulia</option><option>Bankura</option></select></div>
           <div class="field"><label for="bl">Block</label><select class="sel" id="bl"><option>Jhargram</option><option>Binpur</option><option>Gopiballavpur</option></select></div>
           <div class="field"><label for="vi">Village</label><input class="inp" id="vi" value="Kankrajhore"></div>
-          <div class="field" style="grid-column:span 2"><label for="pin">PIN Code</label><input class="inp" id="pin" value="721507" inputmode="numeric" maxlength="6"><span class="errmsg">PIN code must be 6 digits.</span></div>
+          <div class="field span-2"><label for="pin">PIN Code</label><input class="inp" id="pin" value="721507" inputmode="numeric" maxlength="6"><span class="errmsg">PIN code must be 6 digits.</span></div>
         </div>
       </section>
 
@@ -76,7 +76,7 @@
         <div class="field"><label for="lg" style="font-weight:500">Language</label><select class="sel" id="lg"><option>English (English)</option><option disabled>हिन्दी (coming soon)</option><option disabled>বাংলা (coming soon)</option></select><span class="hint">More language options may be added in future updates.</span></div></section>
       <section class="card"><div class="sec-head"><span class="sec-ic"><i data-i="lock"></i></span><div class="t"><b style="font-size:17px">Account &amp; Security</b><span>Manage your account settings.</span></div></div>
         <div class="notice blue"><i data-i="info" style="font-size:22px"></i><span>Password and other security settings are managed through your existing authentication system.<br>If you need to change your password, please use the standard account recovery option provided at login.</span></div></section>
-      <div class="row" style="justify-content:flex-end;gap:12px"><button type="button" class="btn" id="cancel" style="height:46px;padding:0 34px">Cancel</button><button type="submit" class="btn primary" style="height:46px;padding:0 30px">Save Changes</button></div>
+      <div class="row savebar"><button type="button" class="btn" id="cancel">Cancel</button><button type="submit" class="btn primary">Save Changes</button></div>
     </aside>
   </div>
   </form>
