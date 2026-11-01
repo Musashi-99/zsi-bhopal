@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
+<title>Dashboard – AranyaValue</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="dashboard">
+<main>
+  <section class="hero welcome tall" style="min-height:122px">
+    <h1>Good Morning, Ramesh Tudu 👋</h1>
+    <p>Track your forest produce, complete quality passports, compare buyer requirements and get better value for your produce.</p>
+    <a class="btn primary hero-cta" href="create-batch.html" style="height:46px;padding:0 24px"><i data-i="plus"></i> Create New Batch</a>
+  </section>
+
+  <div class="stat-row" id="stats"></div>
+
+  <div class="dash-grid">
+    <div class="dash-left">
+      <div class="two">
+        <div class="card">
+          <div class="row between"><div><h2>Batch Overview</h2><p class="sub">Your batches by product type</p></div>
+            <select class="sel narrow" id="period" aria-label="Period"><option>This Month</option><option>Last Month</option><option>All Time</option></select></div>
+          <div class="bars-wrap">
+            <div class="bars" id="bars" aria-label="Batches by product type"></div>
+            <div class="bar-labels" id="barl"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Batch Status</h2>
+          <div class="row mt16 status-donut">
+            <div class="donut" id="donut" role="img" aria-label="Batch status distribution"><div><span><b id="dtotal">8</b><small>Total Batches</small></span></div></div>
+            <div class="legend" id="legend"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row between"><div class="row"><span class="sec-ic sm red"><i data-i="bell"></i></span><h2 style="font-size:16px">Batches Needing Your Attention</h2></div><a class="link" href="my-batches.html">View All</a></div>
+        <div id="attn" class="mt8"></div>
+      </div>
+
+      <div class="grid split-2">
+        <div class="card">
+          <div class="row between"><h2 style="font-size:16px">Recently Updated Batches</h2><a class="link" href="my-batches.html">View All</a></div>
+          <div class="tblwrap mt12"><table class="tbl rows"><thead><tr><th>Batch ID</th><th>Product</th><th>Quantity</th><th>Status</th><th>Last Updated</th><th></th></tr></thead><tbody id="recent"></tbody></table></div>
+        </div>
+        <div class="card">
+          <div class="row between"><div class="row"><span class="sec-ic sm"><i data-i="bulb"></i></span><h2 style="font-size:16px">Quality-to-Price Insight <span class="sub" style="font-weight:400">(Sample)</span></h2></div><a class="link" href="quality-price.html">View Details</a></div>
+          <div class="row mt12" style="gap:12px"><img class="insight-pic" src="assets/img/honey.jpg" alt="Honey"><div class="grow"><b style="font-size:15px">Honey (HV-001)</b><div class="sub" style="color:var(--ink2);margin-top:3px">Grade: Raw &nbsp;|&nbsp; Quantity: 10 kg</div></div></div>
+          <div class="tblwrap mt12"><table class="tbl"><thead><tr><th>Buyer</th><th>Offered Price (₹/kg)</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><span class="row"><i data-i="leaf" class="up"></i>GreenLife Buyers</span></td><td>520</td><td><span class="chip elig">● Eligible</span></td></tr>
+              <tr><td><span class="row"><i data-i="shield" class="up"></i>Forest Foods Co.</span></td><td>480</td><td><span class="chip cond">● Conditional</span></td></tr>
+              <tr><td><span class="row"><i data-i="shield" class="up"></i>Tribal Mart</span></td><td>450</td><td><span class="chip elig">● Eligible</span></td></tr>
+              <tr><td><span class="row"><i data-i="xc" style="color:var(--red)"></i>Eco Essentials</span></td><td>-</td><td><span class="chip rejected">● Not Eligible</span></td></tr>
+            </tbody></table></div>
+          <div class="notice blue sm mt12"><i data-i="bulb" style="color:var(--amber)"></i><span>Price difference is due to different grade requirements, moisture limits and packaging terms. <a class="link" href="quality-price.html">View full analysis →</a><br><span class="hint">Sample/demo figures only — not real offers.</span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="dash-left" style="align-content:start">
+      <div class="card promo">
+        <div class="img" style="background-image:url(assets/img/promo-hands.jpg)"></div>
+        <div class="body"><h3>Forest Produce<br>Quality-to-Price Passport</h3>
+          <p style="margin:10px 0;color:var(--ink2)">Document your produce journey, compare buyer requirements and make informed decisions.</p>
+          <a class="btn primary block" href="create-batch.html"><i data-i="plus"></i> Create New Batch <i data-i="arrow"></i></a></div>
+      </div>
+      <div class="card">
+        <div class="row between"><h2 style="font-size:16px">Recent Activity</h2><a class="link" href="audit.html">View All</a></div>
+        <div id="acts" class="mt8"></div>
+      </div>
+      <div style="padding:0">
+        <h2 style="font-size:16px;margin-bottom:8px">Quick Links</h2>
+        <div class="quick">
+          <a href="create-batch.html"><span class="sec-ic sm"><i data-i="plus"></i></span><div><b>Create Batch</b><small>Record a new collection</small></div></a>
+          <a href="my-batches.html"><span class="sec-ic sm"><i data-i="package"></i></span><div><b>My Batches</b><small>View and manage</small></div></a>
+          <a href="passport.html"><span class="sec-ic sm"><i data-i="file"></i></span><div><b>Quality Passport</b><small>View and share passport</small></div></a>
+          <a href="post-harvest.html"><span class="sec-ic sm"><i data-i="leaf"></i></span><div><b>Post-Harvest Assistant</b><small>Get handling guidance</small></div></a>
+          <a href="rejection.html"><span class="sec-ic sm red"><i data-i="alert"></i></span><div><b>Rejection & Recovery</b><small>Track rejections and next steps</small></div></a>
+          <a href="verify.html?batch=HV-001"><span class="sec-ic sm"><i data-i="qr"></i></span><div><b>QR Verify</b><small>Scan and verify batch ID</small></div></a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('av:ready',()=>{
+  const $=s=>document.querySelector(s), A=AV.ic;
+  const stats=[['package','','Total Batches','8','+2 this month','up','arrowup','my-batches.html'],['file','amber','Draft Batches','2','Need your attention','warn','','my-batches.html?status=Draft'],['clock','blue','Awaiting Assessment','1','Quality review pending','muted','','my-batches.html?status=In%20Assessment'],['shield','purple','Completed Passports','3','Ready for sharing','muted','','my-batches.html?status=Completed'],['handshake','','Offers Received','4','+1 new this week','up','arrowup','quality-price.html']];
+  $('#stats').innerHTML=stats.map(s=>`<a class="card stat" href="${s[7]}"><span class="sec-ic ${s[1]}">${A(s[0])}</span><div><small>${s[2]}</small><b>${s[3]}</b><span class="${s[5]}">${s[6]?A(s[6])+' ':''}${s[4]}</span></div></a>`).join('');
+  const sets={'This Month':[['Honey',3,'#5ea04f'],['Mahua',2,'#f5a623'],['Medicinal Plants',1,'#a78bfa'],['Seeds & Nuts',1,'#3b82f6'],['Other NTFP',1,'#14b8a6']],
+    'Last Month':[['Honey',2,'#5ea04f'],['Mahua',3,'#f5a623'],['Medicinal Plants',1,'#a78bfa'],['Seeds & Nuts',0,'#3b82f6'],['Other NTFP',2,'#14b8a6']],
+    'All Time':[['Honey',5,'#5ea04f'],['Mahua',5,'#f5a623'],['Medicinal Plants',2,'#a78bfa'],['Seeds & Nuts',1,'#3b82f6'],['Other NTFP',3,'#14b8a6']]};
+  const draw=()=>{const d=sets[$('#period').value],mx=Math.max(4,...d.map(x=>x[1]));
+    $('#bars').innerHTML=d.map(x=>`<div class="b"><em>${x[1]}</em><i style="height:${x[1]/mx*92}%;background:${x[2]}"></i></div>`).join('');
+    $('#barl').innerHTML=d.map(x=>`<span>${x[0]}</span>`).join('')};
+  $('#period').onchange=draw;draw();
+  const seg=[['Draft',2,'#f5a623'],['Submitted',1,'#3b82f6'],['In Assessment',2,'#8b5cf6'],['Completed',3,'#22a05a']];let acc=0;
+  $('#donut').style.background='conic-gradient('+seg.map(s=>{const a=acc/8*100;acc+=s[1];return `${s[2]} ${a}% ${acc/8*100}%`}).join(',')+')';
+  $('#legend').innerHTML=seg.map(s=>`<div><span class="dot" style="background:${s[2]}"></span>${s[0]}<b>${s[1]}</b></div>`).join('');
+  const att=[['HV-001','Honey','Draft','Complete collection details','Continue','honey','create-batch.html'],['MA-003','Mahua Flowers','Submitted','Quality assessment pending','View','mahua','passport.html?id=MA-003'],['HP-002','Honey','Rejected','Review rejection reason','View','honey','rejection.html?id=HP-002']];
+  $('#attn').innerHTML=att.map(a=>`<div class="att-row"><img class="thumb" src="assets/img/${a[5]}.jpg" alt=""><div class="main"><b>${a[0]}</b> <span>${a[1]}</span></div><a class="btn sm outline-g" href="${a[6]}">${a[4]}</a><span class="meta">${AV.chip(a[2])}<span>${a[3]}</span></span></div>`).join('');
+  $('#recent').innerHTML=AV.batches.slice(0,5).map(b=>`<tr data-h="passport.html?id=${b.id}"><td>${b.id}</td><td><span class="row">${AV.img(b.img,'thumb',b.name)}${b.name}</span></td><td>${b.qty} ${b.unit}</td><td>${AV.chip(b.status)}</td><td>${b.upd}</td><td>${A('right')}</td></tr>`).join('');
+  $('#recent').onclick=e=>{const r=e.target.closest('tr');r&&(location.href=r.dataset.h)};
+  const acts=[['file','','Batch HV-001 (Honey) submitted for quality assessment','2 hours ago'],['handshake','blue','New offer received from GreenLife Buyers','4 hours ago'],['check','','Assessment completed for batch MA-003','5 hours ago'],['alert','red','Rejection recorded for batch HP-002','1 day ago'],['file','blue','New buyer specification added (Medicinal Plants)','1 day ago']];
+  $('#acts').innerHTML=acts.map(a=>`<div class="act"><span class="sec-ic ${a[1]}">${A(a[0])}</span><div>${a[2]}<small>${a[3]}</small></div></div>`).join('');
+});
+</script>
+</body></html>

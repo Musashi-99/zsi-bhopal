@@ -1,0 +1,18 @@
+/* AranyaValue — shared design system */
+:root{
+  --hero-fb:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 120' preserveAspectRatio='none'%3E%3Crect width='400' height='120' fill='%23eaf1e4'/%3E%3Cpath d='M0 90 80 50 140 80 220 30 300 75 400 40V120H0z' fill='%2388b38e' opacity='.6'/%3E%3Cpath d='M0 110 70 80 150 100 240 65 330 100 400 85V120H0z' fill='%232f7a47' opacity='.7'/%3E%3C/svg%3E") right center/60% 100% no-repeat,#f8fbf4;
+  --g900:#08301f; --g800:#0d3d2b; --g700:#14532d; --g600:#15803d; --g500:#22a05a; --g400:#4ade80;
+  --g100:#e3f1e3; --g50:#f0f7ee;
+  --bg:#f6f8f3; --card:#fff; --line:#e3e9df; --line2:#d6dfd1;
+  --ink:#0f2a1d; --ink2:#3d5247; --muted:#6b7d72;
+  --amber:#f59e0b; --amber-bg:#fdf3dc; --amber-ink:#b45309;
+  --red:#dc2626; --red-bg:#fde8e8; --red-ink:#b91c1c;
+  --blue:#2563eb; --blue-bg:#e3eefc; --blue-ink:#1d4ed8;
+  --purple:#7c3aed; --purple-bg:#ece6fb; --purple-ink:#6d28d9;
+  --teal:#0d9488; --teal-bg:#d8f3ef;
+  --orange-bg:#fdeadb;
+  --r:12px; --r-sm:8px;
+  --shadow:0 1px 2px rgba(16,40,28,.05),0 2px 8px rgba(16,40,28,.04);
+  --top:64px; --side:236px;
+  --focus:0 0 0 3px rgba(34,160,90,.35);
+}

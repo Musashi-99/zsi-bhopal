@@ -1,0 +1,86 @@
+/* Motion-related and React-port additions */
+.boot{padding:48px 24px;max-width:520px;margin:0 auto}
+.skip{position:absolute;left:8px;top:-48px;background:#fff;color:var(--ink);padding:8px 14px;border-radius:8px;z-index:300;border:1px solid var(--line)}
+.skip:focus{top:8px}
+
+/* skeletons */
+.loading{display:flex;flex-direction:column;gap:10px;padding:6px 0}
+.skel{display:block;background:linear-gradient(90deg,#e9eee7 0%,#f5f8f3 50%,#e9eee7 100%);background-size:200% 100%;animation:shimmer 1.3s linear infinite}
+@keyframes shimmer{to{background-position:-200% 0}}
+
+/* hero: image layer is separate so GSAP can drift it */
+.hero{background:#f8fbf4;isolation:isolate;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.hero-bg{position:absolute;inset:0;z-index:0;will-change:transform;
+  background:linear-gradient(90deg,#f8fbf4 0%,#f8fbf4 42%,rgba(248,251,244,.92) 62%,rgba(248,251,244,.45) 100%),url(/img/hero-banner.jpg) right 62%/cover no-repeat,var(--hero-fb)}
+.hero>*:not(.hero-bg):not(.hero-cta){position:relative;z-index:1;min-width:0;flex:1 1 auto}
+.hero>.hero-cta{position:static;top:auto;right:auto;transform:none;margin-left:auto;flex:none;z-index:2}
+
+/* shared animated indicators */
+.sidebar nav a{position:relative}
+.sidebar nav a.active{background:transparent}
+.sidebar nav a>*{position:relative;z-index:1}
+.sidebar nav a>.nav-pill{position:absolute;inset:0;z-index:0;background:rgba(255,255,255,.17);border-radius:10px}
+.tab{position:relative}
+.tab.active{background:transparent;border-color:transparent}
+.tab .tab-label{position:relative;z-index:1;display:inline-flex;align-items:center;gap:8px}
+.tab-ind.pill{position:absolute;inset:0;background:var(--g100);border:1px solid #bcdcc0;border-radius:9px}
+.tabs.line .tab.active{border:0}
+.tab-ind.line{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--g600)}
+.tabs.line .tab{overflow:visible}
+
+/* buttons / cards micro-interaction */
+.btn,.iconbtn{will-change:transform}
+.bcard,.scard,.rcard,.evrow,.stat,.quick a{transition:box-shadow .2s,border-color .2s,background .2s}
+.stat:hover,.quick a:hover{box-shadow:0 6px 18px rgba(16,40,28,.08)}
+a.stat{color:inherit}
+
+/* login */
+.login-left,.login-card{will-change:transform}
+.main{display:grid;grid-template-columns:minmax(0,1fr);align-content:start}
+.page-pane{grid-area:1/1;min-width:0;max-width:100%}
+.pagefade{animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* misc */
+.link-btn{background:none;border:0;padding:0;color:var(--g600);font-weight:600;cursor:pointer}
+.photo{overflow:visible}
+.photos .photo img,.photos .photo .ph{border-radius:10px}
+.drag-over{outline:2px dashed var(--g500)}
+.menu.open{display:block}
+.menu a.n,.notif a.n{color:inherit}
+.demo-pill{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:#1d4ed8;background:#dce9fb;border-radius:20px;padding:2px 10px}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}html{scroll-behavior:auto}}
+.demo-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px;font-size:13px;color:var(--muted);position:relative;z-index:2}
+.grow{flex:1}
+.fg-grow{flex:1}
+.fg-grow .sel{min-width:0;width:100%}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px}
+.promo .img{height:120px;background:url(/img/promo-hands.jpg) center/cover no-repeat}
+.att-row{grid-template-columns:30px 84px 120px 118px 1fr 100px 14px}
+.att-row>span{min-width:0}
+@media(max-width:900px){
+  .pp-head>div:nth-child(2){padding:10px 16px !important;max-width:100%;box-sizing:border-box;min-width:0}
+  .pp-head h2{font-size:22px}
+  .hero{flex-wrap:wrap;align-items:flex-start}
+  .hero>.hero-cta{margin-left:0}
+  .hero-bg{background:linear-gradient(180deg,rgba(248,251,244,.97) 0%,rgba(248,251,244,.94) 58%,rgba(248,251,244,.78) 100%),url(/img/hero-banner.jpg) center 35%/cover no-repeat,var(--hero-fb)}
+  .hero p{max-width:100%}
+}
+.dash-left{grid-template-columns:minmax(0,1fr)}
+@media(max-width:1280px){.two,.officer-mode .two{grid-template-columns:minmax(0,1fr)}}
+.pp-grid.two-col{grid-template-columns:minmax(0,1.9fr) minmax(0,.9fr)}
+.pp-grid.one-col{grid-template-columns:minmax(0,1fr)}
+@media(max-width:1280px){.pp-grid.two-col{grid-template-columns:minmax(0,1fr)}}
+.dash-pair{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+@media(max-width:1100px){.dash-pair{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:700px){.form-grid[style]{grid-template-columns:1fr !important}.form-grid>*{grid-column:auto !important}}
+@media(max-width:900px){.form-grid{grid-template-columns:1fr !important}.form-grid>*{grid-column:auto !important}}
+@media(max-width:900px){
+  .att-row{grid-template-columns:40px minmax(0,1fr) auto;grid-template-areas:"img code btn" "img product btn" "img badge btn";gap:2px 10px;align-items:center}
+  .att-row>:nth-child(1){grid-area:img}
+  .att-row>:nth-child(2){grid-area:code}
+  .att-row>:nth-child(3){grid-area:product;min-width:0}
+  .att-row>:nth-child(4){grid-area:badge;display:inline-flex !important;justify-self:start}
+  .att-row>:nth-child(5),.att-row>:nth-child(7){display:none}
+  .att-row>.btn{grid-area:btn;display:inline-flex !important;align-self:center}
+}

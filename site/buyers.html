@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
+<title>Buyers – AranyaValue</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="buyers">
+<main>
+  <section class="hero"><h1>Buyers</h1><p>Explore buyer requirements and find potential matches for your produce.</p></section>
+
+  <div class="filters mb12">
+    <div class="searchbox grow"><i data-i="search"></i><label class="sr" for="q">Search buyers</label><input class="inp" id="q" placeholder="Search by buyer name or produce type…"></div>
+    <label class="fgroup"><span>Produce Category</span><select class="sel" id="cat"><option>All Categories</option><option>Honey</option><option>Medicinal Plants</option><option>Seeds &amp; Nuts</option><option>Mahua Flowers</option><option>Nuts</option></select></label>
+    <label class="fgroup"><span>Location</span><select class="sel" id="loc"><option>All Locations</option><option>West Bengal</option><option>Jharkhand</option><option>Odisha</option><option>Karnataka</option><option>Delhi</option><option>Assam</option></select></label>
+    <label class="fgroup"><span>Buyer Type</span><select class="sel" id="typ"><option>All Types</option><option>Private Company</option><option>Processor</option><option>Cooperative</option><option>Retail &amp; Export</option><option>Retailer</option></select></label>
+    <button class="btn" id="clr" style="height:44px;padding:0 24px">Clear Filters</button>
+  </div>
+
+  <div class="buy-grid">
+    <div>
+      <div class="notice mb12"><span class="sec-ic sm"><i data-i="leaf"></i></span><div><b>Showing sample buyer data</b>These are example buyer profiles to show how the platform works. Please verify the latest information and requirements directly with buyers.</div></div>
+      <div class="bcards" id="cards"></div>
+      <div id="empty" class="empty card" hidden><i data-i="users"></i><b>No buyers match your filters</b>Try a different search or clear the filters.</div>
+    </div>
+    <aside class="card" id="detail" style="position:sticky;top:78px"></aside>
+  </div>
+</main>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('av:ready',()=>{
+  const $=s=>document.querySelector(s),A=AV.ic;
+  const T={Honey:'h','Medicinal Plants':'m','Seeds & Nuts':'s','Mahua Flowers':'f',Nuts:'n','Resins & Gums':'r','Essential Oils':'e','Dried Flowers':'l',Leaves:'o',Bark:'b'};
+  const ver={'Verified (Documented)':'green','Verified (Self-declared)':'green',Unverified:'gray'};
+  const D=[
+   {n:'GreenLife Buyers',v:'Verified (Documented)',t:'Private Company',l:'Kolkata, West Bengal',p:['Honey','Medicinal Plants','Seeds & Nuts'],r:'Moisture ≤ 20%, clean and unadulterated, food-grade packaging. Prefers multi-floral honey.',ic:'leaf',d:'Procures high-quality forest produce from local collectors and producer groups for domestic retail and institutional markets.',focus:'Forest honey and non-timber forest produce',src:'Buyer website / company document',upd:'10 Oct 2026',from:'Individual collectors, producer groups',ord:'50 kg – 500 kg (varies by produce)',pay:'As per agreement',pack:'Food-grade, clean and sealed',note:'Lab test may be required for large orders'},
+   {n:'Forest Foods Co.',v:'Unverified',t:'Processor',l:'Ranchi, Jharkhand',p:['Mahua Flowers','Honey','Nuts'],r:'Well dried mahua flowers (moisture ≤ 12%), free from foreign matter, consistent color.',ic:'tree',d:'Processes dried flowers and honey for packaged food products.',focus:'Mahua and processed forest foods',src:'Self-reported (sample)',upd:'8 Oct 2026',from:'Collectors and cooperatives',ord:'100 kg – 1000 kg',pay:'On delivery',pack:'Clean, dry sacks',note:'Colour consistency checked on receipt'},
+   {n:'Tribal Mart',v:'Unverified',t:'Cooperative',l:'Bhubaneswar, Odisha',p:['Honey','Sal Seeds','Medicinal Plants'],r:'Moisture ≤ 16% (honey), clean, no added sugar, lab test preferred for bulk orders.',ic:'users',d:'Cooperative marketing tribal produce through retail outlets.',focus:'Tribal produce retail',src:'Self-reported (sample)',upd:'6 Oct 2026',from:'Tribal collectors, SHGs',ord:'20 kg – 300 kg',pay:'As per agreement',pack:'Food-grade containers',note:'Lab test preferred for bulk orders'},
+   {n:'Eco Essentials',v:'Verified (Self-declared)',t:'Retail & Export',l:'Bengaluru, Karnataka',p:['Medicinal Plants','Resins & Gums','Essential Oils'],r:'Good drying, proper cleaning, botanical identification preferred, packaging as per export guidelines.',ic:'leaf',d:'Retail and export of botanicals and natural products.',focus:'Botanicals and essential oils',src:'Self-declared (sample)',upd:'5 Oct 2026',from:'Producer groups',ord:'25 kg – 250 kg',pay:'As per agreement',pack:'Export-grade packaging',note:'Botanical identification may be requested'},
+   {n:"Nature's Basket Co.",v:'Unverified',t:'Retailer',l:'New Delhi, Delhi',p:['Honey','Nuts','Dried Flowers'],r:'High quality, low moisture, uniform grading, food-grade packaging.',ic:'leaf',d:'Retailer of natural and organic food products.',focus:'Natural foods retail',src:'Self-reported (sample)',upd:'4 Oct 2026',from:'Collectors, cooperatives',ord:'10 kg – 100 kg',pay:'As per agreement',pack:'Food-grade, sealed',note:'Uniform grading expected'},
+   {n:'Eastern Herbs Collective',v:'Unverified',t:'Cooperative',l:'Guwahati, Assam',p:['Medicinal Plants','Leaves','Bark'],r:'Proper identification, clean and dry, no contamination, bulk supply preferred.',ic:'leaf',d:'Cooperative sourcing herbs for ayurvedic producers.',focus:'Medicinal herbs',src:'Self-reported (sample)',upd:'3 Oct 2026',from:'Producer groups',ord:'50 kg – 500 kg',pay:'As per agreement',pack:'Clean, dry bags',note:'Bulk supply preferred'}];
+  let sel=0,tab='ov';
+  const list=()=>{const q=$('#q').value.toLowerCase(),c=$('#cat').value,l=$('#loc').value,t=$('#typ').value;
+    return D.filter(b=>(!q||(b.n+b.p.join()).toLowerCase().includes(q))&&(c==='All Categories'||b.p.includes(c)||(c==='Seeds & Nuts'&&b.p.includes('Sal Seeds')))&&(l==='All Locations'||b.l.includes(l))&&(t==='All Types'||b.t===t))};
+  const draw=()=>{const L=list();$('#empty').hidden=!!L.length;
+    if(!L.includes(D[sel]))sel=L.length?D.indexOf(L[0]):-1;
+    $('#cards').innerHTML=L.map(b=>`<article class="bcard ${D[sel]===b?'picked':''}" data-i="${D.indexOf(b)}" tabindex="0" role="button" aria-label="${b.n}">
+      <div class="row" style="align-items:flex-start;gap:14px"><span class="blogo">${A(b.ic)}</span><div><h3>${b.n}</h3> <span class="chip ${ver[b.v]}" style="margin-left:4px;font-size:11.5px">${b.v.startsWith('Verified')?A('check'):A('shield')}${b.v}</span>
+      <div class="meta">${A('building')}${b.t}</div><div class="meta">${A('pin')}${b.l}</div></div></div>
+      <div class="mt8"><b style="font-size:13px">Produces</b><div class="row wrap mt8" style="gap:6px">${b.p.map(x=>`<span class="tag ${T[x]||'o'}">${x}</span>`).join('')}</div></div>
+      <div class="mt8"><b style="font-size:13px">Key Requirements</b><div class="keyreq">${b.r}</div></div>
+      <div style="text-align:right;margin-top:8px"><button class="btn sm" data-view>View Details ${A('arrow')}</button></div></article>`).join('');
+    $('#cards').querySelectorAll('.bcard').forEach(c=>{const go=()=>{sel=+c.dataset.i;tab='ov';draw()};c.onclick=go;c.onkeydown=e=>(e.key==='Enter'||e.key===' ')&&(e.preventDefault(),go())});
+    detail()};
+  const detail=()=>{const b=D[sel];if(!b){$('#detail').innerHTML='<div class="empty"><b>No buyer selected</b></div>';return}
+    const tabs=[['ov','file','Overview'],['rq','file','Requirements'],['sp','package','Supported Produce'],['ct','mail','Contact']];
+    const body={
+     ov:`<div class="sec-head"><span class="sec-ic sm"><i data-i="file"></i></span><b>Key Information</b></div><div class="kvt"><i data-i="building"></i><span class="k">Buyer Type</span><span>${b.t}</span><i data-i="pin"></i><span class="k">Location</span><span>${b.l}</span><i data-i="sparkle"></i><span class="k">Primary Focus</span><span>${b.focus}</span><i data-i="shield"></i><span class="k">Status</span><span><span class="chip ${ver[b.v]}">${b.v}</span></span><i data-i="file"></i><span class="k">Information Source</span><span>${b.src}</span><i data-i="clock"></i><span class="k">Last Updated</span><span>${b.upd}</span></div>
+      <div class="card tint mt12"><div class="sec-head" style="margin-bottom:10px"><span class="sec-ic sm"><i data-i="package"></i></span><b>Supported Produce</b></div><div class="supp">${sup(b)}</div></div>
+      <div class="sec-head mt16"><span class="sec-ic sm"><i data-i="file"></i></span><b>Quick Facts</b></div><div class="kvt"><i data-i="user"></i><span class="k">Buys from</span><span>${b.from}</span><i data-i="package"></i><span class="k">Typical order size</span><span>${b.ord}</span><i data-i="file"></i><span class="k">Payment terms</span><span>${b.pay}</span><i data-i="bag"></i><span class="k">Packaging preference</span><span>${b.pack}</span><i data-i="pencil"></i><span class="k">Additional notes</span><span>${b.note}</span></div>`,
+     rq:`<div class="sec-head"><span class="sec-ic sm"><i data-i="file"></i></span><b>Requirements</b></div><div class="keyreq" style="font-size:13.5px">${b.r}</div><p class="sub mt12">Compare these requirements with your batch on the <a class="link" href="quality-price.html">Quality to Price</a> page.</p>`,
+     sp:`<div class="sec-head"><span class="sec-ic sm"><i data-i="package"></i></span><b>Supported Produce</b></div><div class="supp">${sup(b)}</div>`,
+     ct:`<div class="sec-head"><span class="sec-ic sm"><i data-i="mail"></i></span><b>Contact</b></div><p style="color:var(--ink2);font-size:13.5px">Contact details are not shown in this demo. Sample buyer profiles do not include real contact information.</p><button class="btn mt12" id="ask">${A('mail')} Request contact details</button>`};
+    $('#detail').innerHTML=`<div class="det-head"><span class="blogo lg">${A(b.ic)}</span><div class="grow"><h2 style="font-size:20px;display:inline">${b.n}</h2> <span class="chip ${ver[b.v]}">${b.v}</span><div class="sub mt8">${b.t} • ${A('pin')} ${b.l}</div><p style="margin-top:8px;color:var(--ink2);font-size:13px">${b.d}</p></div></div>
+      <div class="tabs line mt12" role="tablist" id="dt" style="gap:16px">${tabs.map(t=>`<button role="tab" class="tab ${t[0]===tab?'active':''}" data-t="${t[0]}" style="padding:0 2px;font-size:13px">${A(t[1])}${t[2]}</button>`).join('')}</div>
+      <div class="mt12">${body[tab]}</div>
+      <div class="notice amber sm mt12"><i data-i="info"></i><span>Please contact the buyer directly to confirm the latest requirements, pricing and procurement process. AranyaValue does not guarantee any offers or partnerships.</span></div>`;
+    $('#dt').querySelectorAll('.tab').forEach(t=>t.onclick=()=>{tab=t.dataset.t;detail()});
+    const a=$('#ask');a&&(a.onclick=()=>AV.toast('Demo: no message was sent.'));AV.hydrate($('#detail'))};
+  const sup=b=>b.p.slice(0,4).map(x=>{const k=/Honey/.test(x)?'honey':/Medic/.test(x)?'medicinal':/Seed|Nut/.test(x)?'seeds':/Mahua|Flower/.test(x)?'mahua':'ntfp';return `<div>${AV.img(k,'',x)}<div style="margin-top:4px">${x}</div></div>`}).join('');
+  ['q','cat','loc','typ'].forEach(i=>$('#'+i).addEventListener('input',draw));
+  $('#clr').onclick=()=>{$('#q').value='';['cat','loc','typ'].forEach(i=>$('#'+i).selectedIndex=0);draw()};
+  const pre=AV.params.get('buyer');if(pre){const i=D.findIndex(b=>b.n===pre);if(i>=0)sel=i}
+  draw();
+});
+</script>
+</body></html>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
+<title>Profile &amp; Settings – AranyaValue</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="profile">
+<main>
+  <section class="hero"><h1>Profile &amp; Settings</h1><p>Manage your account, preferences and organization details.</p></section>
+
+  <div class="tabs line" role="tablist" id="tabs" style="margin-bottom:12px">
+    <button class="tab active" role="tab" data-tab="profile"><i data-i="user"></i> Profile</button>
+    <button class="tab" role="tab" data-tab="organization"><i data-i="building"></i> Organization</button>
+    <button class="tab" role="tab" data-tab="location"><i data-i="pin"></i> Location</button>
+    <button class="tab" role="tab" data-tab="preferences"><i data-i="settings"></i> Preferences</button>
+    <button class="tab" role="tab" data-tab="notifications"><i data-i="bell"></i> Notifications</button>
+    <button class="tab" role="tab" data-tab="account"><i data-i="settings"></i> Account</button>
+  </div>
+
+  <form id="pf" novalidate>
+  <div class="pf-grid">
+    <div class="grid">
+      <section class="card" id="s-profile">
+        <div class="row between wrap"><div class="sec-head" style="margin:0"><span class="sec-ic"><i data-i="user"></i></span><div class="t"><b style="font-size:18px">Profile Information</b><span>Your basic information and contact details.</span></div></div>
+          <div class="notice blue sm" style="max-width:340px"><i data-i="info"></i><span>Keep your information up to date so buyers and cooperatives can contact you when needed.</span></div></div>
+        <div class="row mt16" style="align-items:flex-start;gap:26px;flex-wrap:wrap">
+          <div style="text-align:center;font-size:12.5px;color:var(--ink2)"><div style="position:relative;display:inline-block"><span id="av"></span><button type="button" class="iconbtn cam" id="cam" aria-label="Change photo"><i data-i="camera"></i></button></div><div style="margin-top:6px;color:var(--ink)">Upload Photo</div><small class="sub">JPG, PNG (Max 2 MB)</small><input type="file" id="pic" accept="image/png,image/jpeg" hidden></div>
+          <div class="form-grid pair grow">
+            <div class="field"><label for="fn">Full Name <i>*</i></label><input class="inp" id="fn" value="Ramesh Tudu" required><span class="errmsg">Name is required.</span></div>
+            <div class="field"><label for="role">Role</label><input class="inp" id="role" value="Collector" readonly></div>
+            <div class="field"><label for="ph">Phone Number <i>*</i></label><input class="inp" id="ph" value="+91 98765 43210" required inputmode="tel"><span class="errmsg">Enter a valid 10-digit phone number.</span></div>
+            <div class="field"><label for="em">Email Address</label><input class="inp" id="em" value="ramesh.tudu@example.com" readonly></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="s-organization">
+        <div class="sec-head"><span class="sec-ic"><i data-i="users"></i></span><div class="t"><b style="font-size:18px">Organization / Collector Group</b><span>Information about your collector group or organization (if applicable).</span></div></div>
+        <div class="form-grid pair">
+          <div class="field"><label for="gn">Group / Organization Name</label><input class="inp" id="gn" value="Jhargram Forest Collectors Group"></div>
+          <div class="field"><label for="gt">Group Type</label><select class="sel" id="gt"><option selected>Collector Group</option><option>Cooperative</option><option>Self-Help Group</option><option>Individual</option></select></div>
+          <div class="field"><label for="cp">Contact Person</label><input class="inp" id="cp" value="Ramesh Tudu"></div>
+          <div class="field"><label for="gs">Group Size (Members)</label><input class="inp" id="gs" type="number" min="1" value="25"></div>
+        </div>
+      </section>
+
+      <section class="card" id="s-location">
+        <div class="sec-head"><span class="sec-ic"><i data-i="pin"></i></span><div class="t"><b style="font-size:18px">Location Details</b><span>Your primary location for collection activities.</span></div></div>
+        <div class="form-grid quad">
+          <div class="field"><label for="st">State <i>*</i></label><select class="sel" id="st"><option>West Bengal</option><option>Odisha</option><option>Jharkhand</option></select></div>
+          <div class="field"><label for="di">District <i>*</i></label><select class="sel" id="di"><option>Jhargram</option><option>Purulia</option><option>Bankura</option></select></div>
+          <div class="field"><label for="bl">Block</label><select class="sel" id="bl"><option>Jhargram</option><option>Binpur</option><option>Gopiballavpur</option></select></div>
+          <div class="field"><label for="vi">Village</label><input class="inp" id="vi" value="Kankrajhore"></div>
+          <div class="field span-2"><label for="pin">PIN Code</label><input class="inp" id="pin" value="721507" inputmode="numeric" maxlength="6"><span class="errmsg">PIN code must be 6 digits.</span></div>
+        </div>
+      </section>
+
+      <section class="card" id="s-notifications">
+        <div class="row between wrap"><div class="sec-head" style="margin:0"><span class="sec-ic"><i data-i="bell"></i></span><div class="t"><b style="font-size:18px">Notification Preferences</b><span>Choose which notifications you want to receive.</span></div></div>
+          <div class="notice blue sm" style="max-width:330px"><i data-i="info"></i><span>You will only receive notifications for features that are available in this version of the platform.</span></div></div>
+        <div class="mt8">
+          <div class="pref"><span class="sec-ic sm"><i data-i="package"></i></span><b>Batch Updates</b><span>Get notified about status changes to your batches (e.g., assessment results, buyer offers).</span><label class="switch"><input type="checkbox" checked aria-label="Batch updates"><i></i></label></div>
+          <div class="pref"><span class="sec-ic sm"><i data-i="handshake"></i></span><b>New Buyer Offers</b><span>Get notified when buyers show interest or make offers for your produce.</span><label class="switch"><input type="checkbox" checked aria-label="New buyer offers"><i></i></label></div>
+          <div class="pref"><span class="sec-ic sm"><i data-i="bell"></i></span><b>Important Announcements</b><span>Receive important updates about the platform and new features.</span><label class="switch"><input type="checkbox" aria-label="Important announcements"><i></i></label></div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="grid" style="align-content:start">
+      <section class="card tint" id="s-account">
+        <div class="row" style="gap:14px"><i data-i="shieldcheck" style="font-size:36px;color:var(--g600)"></i><div><div class="row"><h2 style="font-size:18px">Account Status</h2><span class="chip green">● Active</span></div><p class="sub" style="color:var(--ink2)">Your account is active and in good standing.</p></div></div>
+        <div class="mt12" style="font-size:13px"><div class="dl"><i data-i="user"></i><span>Role</span><span>Collector</span></div><div class="dl"><i data-i="calendar"></i><span>Member Since</span><span>12 Aug 2026</span></div><div class="dl"><i data-i="clock"></i><span>Last Login</span><span>30 Oct 2026, 11:20 AM</span></div></div>
+      </section>
+      <section class="card amber"><div class="row" style="gap:16px"><div class="ring" id="ring"><b id="pct">80%</b></div><div style="flex:1"><h2 style="font-size:17px">Profile Completion</h2><p style="font-size:13px;color:var(--ink2);margin-top:4px" id="ptxt">Your profile is 80% complete. Add location details and organization information to improve your profile.</p><button type="button" class="btn sm mt8" id="chk" style="float:right">View Checklist <i data-i="arrow"></i></button></div></div></section>
+      <section class="card"><div class="sec-head"><span class="sec-ic"><i data-i="lang"></i></span><div class="t"><b style="font-size:17px">Language Preference</b><span>Choose your preferred language for the platform.</span></div></div>
+        <div class="field"><label for="lg" style="font-weight:500">Language</label><select class="sel" id="lg"><option>English (English)</option><option disabled>हिन्दी (coming soon)</option><option disabled>বাংলা (coming soon)</option></select><span class="hint">More language options may be added in future updates.</span></div></section>
+      <section class="card"><div class="sec-head"><span class="sec-ic"><i data-i="lock"></i></span><div class="t"><b style="font-size:17px">Account &amp; Security</b><span>Manage your account settings.</span></div></div>
+        <div class="notice blue"><i data-i="info" style="font-size:22px"></i><span>Password and other security settings are managed through your existing authentication system.<br>If you need to change your password, please use the standard account recovery option provided at login.</span></div></section>
+      <div class="row savebar"><button type="button" class="btn" id="cancel">Cancel</button><button type="submit" class="btn primary">Save Changes</button></div>
+    </aside>
+  </div>
+  </form>
+</main>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('av:ready',()=>{
+  const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+  $('#av').outerHTML=AV.img('avatar','avatar-big','Ramesh Tudu').replace('<img','<img id="av"');
+  // tabs scroll to / highlight the section
+  const order=['profile','organization','location','preferences','notifications','account'];
+  AV.tabs($('#tabs'),t=>{const el=$('#s-'+t)||$('#s-notifications');if(t==='preferences'){$('#lg').scrollIntoView({behavior:'smooth',block:'center'});$('#lg').focus();return}
+    el.scrollIntoView({behavior:'smooth',block:'start'});el.style.transition='box-shadow .3s';el.style.boxShadow='0 0 0 2px var(--g500)';setTimeout(()=>el.style.boxShadow='',1200)});
+  $('#cam').onclick=()=>$('#pic').click();
+  $('#pic').onchange=e=>{const f=e.target.files[0];if(!f)return;if(!/^image\/(png|jpeg)$/.test(f.type)||f.size>2*1048576)return AV.toast('Use a JPG or PNG up to 2 MB.','err');const r=new FileReader();r.onload=()=>{const a=$('#av');if(a.tagName==='IMG'){a.src=r.result}else{a.outerHTML=`<img id="av" class="avatar-big" src="${r.result}" alt="Profile photo">`}};r.readAsDataURL(f)};
+  // dependent selects (demo lists)
+  const DI={'West Bengal':['Jhargram','Purulia','Bankura'],Odisha:['Mayurbhanj','Keonjhar'],Jharkhand:['West Singhbhum','Ranchi']};
+  $('#st').onchange=()=>{$('#di').innerHTML=DI[$('#st').value].map(d=>`<option>${d}</option>`).join('')};
+  // completion
+  const fields=['fn','ph','gn','cp','gs','vi','pin','di','bl','lg'];
+  const calc=()=>{const filled=fields.filter(f=>$('#'+f).value.trim()).length;const pct=Math.round(filled/fields.length*100);$('#pct').textContent=pct+'%';$('#ring').style.setProperty('--p',pct);
+    $('#ptxt').textContent=pct>=100?'Your profile is complete.':`Your profile is ${pct}% complete. Add location details and organization information to improve your profile.`};
+  fields.forEach(f=>$('#'+f).addEventListener('input',calc));calc();
+  $('#chk').onclick=()=>{const miss=fields.filter(f=>!$('#'+f).value.trim());AV.toast(miss.length?'Still empty: '+miss.map(f=>$('label[for='+f+']').textContent.replace('*','').trim()).join(', '):'All checklist items are filled in.')};
+  $('#cancel').onclick=async()=>{if(await AV.confirmBox({title:'Discard changes?',text:'Unsaved changes will be reset.',ok:'Discard',cancel:'Keep editing',danger:1}))location.reload()};
+  $('#pf').onsubmit=e=>{e.preventDefault();let ok=true;
+    const chk=(id,bad)=>{const f=$('#'+id).closest('.field');f.classList.toggle('bad',bad);if(bad&&ok){$('#'+id).focus();ok=false}};
+    chk('fn',!$('#fn').value.trim());chk('ph',!/^(\+91[\s-]?)?\d{5}[\s-]?\d{5}$/.test($('#ph').value.trim()));chk('pin',$('#pin').value&&!/^\d{6}$/.test($('#pin').value));
+    if(!ok)return AV.toast('Please fix the highlighted fields.','err');AV.toast('Profile changes saved (demo, not stored)')};
+});
+</script>
+</body></html>

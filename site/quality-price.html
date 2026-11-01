@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
+<title>Quality to Price – AranyaValue</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="quality-price">
+<main>
+  <section class="hero"><h1>Quality to Price</h1><p>Understand buyer requirements, compare offers and see what may improve your batch's value.</p></section>
+
+  <div class="qp-top">
+    <section class="card">
+      <h3>Select Batch</h3><p class="sub">Choose a batch to compare with buyer requirements and offers.</p>
+      <div class="sel-batch"><div id="sbimg"></div><div class="grow"><b style="font-size:15px" id="sbt">HV-001 &nbsp;|&nbsp; Honey</b><div class="sub" style="color:var(--ink2);margin-top:3px" id="sbs">10 kg • Collected on 10 Oct 2026</div></div><span id="sbc"></span><i data-i="down"></i>
+        <select id="batch" aria-label="Select batch"></select></div>
+    </section>
+    <section class="card"><h3>Batch Summary</h3>
+      <div class="row mt8" style="gap:14px;align-items:flex-start"><div id="bsimg"></div><div class="grow"><b style="font-size:17px" id="bsid">HV-001</b><div style="color:var(--ink2)" id="bsloc">Wild Honey</div><div class="row wrap mt8" style="gap:14px;font-size:12px;color:var(--ink2)" id="bsmeta"></div></div><div><small class="sub">Current Status</small><div id="bsst"></div></div></div>
+    </section>
+  </div>
+
+  <div class="qp-grid">
+    <div class="grid" style="align-content:start">
+      <section class="card">
+        <div class="row between wrap"><div class="sec-head" style="margin:0"><span class="sec-ic"><i data-i="scan"></i></span><div class="t"><b style="font-size:18px">Buyer Requirements Comparison</b><span>See how your batch's recorded quality parameters compare with each buyer's requirements.</span></div></div>
+          <label class="fgroup"><span>Select Buyer</span><select class="sel" id="bsel"><option>All Buyers</option><option>GreenLife Buyers</option><option>Forest Foods Co.</option><option>Tribal Mart</option></select></label></div>
+        <div class="tblwrap mt12"><table class="tbl cmp"><thead id="chead"></thead><tbody id="cbody"></tbody></table></div>
+      </section>
+
+      <section class="card">
+        <div class="row between wrap"><div class="sec-head" style="margin:0"><span class="sec-ic"><i data-i="handshake"></i></span><div class="t"><b style="font-size:18px">Buyer Offers <span style="font-weight:400">(Sample / Demo Data)</span></b><span>These are sample offers to show how quality requirements can affect price. Figures are illustrative only and not a guarantee of actual price.</span></div></div>
+          <span class="chip blue pill">● Sample data</span></div>
+        <div class="tblwrap mt12"><table class="tbl"><thead><tr><th>Buyer</th><th>Offered Price (₹/kg)</th><th>Requirement Match</th><th>Offer Status</th><th>Notes</th><th>Action</th></tr></thead><tbody id="offers"></tbody></table></div>
+      </section>
+
+      <section class="card">
+        <div class="sec-head"><span class="sec-ic"><i data-i="chart"></i></span><div class="t"><b style="font-size:18px">How Price Differences Happen</b></div></div>
+        <div class="flow">
+          <div style="background:#e8f4e5"><span class="sec-ic sm"><i data-i="file"></i></span><div><b>Different Quality Standards</b>Buyers have different requirements for moisture, purity, color, origin etc.</div></div><i data-i="arrow"></i>
+          <div style="background:#e4eefc"><span class="sec-ic sm blue"><i data-i="settings"></i></span><div><b>Different End Uses</b>Some buyers supply retail markets, others to processing or export, which affects price.</div></div><i data-i="arrow"></i>
+          <div style="background:#efe8fb"><span class="sec-ic sm purple"><i data-i="chart"></i></span><div><b>Different Costs &amp; Margins</b>Processing, packaging, testing and transport costs vary across buyers, leading to different offers.</div></div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="grid" style="align-content:start">
+      <section class="card amber">
+        <div class="row" style="align-items:flex-start"><i data-i="bulb" style="font-size:34px;color:var(--amber)"></i><div><h2 style="font-size:20px">What This Means</h2>
+          <p style="margin-top:8px;color:var(--ink2);font-size:13.5px" id="means">Your batch meets the basic requirements of GreenLife Buyers and Tribal Mart for most available parameters. It does not meet the moisture requirement of Tribal Mart (≤ 16%) and some key quality information is still missing (e.g., purity, adulteration test).</p></div></div>
+        <div class="notice amber sm mt12" style="background:#fbecc9"><i data-i="info"></i><span>Buyers may offer different prices based on their quality requirements, target markets and processing needs.</span></div>
+      </section>
+      <section class="card amber" style="background:#fdf6e6">
+        <div class="sec-head"><span class="sec-ic"><i data-i="leaf"></i></span><div class="t"><b style="font-size:19px">Potential Improvements</b><span>Based on your current batch information, you may consider:</span></div></div>
+        <div style="background:#fff;border-radius:10px;padding:2px 12px" id="imps"></div>
+      </section>
+      <section class="card amber" style="background:#fdf6e6"><div class="row" style="align-items:flex-start"><i data-i="info" style="font-size:22px;color:var(--blue)"></i><div><h3>Note</h3>
+        <ul class="bullets mt8" style="color:var(--ink)"><li>The offers and prices shown here are sample data for demonstration only.</li><li>These are not guaranteed prices and may change based on final quality assessment, quantity, location and market conditions.</li><li>Please verify the latest requirements and offers directly with buyers.</li></ul></div></div></section>
+    </aside>
+  </div>
+</main>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('av:ready',()=>{
+  const $=s=>document.querySelector(s),A=AV.ic;
+  const sel=$('#batch');sel.innerHTML=AV.batches.map(b=>`<option value="${b.id}">${b.id} | ${b.name}</option>`).join('');
+  sel.value=AV.params.get('id')||'HV-001';
+  const B=['GreenLife Buyers','Forest Foods Co.','Tribal Mart'];
+  const R=[['Moisture Content','18%','Measured',['≤ 20%','m'],['≤ 18%','m'],['≤ 16%','x']],['Color','Dark Amber','Measured',['Amber – Dark Amber','m'],['Light Amber – Amber','c'],['Amber – Dark Amber','m']],['Purity','Not recorded','',['≥ 95%','u'],['≥ 97%','u'],['≥ 95%','u']],['Foreign Matter','Not detected','Measured',['Not detected','m'],['Not detected','m'],['Not detected','m']],['Adulteration Test','Not recorded','',['Required','u'],['Required','u'],['Required','u']]];
+  const res={m:['Meets','check','green'],x:['Does not meet','xc','red'],c:['Conditional','alert','amber'],u:['Unknown','help','gray']};
+  const draw=()=>{
+    const f=$('#bsel').value,cols=B.map((n,i)=>[n,i]).filter(([n])=>f==='All Buyers'||n===f);
+    $('#chead').innerHTML=`<tr><th>Parameter</th><th>Your Batch (${sel.value})</th>${cols.map(([n])=>`<th>${n}<br>Requirement</th>`).join('')}</tr>`;
+    $('#cbody').innerHTML=R.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]} ${r[2]?`<span class="chip amber" style="margin-left:14px">${r[2]}</span>`:''}</td>${cols.map(([,i])=>{const c=r[3+i],s=res[c[1]];return `<td>${c[0]}<br><span class="chip ${s[2]}">${A(s[1])}${s[0]}</span></td>`}).join('')}</tr>`).join('');
+  };
+  const offers=[['GreenLife Buyers',520,'Mostly meets',4,'#22a05a','elig','Eligible','Accepts wild honey with moisture ≤ 20%.'],['Forest Foods Co.',480,'Partially meets',3,'#f5a623','cond','Conditional','Prefers light amber color and higher purity.'],['Tribal Mart',450,'Partially meets',2,'#f5a623','rejected','Not Eligible','Requires moisture ≤ 16% and lab test report.'],['Eco Essentials','-','Requirements not available',0,'','unk','Unknown','No active offer at the moment.']];
+  $('#offers').innerHTML=offers.map(o=>`<tr><td><span class="row">${A('leaf','up')}${o[0]}</span></td><td><b>${o[1]}</b></td><td>${o[3]?`${o[2]}<div class="row"><div class="offer-bar"><i style="width:${o[3]/5*100}%;background:${o[4]}"></i></div><small>${o[3]}/5</small></div>`:`<span class="sub">${o[2]}</span>`}</td><td><span class="chip ${o[5]}">● ${o[6]}</span></td><td style="font-size:12.5px">${o[7]}</td><td><a class="btn xs" href="buyers.html?buyer=${encodeURIComponent(o[0])}">View Details ${A('arrow')}</a></td></tr>`).join('');
+  const imps=[['Reduce moisture content','Current: 18%  |  Target (Tribal Mart): ≤ 16%','Further drying may help meet higher grade requirements.','post-harvest.html'],['Get purity testing done','Purity test results can help you qualify for more buyers and potentially better prices.','','post-harvest.html'],['Add adulteration test certificate','A laboratory test can build buyer trust and may open access to premium offers.','','create-batch.html']];
+  $('#imps').innerHTML=imps.map((m,i)=>`<a class="imp" href="${m[3]}"><span class="n">${i+1}</span><div class="grow"><b>${m[0]}</b><small>${m[1]}</small>${m[2]?`<small>${m[2]}</small>`:''}</div>${A('right')}</a>`).join('');
+  const upd=()=>{const b=AV.batches.find(x=>x.id===sel.value);
+    $('#sbimg').innerHTML=AV.img(b.img,'',b.name);$('#bsimg').innerHTML=AV.img(b.img,'',b.name);
+    $('#sbt').innerHTML=`${b.id} &nbsp;|&nbsp; ${b.name}`;$('#sbs').textContent=`${b.qty} ${b.unit} • Collected on ${b.date}`;$('#sbc').innerHTML=AV.chip(b.status,'download');
+    $('#bsid').textContent=b.id;$('#bsloc').textContent=b.local;$('#bsst').innerHTML=AV.chip(b.status,'download');
+    $('#bsmeta').innerHTML=`<span class="row" style="gap:5px">${A('package')}${b.qty} ${b.unit}</span><span class="row" style="gap:5px">${A('calendar')}${b.date}</span><span class="row" style="gap:5px">${A('pin')}${b.loc}</span>`;
+    $('#means').textContent=b.id==='HV-001'?'Your batch meets the basic requirements of GreenLife Buyers and Tribal Mart for most available parameters. It does not meet the moisture requirement of Tribal Mart (≤ 16%) and some key quality information is still missing (e.g., purity, adulteration test).':'Demo comparison: figures shown use the HV-001 sample requirements. Complete quality details for this batch to see a meaningful comparison.';
+    draw()};
+  sel.onchange=upd;$('#bsel').onchange=draw;upd();
+});
+</script>
+</body></html>

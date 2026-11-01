@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3a29">
+<title>Post-Harvest Assistant – AranyaValue</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="post-harvest">
+<main>
+  <section class="hero"><h1>Post-Harvest Assistant</h1><p>Record handling practices and review practical guidance for your produce.</p></section>
+
+  <div class="ph-top">
+    <section class="card"><h3>Select Batch</h3>
+      <div class="sel-batch" style="margin-top:8px"><div id="sbimg"></div><div class="grow"><div><b style="font-size:15px" id="sbt">HV-001</b> &nbsp;|&nbsp; <span id="sbn">Honey</span></div><div class="sub" style="color:var(--ink2);margin-top:3px"><span id="sbs"></span> &nbsp;<span id="sbc"></span></div></div><i data-i="down"></i><select id="batch" aria-label="Select batch"></select></div></section>
+    <section class="card tint row" style="gap:18px;padding:18px 24px"><i data-i="leaf" style="font-size:44px;color:var(--g600)"></i><p style="font-size:14.5px">Follow good post-harvest practices to maintain quality, meet buyer requirements and improve the value of your produce.</p></section>
+  </div>
+
+  <div class="ph-main">
+    <div>
+      <div class="ph-stages" id="stages" role="tablist" aria-label="Post-harvest stages"></div>
+      <div class="grid split-main-side">
+        <section class="card" id="tasks">
+        </section>
+        <aside class="ph-side" id="why"></aside>
+      </div>
+      <div class="grid split-2 mt12">
+        <section class="card"><div class="sec-head"><span class="sec-ic sm"><i data-i="file"></i></span><div class="t"><b style="font-size:16px">Your Recorded Practices for This Batch</b><span>This shows what you have recorded for each stage.</span></div></div>
+          <div class="tblwrap"><table class="tbl"><thead><tr><th>Stage</th><th>Key Details</th><th>Status</th><th>Last Updated</th><th>Actions</th></tr></thead><tbody id="rec"></tbody></table></div></section>
+        <section class="card"><div class="sec-head"><span class="sec-ic sm"><i data-i="image"></i></span><div class="t"><b style="font-size:16px">Photos <span style="font-weight:400">(Optional)</span></b><span>Add photos of your drying, sorting, packaging or storage process. This helps with quality assessment.</span></div></div>
+          <label class="upload" tabindex="0" id="drop" style="height:84px"><i data-i="upload"></i><b>Click to upload photos</b><small>PNG, JPG up to 5 MB each</small><input type="file" id="file" accept="image/png,image/jpeg" multiple hidden></label>
+          <div class="photos mt12" id="photos"></div></section>
+      </div>
+    </div>
+
+    <aside class="ph-side">
+      <section class="card"><div class="sec-head"><span class="sec-ic sm"><i data-i="book"></i></span><div class="t"><b style="font-size:17px" id="gtitle">Guidance for Honey</b><span>These are general best practices for honey based on commonly accepted post-harvest guidelines.</span></div></div>
+        <div id="gside"></div>
+        <button class="btn primary block mt12" id="pdf"><i data-i="file"></i> Download Guidance (PDF) <i data-i="arrow"></i></button></section>
+      <section class="card amber"><div class="row" style="align-items:flex-start"><i data-i="info" style="font-size:24px;color:var(--blue)"></i><div><h3>Important Note</h3><ul class="bullets mt8" style="color:var(--ink)"><li>This guidance is for general information only.</li><li>Follow local regulations and buyer requirements.</li><li>Practices may vary based on your region and produce type.</li><li>This does not guarantee a specific price or quality grade.</li></ul></div></div></section>
+      <section class="card tint"><div class="row" style="align-items:flex-start"><i data-i="leaf" style="font-size:28px;color:var(--g600)"></i><div><h3>Need more help?</h3><p class="sub" style="color:var(--ink2);margin-top:4px">Contact your local cooperative, forest department extension service or trusted experts for on-site guidance.</p></div></div>
+        <button class="btn block mt12" id="help" style="justify-content:space-between">Find Support Resources <span class="row"><i data-i="ext"></i><i data-i="arrow"></i></span></button></section>
+    </aside>
+  </div>
+</main>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('av:ready',()=>{
+  const $=s=>document.querySelector(s),A=AV.ic;
+  const S=[
+   {k:'Drying',s:'Remove moisture',ic:'sun',c:'amber',why:'Proper drying reduces moisture content, which helps prevent fungal growth, preserves natural color and improves acceptance by buyers.',sub:'Proper drying helps maintain quality and prevents spoilage.',t:[['Dry in a clean, elevated area','Use a clean, raised platform or clean sheet to avoid contact with soil.',1,'10 Oct 2026'],['Protect from dust and insects','Use a net or cover while drying.',1,'10 Oct 2026'],['Ensure proper air circulation','Spread in a thin layer and turn regularly.',0,''],['Avoid direct rain and moisture','Bring inside if there is a chance of rain.',1,'10 Oct 2026']],good:['Keep containers closed when not drying','Avoid contamination from dust, smoke or chemicals','Dry in a clean, shaded, well-ventilated area','Maintain hygiene during handling'],bad:['Drying on bare ground','Exposure to smoke or strong odors','Contact with dirty containers']},
+   {k:'Sorting & Cleaning',s:'Improve purity',ic:'leaf',c:'',why:'Removing foreign matter and damaged material improves purity, which many buyers check first.',sub:'Sorting and cleaning remove impurities and foreign matter.',t:[['Remove wax pieces and dirt','Filter or hand-pick visible foreign matter.',1,'10 Oct 2026'],['Use clean tools and containers','Wash and dry tools before use.',0,''],['Separate damaged material','Keep damaged or discoloured produce apart.',0,'']],good:['Use clean cloth or fine mesh filters','Wash hands and tools','Sort in good light'],bad:['Mixing different batches','Using dirty containers']},
+   {k:'Packaging',s:'Safe and clean',ic:'bag',c:'orange',why:'Clean, food-grade packaging protects produce and meets many buyers\' requirements.',sub:'Packaging protects produce from contamination and moisture.',t:[['Use clean, food-grade containers','Choose containers suited to the produce.',1,'10 Oct 2026'],['Seal containers tightly','Keep out moisture and pests.',1,'10 Oct 2026'],['Label with batch ID and date','Helps traceability.',0,'']],good:['Use food-grade, dry containers','Label every container','Avoid reusing chemical containers'],bad:['Reusing chemical drums','Leaving containers open']},
+   {k:'Storage',s:'Maintain quality',ic:'home',c:'teal',why:'Cool, dry storage keeps moisture and quality stable until sale.',sub:'Good storage maintains quality until the batch is sold.',t:[['Store in a cool, dry place','Away from direct sunlight and damp walls.',0,''],['Keep off the floor','Use pallets or shelves.',0,''],['Check regularly','Inspect for moisture, pests and smell.',0,'']],good:['Cool, dry, ventilated room','Raised shelves','Regular checks'],bad:['Damp rooms','Storing near fuel or chemicals']},
+   {k:'Transport',s:'Prevent damage',ic:'truck',c:'blue',why:'Careful transport prevents damage, spillage and contamination.',sub:'Transport carefully to avoid damage and contamination.',t:[['Use clean, covered transport','Protect from rain, dust and heat.',0,''],['Avoid mixing with other goods','Especially strong-smelling items.',0,''],['Keep records of the movement','Date, vehicle and destination.',0,'']],good:['Covered vehicle','Secure containers','Short transit time'],bad:['Open trucks in rain','Rough handling']}];
+  const G={Honey:1};
+  const sel=$('#batch');sel.innerHTML=AV.batches.map(b=>`<option value="${b.id}">${b.id} | ${b.name}</option>`).join('');sel.value=AV.params.get('id')||'HV-001';
+  let cur=0;const state={};
+  const st=()=>state[sel.value]||(state[sel.value]=JSON.parse(JSON.stringify(S.map(x=>x.t.map(t=>({done:!!t[2],date:t[3],note:''}))))));
+  const sdone=i=>st()[i].filter(t=>t.done).length;
+  const mini=i=>{const d=sdone(i),n=S[i].t.length;return d===n?['Completed','green']:d>0?['In Progress','blue']:['Not Started','gray']};
+  const drawStages=()=>{$('#stages').innerHTML=S.map((x,i)=>`<button class="stage ${i===cur?'active':''}" role="tab" aria-selected="${i===cur}" data-i="${i}"><span class="sec-ic ${x.c}">${A(x.ic)}</span><div><b>${i+1} &nbsp;${x.k}</b><small>${x.s}</small></div></button>`).join('');$('#stages').querySelectorAll('.stage').forEach(b=>b.onclick=()=>{cur=+b.dataset.i;draw()});const active=$('#stages').querySelector('.active');if(active&&$('#stages').scrollWidth>$('#stages').clientWidth+4)active.scrollIntoView({inline:'center',block:'nearest'})};
+  const drawTasks=()=>{const x=S[cur],d=sdone(cur),n=x.t.length;
+    $('#tasks').innerHTML=`<div class="row between"><div class="sec-head" style="margin:0"><span class="sec-ic ${x.c}">${A(x.ic)}</span><div class="t"><b style="font-size:19px">${cur+1}. ${x.k}</b><span>${x.sub}</span></div></div><div class="task-prog">${d} of ${n} completed<div class="progress mt8"><i style="width:${d/n*100}%"></i></div></div></div>
+    <div class="mt12">${x.t.map((t,j)=>{const s=st()[cur][j];return `<div class="task"><input type="checkbox" class="check" data-j="${j}" id="t${j}" ${s.done?'checked':''}><label class="t" for="t${j}"><b>${t[0]}</b><small>${t[1]}</small>${s.note?`<small style="display:block;color:var(--g700)">Note: ${s.note}</small>`:''}</label><div class="r"><span class="mini ${s.done?'green':'amber'}">${s.done?'Completed':'Not Done'}</span>${s.done?`<span>${s.date}</span>`:`<button class="btn xs" data-note="${j}">Add Notes</button>`}</div><button class="iconbtn" data-note="${j}" aria-label="Edit">${A('pencil')}</button></div>`}).join('')}</div>`;
+    $('#tasks').querySelectorAll('.check').forEach(c=>c.onchange=()=>{const s=st()[cur][+c.dataset.j];s.done=c.checked;s.date=c.checked?'31 Oct 2026':'';draw();AV.toast(c.checked?'Marked as completed':'Marked as not done')});
+    $('#tasks').querySelectorAll('[data-note]').forEach(b=>b.onclick=()=>{const s=st()[cur][+b.dataset.note];const v=prompt('Add a note for this practice',s.note);if(v!==null){s.note=v.trim();draw();AV.toast('Note saved')}})};
+  const drawWhy=()=>{const x=S[cur];$('#why').innerHTML=`<section class="card amber"><div class="row" style="align-items:flex-start"><i data-i="bulb" style="font-size:26px;color:var(--amber)"></i><div><h3>Why it matters?</h3><p style="font-size:12.5px;color:var(--ink2);margin-top:6px">${x.why}</p></div></div></section>
+    <section class="card tint"><div class="row"><i data-i="leaf" style="color:var(--g600);font-size:22px"></i><h3>Good practices for ${$('#sbn').textContent.toLowerCase()}</h3></div><ul class="list-check mt8" style="font-size:12.5px">${x.good.map(g=>`<li>${A('cc')}${g}</li>`).join('')}</ul></section>
+    <section class="card red"><div class="row"><i data-i="alert" style="color:var(--red);font-size:22px"></i><h3>Common issues to avoid</h3></div><ul class="list-check x mt8" style="font-size:12.5px">${x.bad.map(g=>`<li>${A('xc')}${g}</li>`).join('')}</ul></section>`;AV.hydrate($('#why'))};
+  const drawRec=()=>{const det=['Dried on raised platform, used net cover','Removed wax pieces and dirt manually','Stored in clean, dry plastic container','Kept in cool, dry place','Not recorded yet'];
+    $('#rec').innerHTML=S.map((x,i)=>{const m=mini(i),d=sdone(i);return `<tr><td><b>${x.k}</b></td><td style="font-size:12px">${d?det[i]:det[i].startsWith('Not')?det[i]:'—'}</td><td><span class="mini ${m[1]}">${m[0]}</span></td><td>${d?'10 Oct 2026':'-'}</td><td><button class="btn xs" data-go="${i}">${d?'View / Edit':'Add Details'} ${A('arrow')}</button></td></tr>`}).join('');
+    $('#rec').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{cur=+b.dataset.go;draw();scrollTo({top:200,behavior:'smooth'})})};
+  const drawSide=()=>{$('#gside').innerHTML=S.map((x,i)=>`<button class="gside" data-i="${i}"><span class="sec-ic ${x.c}">${A(x.ic)}</span><div><b>${x.k}</b><small>${x.s}</small></div></button>`).join('');$('#gside').querySelectorAll('button').forEach(b=>b.onclick=()=>{cur=+b.dataset.i;draw()})};
+  const draw=()=>{drawStages();drawTasks();drawWhy();drawRec()};
+  const upd=()=>{const b=AV.batches.find(x=>x.id===sel.value);$('#sbimg').innerHTML=AV.img(b.img,'',b.name);$('#sbt').textContent=b.id;$('#sbn').textContent=b.name;$('#sbs').textContent=`${b.qty} ${b.unit} • Collected on ${b.date} •`;$('#sbc').innerHTML=AV.chip(b.status,'download');$('#gtitle').textContent='Guidance for '+b.name;draw()};
+  sel.onchange=upd;drawSide();upd();
+  // photos
+  const ph=$('#photos'),add=(src,t,d)=>{const w=document.createElement('div');w.className='ph-thumb';w.innerHTML=`<img src="${src}" alt="${t}"><button type="button" class="photo-x" aria-label="Remove ${t}">${A('x')}</button><div style="font-size:11.5px"><b>${t}</b><br><span class="sub">${d}</span></div>`;w.querySelector('button').onclick=()=>w.remove();ph.append(w)};
+  add('assets/img/drying.jpg','Drying setup','10 Oct 2026');add('assets/img/packaging.jpg','Final packaging','10 Oct 2026');
+  $('#file').onchange=e=>[...e.target.files].forEach(f=>{if(!/^image\/(png|jpeg)$/.test(f.type)||f.size>5*1048576)return AV.toast('Only PNG/JPG up to 5 MB.','err');const r=new FileReader();r.onload=()=>add(r.result,f.name,'31 Oct 2026');r.readAsDataURL(f)});
+  $('#drop').onkeydown=e=>e.key==='Enter'&&$('#file').click();
+  $('#pdf').onclick=()=>print();
+  $('#help').onclick=()=>AV.toast('Support resources directory is not connected in this demo.');
+});
+</script>
+</body></html>
