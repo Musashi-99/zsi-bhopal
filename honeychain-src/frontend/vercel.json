@@ -6,6 +6,14 @@
     }
   },
   "rewrites": [
+    { "source": "/api/:a/:b/:c/:d/:e/:f/:g/:h", "destination": "/api/server?__path=/api/:a/:b/:c/:d/:e/:f/:g/:h" },
+    { "source": "/api/:a/:b/:c/:d/:e/:f/:g", "destination": "/api/server?__path=/api/:a/:b/:c/:d/:e/:f/:g" },
+    { "source": "/api/:a/:b/:c/:d/:e/:f", "destination": "/api/server?__path=/api/:a/:b/:c/:d/:e/:f" },
+    { "source": "/api/:a/:b/:c/:d/:e", "destination": "/api/server?__path=/api/:a/:b/:c/:d/:e" },
+    { "source": "/api/:a/:b/:c/:d", "destination": "/api/server?__path=/api/:a/:b/:c/:d" },
+    { "source": "/api/:a/:b/:c", "destination": "/api/server?__path=/api/:a/:b/:c" },
+    { "source": "/api/:a/:b", "destination": "/api/server?__path=/api/:a/:b" },
+    { "source": "/api/:a", "destination": "/api/server?__path=/api/:a" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }

@@ -16,8 +16,19 @@ if (process.env.VERCEL) {
 
 const app = require(path.join(here, '..', 'api-server', 'server.js'));
 
+function originalPath(req) {
+  const current = req.url || '/';
+  const qIndex = current.indexOf('?');
+  const search = qIndex >= 0 ? current.slice(qIndex + 1) : '';
+  const params = new URLSearchParams(search);
+  const stamped = params.get('__path');
+  if (!stamped) return current.startsWith('/api') ? current : `/api${current.startsWith('/') ? current : `/${current}`}`;
+  params.delete('__path');
+  const rest = params.toString();
+  return rest ? `${stamped}?${rest}` : stamped;
+}
+
 export default function handler(req, res) {
-  const url = req.url || '/';
-  if (!url.startsWith('/api')) req.url = `/api${url.startsWith('/') ? url : `/${url}`}`;
+  req.url = originalPath(req);
   return app(req, res);
 }
