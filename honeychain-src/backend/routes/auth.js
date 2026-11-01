@@ -74,7 +74,7 @@ router.post('/login', (req, res) => {
     db.prepare(`
       INSERT INTO users (id, name, email, password_hash, role, preferred_language, state_id, district_id, active, is_demo, created_at)
       VALUES (?, ?, ?, ?, ?, 'en', 'ST-WB', 'DT-PUR', 1, 1, ?)
-    `).run(id, name, stored, hashPassword('open'), role, new Date().toISOString());
+    `).run(id, name, stored, 'open', role, new Date().toISOString());
     user = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
   }
   res.cookie(COOKIE_NAME, signToken({ userId: user.id, role: user.role }), cookieOptions());

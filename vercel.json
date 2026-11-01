@@ -3,12 +3,14 @@
   "installCommand": "npm install",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "regions": ["bom1"],
   "functions": {
     "api/**/*.js": {
       "includeFiles": "api/demo.db"
     }
   },
   "rewrites": [
+    { "source": "/api/auth/:action", "destination": "/api/login?__path=/api/auth/:action" },
     { "source": "/api/:a/:b/:c/:d/:e/:f/:g/:h", "destination": "/api/server?__path=/api/:a/:b/:c/:d/:e/:f/:g/:h" },
     { "source": "/api/:a/:b/:c/:d/:e/:f/:g", "destination": "/api/server?__path=/api/:a/:b/:c/:d/:e/:f/:g" },
     { "source": "/api/:a/:b/:c/:d/:e/:f", "destination": "/api/server?__path=/api/:a/:b/:c/:d/:e/:f" },
