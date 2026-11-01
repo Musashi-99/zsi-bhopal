@@ -32,15 +32,15 @@
   .rcard{flex-wrap:wrap}.rcard .l{width:auto}
   .scard{flex-wrap:wrap}.scard .r{width:100%;margin:0}
   .login-page{grid-template-columns:1fr}
-  .login-bg{background:linear-gradient(180deg,rgba(6,28,16,.2) 0%,rgba(6,28,16,.12) 42%,rgba(6,28,16,.45) 100%),url(/img/login-bg.jpg) center 28%/cover}
-  .login-left{padding:28px 24px 24px;min-height:auto}
-  .login-copy{margin-top:16px;padding:16px}
-  .login-left h1{font-size:32px;margin-top:0}
-  .login-left .tag-line{font-size:17px}
-  .login-foot{display:none}
-  .login-right{padding:10px 16px 40px}
-  .lang{top:14px;right:14px}
-  .login-card{padding:28px 22px}
+  .login-left{padding:20px 16px 4px;min-height:auto}
+  .login-left .brand .logo{height:68px}
+  .login-copy{margin-top:16px;padding:16px 16px 12px;max-width:none}
+  .login-left h1{font-size:30px}
+  .login-left .tag-line{font-size:16px}
+  .login-foot{padding:14px 0 0}
+  .login-right{min-height:0;padding:8px 16px 28px;align-items:stretch}
+  .lang{position:relative;top:auto;right:auto;align-self:flex-end;margin:4px 0 12px}
+  .login-card{padding:20px 16px 16px;width:min(100%,520px);max-width:520px;margin-left:auto;margin-right:auto}
   .pub-wrap{grid-template-columns:1fr}
   .pub-hero{padding:16px 18px 56px}
   .pub-hero h1{font-size:30px}
@@ -63,4 +63,27 @@
 .pub-nav{flex-wrap:wrap}
 @media(max-width:900px){.ph-stages{grid-template-columns:1fr 1fr}.row[style*="nowrap"]{flex-wrap:wrap !important}.pub-hero{overflow:hidden}.pub-nav .links{margin-left:0}}
 @media(max-width:900px){.stat-row>:last-child:nth-child(odd){grid-column:1 / -1}}
-@media(max-width:600px){.bcards,.supp,.qgrid,.stat-row,.ph-stages,.kv-2{grid-template-columns:1fr}.stepper{grid-template-columns:1fr}.grade-box{width:auto}.rcard .l{width:100%}.pagehead .actions .btn{flex:1}.grid[style*="grid-template-columns"]{grid-template-columns:1fr !important}.pp-head .pic{width:100%;height:150px}.donut{width:130px;height:130px}.donut div{width:80px;height:80px}.formbar .row{width:100%}.formbar .btn{flex:1}}
+@media(max-width:600px){.bcards,.supp,.qgrid,.stat-row,.ph-stages,.kv-2{grid-template-columns:1fr}.stepper{grid-template-columns:1fr}.grade-box{width:auto}.rcard .l{width:100%}.pagehead .actions .btn{flex:1}.grid[style*="grid-template-columns"]{grid-template-columns:1fr !important}.pp-head .pic{width:100%;height:150px}.donut{width:130px;height:130px}.donut div{width:80px;height:80px}.formbar .row{width:100%}.formbar .btn{flex:1}.login-left{padding:16px 14px 0}.login-left h1{font-size:26px}.login-card .portal-tabs button{font-size:11px;padding:8px 2px}.feats{gap:10px}}
+@media(max-height:820px) and (min-width:901px){
+  .login-left{padding-top:16px;padding-bottom:12px}
+  .login-copy{margin-top:12px;padding:12px 16px 10px}
+  .login-left h1{font-size:30px}
+  .login-left .tag-line{font-size:15px;margin-top:8px}
+  .feats{margin-top:10px}
+  .login-foot{padding-top:12px}
+  .login-right{padding-top:58px;padding-bottom:12px}
+  .login-card{padding:14px 16px 12px}
+  .login-card h2{font-size:24px}
+  .login-card .lead{margin-bottom:8px}
+  .login-card .portal-tabs{margin-bottom:8px}
+  .login-card .portal-tabs button{min-height:40px;padding:6px 4px}
+  .login-card .portal-does{margin-bottom:8px;padding:6px 10px}
+  .seed-logins{gap:4px;margin-bottom:8px}
+  .seed-logins button{padding:5px 10px}
+  .login-card .field{margin-bottom:8px}
+  .login-card .inp{height:40px}
+  .login-card .btn.primary{height:42px}
+  .login-card .or{margin:6px 0}
+  .login-card .secure{padding:8px 10px}
+  .login-card .demo-row{margin-top:8px}
+}

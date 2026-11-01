@@ -44,9 +44,7 @@ export default function Login() {
   };
   useEffect(() => { pickPortal(portalFrom(loc.search)); }, [loc.search]);
   const left = useRef(null);
-  const bg = useRef(null);
 
-  // GSAP entrance timeline + slow background drift
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
     const ctx = gsap.context(() => {
@@ -56,7 +54,6 @@ export default function Login() {
         .from('.login-left .tag-line', { y: 20, opacity: 0, duration: 0.5 }, '-=0.4')
         .from('.feat', { y: 18, opacity: 0, stagger: 0.1, duration: 0.45 }, '-=0.3')
         .from('.login-foot div', { y: 16, opacity: 0, stagger: 0.1, duration: 0.45 }, '-=0.3');
-      gsap.to(bg.current, { scale: 1.06, duration: 22, ease: 'sine.inOut', repeat: -1, yoyo: true });
     }, left);
     return () => ctx.revert();
   }, []);
@@ -79,7 +76,7 @@ export default function Login() {
 
   return (
     <div className="login-page" ref={left}>
-      <div className="login-bg" ref={bg} />
+      <div className="login-bg" />
       <section className="login-left">
         <div className="brand"><Logo /></div>
         <div className="login-copy">
