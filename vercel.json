@@ -1,8 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "npm install --prefix honeychain-src/frontend",
-  "buildCommand": "node honeychain-src/frontend/node_modules/vite/bin/vite.js build honeychain-src/frontend",
-  "outputDirectory": "honeychain-src/frontend/dist",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
