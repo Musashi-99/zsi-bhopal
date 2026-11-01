@@ -10,7 +10,7 @@ input,select,textarea{font:inherit;color:inherit}
 svg.i{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
-.topbar{position:fixed;inset:0 0 auto 0;height:var(--top);background:linear-gradient(90deg,#0b3a29,#0f4a33 60%,#0b3a29);color:#fff;display:flex;align-items:center;padding:0 24px 0 20px;z-index:50;box-shadow:0 1px 0 rgba(0,0,0,.2);overflow:hidden;min-width:0}
+.topbar{position:fixed;inset:0 0 auto 0;height:var(--top);background:linear-gradient(90deg,#0b3a29,#0f4a33 60%,#0b3a29);color:#fff;display:flex;align-items:center;padding:0 24px 0 20px;z-index:50;box-shadow:0 1px 0 rgba(0,0,0,.2);overflow:visible;min-width:0}
 .brand{display:flex;align-items:center;gap:10px;min-width:0}
 .brand .logo{height:42px;width:auto;flex:none;display:block;background:#F7F3E9;border-radius:10px;padding:4px 8px;box-sizing:content-box}
 .brand b{font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;line-height:1.1}
@@ -34,14 +34,17 @@ svg.i{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-l
 .notif .n small{color:var(--muted);display:block}
 
 .sidebar{position:fixed;top:var(--top);bottom:0;left:0;width:var(--side);background:linear-gradient(180deg,#14572f 0%,#0f4727 45%,#0a3a20 100%);color:#fff;z-index:40;overflow:hidden;display:flex;flex-direction:column}
-.sidebar nav{padding:10px 10px 0;display:flex;flex-direction:column;gap:2px;position:relative;z-index:2;overflow-x:hidden;overflow-y:auto;min-height:0}
+.sidebar nav{padding:10px 10px 0;display:flex;flex-direction:column;gap:2px;position:relative;z-index:2;overflow-x:hidden;overflow-y:auto;min-height:0;flex:1}
 .sidebar nav a{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;font-size:13px;white-space:nowrap;color:#eaf5ec;font-weight:500;min-width:0;overflow:hidden}
 .sidebar nav a span{min-width:0;overflow:hidden;text-overflow:ellipsis}
 .sidebar nav a svg{font-size:20px;width:20px;height:20px}
 .sidebar nav a:hover{background:rgba(255,255,255,.08)}
 .sidebar nav a.active{background:rgba(255,255,255,.17);color:#fff;font-weight:600}
 .side-art{position:absolute;inset:auto 0 0 0;height:340px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 340' preserveAspectRatio='none'%3E%3Cg fill='%23062a17' opacity='.55'%3E%3Cpath d='M20 340V230l-14 0 16-40h-9l17-40h-8l18-50 18 50h-8l17 40h-9l16 40-14 0v110z'/%3E%3Cpath d='M92 340V250l-12 0 14-34h-8l16-38 16 38h-8l14 34-12 0v90z'/%3E%3Cpath d='M150 340V210l-12 0 14-36h-8l16-44 16 44h-8l14 36-12 0v130z'/%3E%3C/g%3E%3C/svg%3E") bottom/100% 100% no-repeat;z-index:1;pointer-events:none}
-.side-tag{position:absolute;left:0;right:0;bottom:70px;padding:0 34px;z-index:2;font-size:13px;font-weight:500;line-height:1.55;color:#fff}
+.side-tag{position:absolute;left:0;right:0;bottom:78px;padding:0 34px;z-index:2;font-size:13px;font-weight:500;line-height:1.55;color:#fff}
+.side-out{position:relative;z-index:3;flex:none;display:flex;align-items:center;gap:12px;margin:8px 10px 14px;padding:11px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.28);background:#0c3d22;color:#fff;font-size:13px;font-weight:600;text-align:left}
+.side-out:hover{background:#14572f}
+.side-out svg{font-size:20px;width:20px;height:20px}
 .side-tag svg{font-size:30px;color:#6fcf7b;display:block;margin:0 0 8px 8px}
 .scrim{display:none}
 

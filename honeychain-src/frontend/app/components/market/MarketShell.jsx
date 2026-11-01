@@ -94,7 +94,7 @@ function AccountMenu() {
   useOutside(ref, () => setOpen(false));
   const ov = useMyOverview(isBuyer);
   const first = user ? String(user.name).replace(/\s*\(.*?\)\s*/g, '').replace(/^Demo\s+(buyer\s*[—-]\s*)?/i, '').split(' ')[0] : null;
-  const out = async () => { setOpen(false); await logout(); nav('/market'); };
+  const out = async () => { setOpen(false); await logout(); nav('/login'); };
   const demo = async () => { try { await demoLogin(); setOpen(false); } catch (e) { toast(e.message, 'err'); } };
 
   return (
@@ -114,7 +114,7 @@ function AccountMenu() {
               <Link to="/market/account/orders" onClick={() => setOpen(false)}><Icon name="package" /> My orders</Link>
               <Link to="/market/account/saved" onClick={() => setOpen(false)}><Icon name="heart" /> Saved items</Link>
               <hr />
-              <button type="button" onClick={out}><Icon name="lock" /> Sign out</button>
+              <button type="button" onClick={out}><Icon name="lock" /> Log out</button>
             </>
           ) : user ? (
             <>
@@ -122,7 +122,7 @@ function AccountMenu() {
               <hr />
               <Link to={homeFor(user)} onClick={() => setOpen(false)}><Icon name="leaf" /> Back to my portal</Link>
               <button type="button" onClick={demo}><Icon name="handshake" /> Switch to Demo Buyer</button>
-              <button type="button" onClick={out}><Icon name="lock" /> Sign out</button>
+              <button type="button" onClick={out}><Icon name="lock" /> Log out</button>
             </>
           ) : (
             <>
@@ -141,6 +141,9 @@ function AccountMenu() {
 
 function Header({ onMenu }) {
   const { basket } = useMarket();
+  const { user, logout } = useAuth();
+  const nav = useNavigate();
+  const out = async () => { await logout(); nav('/login'); };
   return (
     <>
       <div className="mk-strip"><div className="wrap">
@@ -161,6 +164,7 @@ function Header({ onMenu }) {
       </header>
       <nav className="mk-nav" aria-label="Marketplace">
         <div className="wrap">
+          {user && <button type="button" className="mk-out" onClick={out}><Icon name="lock" /> Log out</button>}
           {NAV.map(([to, label, , end]) => <NavLink key={to} to={to} end={end} className={({ isActive }) => (isActive ? 'active' : '')}>{label}</NavLink>)}
           <span className="sp" />
           <NavLink to="/market/verify" className="verify-link"><Icon name="shieldcheck" /> Verify Batch</NavLink>
@@ -171,7 +175,9 @@ function Header({ onMenu }) {
 }
 
 function Drawer({ open, onClose }) {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const nav = useNavigate();
+  const out = async () => { onClose(); await logout(); nav('/login'); };
   return (
     <AnimatePresence>
       {open && (
@@ -190,6 +196,7 @@ function Drawer({ open, onClose }) {
               <Link to="/login" onClick={onClose}><Icon name="leaf" /> Producer / Collection Centre</Link>
               <Link to="/login?portal=officer" onClick={onClose}><Icon name="shield" /> Government Officer</Link>
               <Link to="/" onClick={onClose}><Icon name="globe" /> All portals</Link>
+              {user && <button type="button" onClick={out}><Icon name="lock" /> Log out</button>}
             </nav>
           </motion.aside>
         </>

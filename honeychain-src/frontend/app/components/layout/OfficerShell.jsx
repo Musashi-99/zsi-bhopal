@@ -69,7 +69,7 @@ export default function OfficerShell() {
               <Link to="/market/verify" onClick={() => setMenu(false)}><Icon name="qr" /> Verify a batch</Link>
               <Link to="/market" onClick={() => setMenu(false)}><Icon name="store" /> Marketplace</Link>
               <Link to="/" onClick={() => setMenu(false)}><Icon name="globe" /> All portals</Link>
-              <button type="button" onClick={async () => { await logout(); navigate('/'); }}><Icon name="lock" /> Sign out</button>
+              <button type="button" onClick={async () => { setMenu(false); await logout(); navigate('/login'); }}><Icon name="lock" /> Log out</button>
             </div>
           </div>
         </div>
@@ -83,6 +83,7 @@ export default function OfficerShell() {
             </NavLink>
           ))}
         </nav>
+        <button type="button" className="side-out" onClick={async () => { setOpen(false); await logout(); navigate('/login'); }}><Icon name="lock" /><span>Log out</span></button>
         <div className="side-art" />
         <div className="side-tag off-tag"><Icon name="shield" />Review. Verify.<br />Protect forest livelihoods.</div>
       </aside>

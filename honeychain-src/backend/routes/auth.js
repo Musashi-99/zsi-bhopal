@@ -3,7 +3,7 @@ const { v4: uuid } = require('uuid');
 const db = require('../db/db');
 const { hashPassword, verifyPassword, signToken } = require('../services/auth');
 const { requireAuth, COOKIE_NAME } = require('../middleware/auth');
-const { cookieOptions } = require('../services/session');
+const { cookieOptions, clearCookieOptions } = require('../services/session');
 
 const router = express.Router();
 
@@ -69,7 +69,7 @@ router.post('/login', (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  res.clearCookie(COOKIE_NAME, { path: '/' });
+  res.clearCookie(COOKIE_NAME, clearCookieOptions());
   res.json({ ok: true });
 });
 

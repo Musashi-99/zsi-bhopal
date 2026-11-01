@@ -82,7 +82,7 @@ function TopBar({ onMenu, navOpen }) {
             <Link to="/profile" onClick={() => setUsr(false)}><Icon name="user" /> Profile & Settings</Link>
             <Link to="/verify" onClick={() => setUsr(false)}><Icon name="qr" /> Verify a batch</Link>
             <Link to="/market" onClick={() => setUsr(false)}><Icon name="store" /> Marketplace</Link>
-            <button type="button" onClick={async () => { await logout(); navigate('/'); }}><Icon name="lock" /> Sign out</button>
+            <button type="button" onClick={async () => { setUsr(false); await logout(); navigate('/login'); }}><Icon name="lock" /> Log out</button>
           </Menu>
         </div>
       </div>
@@ -91,9 +91,11 @@ function TopBar({ onMenu, navOpen }) {
 }
 
 function Sidebar({ open, onClose }) {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const nav = useRef(null);
   const items = user.role === 'collector' ? COLLECTOR_NAV : OTHER_NAV;
+  const signOut = async () => { onClose(); await logout(); navigate('/login'); };
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
@@ -111,6 +113,7 @@ function Sidebar({ open, onClose }) {
             </NavLink>
           ))}
         </nav>
+        <button type="button" className="side-out" onClick={signOut}><Icon name="lock" /><span>Log out</span></button>
         <div className="side-art" />
         <div className="side-tag"><Icon name="leaf" />Better Quality<br />Better Opportunities<br />Greener Tomorrow</div>
       </aside>

@@ -8,8 +8,13 @@ function cookieOptions() {
   return { httpOnly: true, sameSite: prod ? 'none' : 'lax', secure: prod, maxAge: WEEK, path: '/' };
 }
 
+function clearCookieOptions() {
+  const { maxAge, ...rest } = cookieOptions();
+  return rest;
+}
+
 function startSession(res, user) {
   res.cookie(COOKIE_NAME, signToken({ userId: user.id, role: user.role }), cookieOptions());
 }
 
-module.exports = { cookieOptions, startSession };
+module.exports = { cookieOptions, clearCookieOptions, startSession };
