@@ -437,6 +437,9 @@
 .mk-authbox{max-width:480px;margin:40px auto;background:#fff;border:1px solid var(--mk-line);border-radius:20px;padding:30px;box-shadow:var(--mk-shadow2)}
 .mk-authbox h1{font-size:26px}
 .mk-demo-cta{background:var(--mk-goldbg);border:1.5px dashed var(--mk-gold);border-radius:14px;padding:16px}
+.mk .seed-logins button{background:#fff;border-color:var(--mk-line);color:var(--mk-ink)}
+.mk .seed-logins button.on{border-color:var(--mk-gold);background:var(--mk-goldbg)}
+.mk .seed-logins span{color:var(--mk-green)}
 .mk-reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
 .mk-reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.mk *,.mk-hero .bg,.hub .bg{animation:none!important;transition:none!important}.mk-reveal{opacity:1;transform:none}}

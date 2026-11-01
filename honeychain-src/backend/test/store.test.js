@@ -134,7 +134,7 @@ test('any credentials sign in as the predefined buyer and never create an accoun
   const oneClick = await call('POST', '/api/store/demo-login', { body: {} });
   assert.equal(oneClick.status, 200);
   const unknownBuyer = await login('not-an-email', 'buyer');
-  assert.equal(unknownBuyer.status, 200);
+  assert.equal(unknownBuyer.status, 401);
   assert.equal(db.prepare('SELECT COUNT(*) AS c FROM users').get().c, before, 'no account created');
 });
 

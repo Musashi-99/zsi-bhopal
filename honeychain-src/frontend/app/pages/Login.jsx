@@ -9,8 +9,14 @@ import { useUI } from '../context/UIContext';
 import { useDocTitle } from '../hooks';
 
 import { homeFor, isOfficer } from '../lib/roles';
+import { DEMO_ACCOUNTS, accountFor } from '../lib/demoAccounts';
 
 // The portal tab is a hint only. The server checks the account's real role and the app redirects by it.
+const portalFrom = (search) => {
+  const p = new URLSearchParams(search).get('portal');
+  return ['collector', 'buyer', 'officer'].includes(p) ? p : 'collector';
+};
+
 const TABS = [
   { id: 'collector', label: 'Collector / Producer', icon: 'leaf', does: 'Record a harvest, attach quality readings, and issue a quality passport. A collection centre checks stock here and replies to buyers.' },
   { id: 'buyer', label: 'Buyer', icon: 'handshake', does: 'Look through listed batches, send an enquiry, and follow the order. Browsing the market stays open without an account.' },
@@ -22,17 +28,21 @@ export default function Login() {
   const { toast } = useUI();
   const navigate = useNavigate();
   const loc = useLocation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [show, setShow] = useState(false);
+  const start = accountFor(portalFrom(loc.search));
+  const [email, setEmail] = useState(start.email);
+  const [password, setPassword] = useState(start.password);
+  const [show, setShow] = useState(true);
   const [errors, setErrors] = useState({});
   const [busy, setBusy] = useState(false);
-  const portalFrom = (search) => {
-    const p = new URLSearchParams(search).get('portal');
-    return ['collector', 'buyer', 'officer'].includes(p) ? p : 'collector';
-  };
   const [portal, setPortal] = useState(() => portalFrom(loc.search));
-  useEffect(() => setPortal(portalFrom(loc.search)), [loc.search]);
+  const pickPortal = (id) => {
+    const account = accountFor(id);
+    setPortal(id);
+    setEmail(account.email);
+    setPassword(account.password);
+    setErrors({});
+  };
+  useEffect(() => { pickPortal(portalFrom(loc.search)); }, [loc.search]);
   const left = useRef(null);
   const bg = useRef(null);
 
@@ -97,21 +107,30 @@ export default function Login() {
 
           <div className="portal-tabs" role="tablist" aria-label="Sign in as">
             {TABS.map((t) => (
-              <button key={t.id} type="button" role="tab" aria-selected={portal === t.id} className={portal === t.id ? 'on' : ''} onClick={() => { setPortal(t.id); setErrors({}); }}>
+              <button key={t.id} type="button" role="tab" aria-selected={portal === t.id} className={portal === t.id ? 'on' : ''} onClick={() => pickPortal(t.id)}>
                 <Icon name={t.icon} />{t.label}
               </button>
             ))}
           </div>
           <p className="portal-does" key={portal}>{TABS.find((t) => t.id === portal).does}</p>
+          <div className="seed-logins" aria-label="Seeded accounts">
+            {DEMO_ACCOUNTS[portal].map((a) => (
+              <button key={a.id} type="button" className={email === a.email ? 'on' : ''} onClick={() => { setEmail(a.email); setPassword(a.password); setErrors({}); }}>
+                <b>{a.label}</b>
+                <span>{a.email}</span>
+                <span>{a.password}</span>
+              </button>
+            ))}
+          </div>
 
           <div className="field">
             <label htmlFor="email">Email Address</label>
-            <div className="inp-ic"><Icon name="mail" /><input className="inp" id="email" type="text" autoComplete="off" placeholder="Anything" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
+            <div className="inp-ic"><Icon name="mail" /><input className="inp" id="email" type="text" autoComplete="off" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
           </div>
           <div className="field">
             <label htmlFor="pw">Password</label>
             <div className="inp-ic"><Icon name="lock" />
-              <input className="inp" id="pw" type={show ? 'text' : 'password'} autoComplete="off" placeholder="Anything" style={{ paddingRight: 48 }} value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input className="inp" id="pw" type={show ? 'text' : 'password'} autoComplete="off" placeholder="Password" style={{ paddingRight: 48 }} value={password} onChange={(e) => setPassword(e.target.value)} />
               <button type="button" className="tog" aria-label={show ? 'Hide password' : 'Show password'} onClick={() => setShow((s) => !s)}><Icon name={show ? 'eyeoff' : 'eye'} /></button></div>
           </div>
           {errors.form && <div className="alert-red" role="alert" style={{ marginBottom: 14 }}>{errors.form}</div>}

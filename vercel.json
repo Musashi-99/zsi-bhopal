@@ -6,7 +6,7 @@
   "regions": ["bom1"],
   "functions": {
     "api/**/*.js": {
-      "includeFiles": "api/demo.db"
+      "includeFiles": "{api/demo.db,api-server/**}"
     }
   },
   "rewrites": [

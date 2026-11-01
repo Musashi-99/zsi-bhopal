@@ -1,7 +1,7 @@
 const express = require('express');
 const { v4: uuid } = require('uuid');
 const db = require('../db/db');
-const { hashPassword, signToken } = require('../services/auth');
+const { hashPassword, verifyPassword, signToken } = require('../services/auth');
 const { requireAuth, COOKIE_NAME } = require('../middleware/auth');
 const { cookieOptions } = require('../services/session');
 
@@ -50,32 +50,19 @@ router.post('/register', (req, res) => {
   res.status(201).json({ user: publicUser(user) });
 });
 
-const PORTAL_EMAIL = {
-  collector: 'mina@aranya.demo',
-  buyer: 'buyer.haat@aranya.demo',
-  officer: 'inspector@aranya.demo',
-};
 const PORTAL_ROLES = { collector: ['collector', 'centre'], buyer: ['buyer'], officer: ['inspector', 'admin'] };
-const PORTAL_CREATE = { collector: 'collector', buyer: 'buyer', officer: 'inspector' };
 
 router.post('/login', (req, res) => {
-  const { email, portal } = req.body || {};
+  const { email, password, portal } = req.body || {};
   const mail = String(email || '').toLowerCase().trim();
-  const wanted = PORTAL_ROLES[portal] ? portal : null;
-  let user = mail ? db.prepare('SELECT * FROM users WHERE email = ? AND active = 1').get(mail) : null;
-  if (wanted && user && !PORTAL_ROLES[wanted].includes(user.role)) user = null;
-  if (!user && wanted) user = db.prepare('SELECT * FROM users WHERE email = ? AND active = 1').get(PORTAL_EMAIL[wanted]);
-  if (!user) {
-    const role = PORTAL_CREATE[wanted] || 'collector';
-    const id = `U-${uuid().slice(0, 8).toUpperCase()}`;
-    const taken = mail && db.prepare('SELECT id FROM users WHERE email = ?').get(mail);
-    const stored = mail && !taken ? mail : `${role}.${id.slice(2).toLowerCase()}@aranya.demo`;
-    const name = stored.split('@')[0].replace(/[._-]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) || 'Guest';
-    db.prepare(`
-      INSERT INTO users (id, name, email, password_hash, role, preferred_language, state_id, district_id, active, is_demo, created_at)
-      VALUES (?, ?, ?, ?, ?, 'en', 'ST-WB', 'DT-PUR', 1, 1, ?)
-    `).run(id, name, stored, 'open', role, new Date().toISOString());
-    user = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+  if (!mail || !password) return res.status(400).json({ error: 'Email and password are required.' });
+  const user = db.prepare('SELECT * FROM users WHERE email = ? AND active = 1').get(mail);
+  if (!user || !verifyPassword(String(password), user.password_hash)) {
+    return res.status(401).json({ error: 'That email and password do not match an account.' });
+  }
+  const wanted = PORTAL_ROLES[portal];
+  if (wanted && !wanted.includes(user.role)) {
+    return res.status(403).json({ error: 'This account belongs to a different section. Choose the matching one.' });
   }
   res.cookie(COOKIE_NAME, signToken({ userId: user.id, role: user.role }), cookieOptions());
   res.json({ user: publicUser(user) });
