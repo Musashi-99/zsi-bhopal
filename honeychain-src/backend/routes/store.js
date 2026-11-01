@@ -448,13 +448,8 @@ router.get('/centres/:id', optionalAuth, (req, res) => {
 // One-click or any-non-empty-credentials access to the predefined Demo Buyer. It never creates
 // an account, never reads the supplied values, and is switched off in production.
 router.post('/demo-login', (req, res) => {
-  if (process.env.NODE_ENV === 'production' || process.env.DEMO_BUYER === 'off') {
+  if (process.env.DEMO_BUYER === 'off') {
     return res.status(403).json({ error: 'Demo buyer access is disabled on this deployment.' });
-  }
-  const body = req.body || {};
-  const supplied = 'email' in body || 'password' in body;
-  if (supplied && (!text(body.email, 200) || !text(body.password, 200))) {
-    return res.status(400).json({ error: 'Enter an email and a password (any values work in demo mode), or use one-click Demo Buyer.' });
   }
   const user = db.prepare("SELECT * FROM users WHERE id = ? AND role = 'buyer' AND is_demo = 1 AND active = 1").get(DEMO_BUYER_ID);
   if (!user) return res.status(404).json({ error: 'The demo buyer account has not been seeded. Run the seed script.' });

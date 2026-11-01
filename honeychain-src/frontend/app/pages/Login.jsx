@@ -16,12 +16,6 @@ const TABS = [
   { id: 'buyer', label: 'Buyer', icon: 'handshake', does: 'Look through listed batches, send an enquiry, and follow the order. Browsing the market stays open without an account.' },
   { id: 'officer', label: 'Government Officer', icon: 'shield', does: 'Review a batch, record an inspection, and suspend or reinstate it. An administrator creates this account.' },
 ];
-const DEMO = {
-  collector: { email: 'mina@aranya.demo', password: 'collector123' },
-  buyer: { email: 'buyer.haat@aranya.demo', password: 'buyer12345' },
-  officer: { email: 'inspector@aranya.demo', password: 'inspector123' },
-};
-
 export default function Login() {
   useDocTitle('Sign in');
   const { login } = useAuth();
@@ -59,11 +53,7 @@ export default function Login() {
 
   const submit = async (e) => {
     e.preventDefault();
-    const next = {};
-    if (!/^\S+@\S+\.\S+$/.test(email)) next.email = 'Enter a valid email address.';
-    if (!password) next.password = 'Enter your password.';
-    setErrors(next);
-    if (Object.keys(next).length) return;
+    setErrors({});
     setBusy(true);
     try {
       const u = await login(email.trim(), password, portal);
@@ -114,20 +104,15 @@ export default function Login() {
           </div>
           <p className="portal-does" key={portal}>{TABS.find((t) => t.id === portal).does}</p>
 
-          <div className={`field ${errors.email ? 'bad' : ''}`}>
+          <div className="field">
             <label htmlFor="email">Email Address</label>
-            <div className="inp-ic"><Icon name="mail" /><input className="inp" id="email" type="email" autoComplete="email" placeholder="Enter your email address" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-            {errors.email && <span className="errmsg" role="alert">{errors.email}</span>}
+            <div className="inp-ic"><Icon name="mail" /><input className="inp" id="email" type="text" autoComplete="off" placeholder="Anything" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
           </div>
-          <div className={`field ${errors.password ? 'bad' : ''}`}>
+          <div className="field">
             <label htmlFor="pw">Password</label>
             <div className="inp-ic"><Icon name="lock" />
-              <input className="inp" id="pw" type={show ? 'text' : 'password'} autoComplete="current-password" placeholder="Enter your password" style={{ paddingRight: 48 }} value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input className="inp" id="pw" type={show ? 'text' : 'password'} autoComplete="off" placeholder="Anything" style={{ paddingRight: 48 }} value={password} onChange={(e) => setPassword(e.target.value)} />
               <button type="button" className="tog" aria-label={show ? 'Hide password' : 'Show password'} onClick={() => setShow((s) => !s)}><Icon name={show ? 'eyeoff' : 'eye'} /></button></div>
-            {errors.password && <span className="errmsg" role="alert">{errors.password}</span>}
-          </div>
-          <div style={{ textAlign: 'right', margin: '-8px 0 22px' }}>
-            <button type="button" className="link" style={{ fontSize: 14 }} onClick={() => toast('Password recovery is handled by your administrator in this build.')}>Forgot password?</button>
           </div>
           {errors.form && <div className="alert-red" role="alert" style={{ marginBottom: 14 }}>{errors.form}</div>}
           <motion.button className="btn primary block" type="submit" disabled={busy} whileTap={{ scale: 0.98 }}>
@@ -137,10 +122,6 @@ export default function Login() {
           <div className="secure"><Icon name="shieldcheck" /><div><b>Secure Access</b><span>Your information is protected and used only for authenticated access to AranyaValue.</span></div></div>
 
           <div className="demo-row">
-            <span>Demo accounts:</span>
-            <button type="button" className="link" onClick={() => { setEmail(DEMO[portal].email); setPassword(DEMO[portal].password); setErrors({}); }}>
-              {TABS.find((t) => t.id === portal).label}
-            </button>
             <span className="grow" />
             {portal !== 'officer' && <Link className="link" to="/register">Create account</Link>}
             <Link className="link" to="/verify">Verify a batch</Link>

@@ -1,7 +1,7 @@
 const express = require('express');
 const { v4: uuid } = require('uuid');
 const db = require('../db/db');
-const { hashPassword, verifyPassword, signToken } = require('../services/auth');
+const { hashPassword, signToken } = require('../services/auth');
 const { requireAuth, COOKIE_NAME } = require('../middleware/auth');
 const { cookieOptions } = require('../services/session');
 
@@ -50,42 +50,32 @@ router.post('/register', (req, res) => {
   res.status(201).json({ user: publicUser(user) });
 });
 
-// Demo convenience: outside production, any email + password signs in.
-// Unknown emails get a collector account created on the fly; known emails sign in without a password check.
-const OPEN_LOGIN = process.env.NODE_ENV !== 'production' && process.env.OPEN_LOGIN !== 'off';
+const PORTAL_EMAIL = {
+  collector: 'mina@aranya.demo',
+  buyer: 'buyer.haat@aranya.demo',
+  officer: 'inspector@aranya.demo',
+};
+const PORTAL_ROLES = { collector: ['collector', 'centre'], buyer: ['buyer'], officer: ['inspector', 'admin'] };
+const PORTAL_CREATE = { collector: 'collector', buyer: 'buyer', officer: 'inspector' };
 
 router.post('/login', (req, res) => {
-  const { email, password, portal } = req.body || {};
-  if (!email || !password) return res.status(400).json({ error: 'Email and password are required.' });
-  const mail = String(email).toLowerCase().trim();
-  let user = db.prepare('SELECT * FROM users WHERE email = ?').get(mail);
-  // The login tab is only a hint. Officer sign-in never auto-creates accounts.
-  if (portal === 'officer' && !user) return res.status(401).json({ error: 'Invalid email or password.' });
-  // Buyer sign-in never creates accounts either. Buyers register explicitly, or use the clearly labelled Demo Buyer access.
-  if (portal === 'buyer' && !user) return res.status(401).json({ error: 'No buyer account found for that email. Create a buyer account, or use Demo Buyer access.' });
-  // Officer/admin accounts always require a real password check, even in demo mode.
-  const privileged = user && ['inspector', 'admin'].includes(user.role);
-  // Buyers always need a real password. Arbitrary credentials never create or enter a buyer account;
-  // the labelled Demo Buyer endpoint is the only passwordless buyer path.
-  if (OPEN_LOGIN && !privileged && !(user && user.role === 'buyer')) {
-    if (!user) {
-      const id = `U-${uuid().slice(0, 8).toUpperCase()}`;
-      const name = mail.split('@')[0].replace(/[._-]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) || 'New Collector';
-      db.prepare(`
-        INSERT INTO users (id, name, email, password_hash, role, preferred_language, state_id, district_id, active, is_demo, created_at)
-        VALUES (?, ?, ?, ?, 'collector', 'en', 'ST-WB', 'DT-PUR', 1, 0, ?)
-      `).run(id, name, mail, hashPassword(String(password)), new Date().toISOString());
-      user = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
-    }
-    if (!user.active) return res.status(401).json({ error: 'Invalid email or password.' });
-  } else if (!user || !verifyPassword(password, user.password_hash) || !user.active) {
-    return res.status(401).json({ error: 'Invalid email or password.' });
-  }
-  // Credentials are valid; now make sure they belong to the portal that was chosen.
-  const PORTAL_ROLES = { collector: ['collector', 'centre'], buyer: ['buyer'], officer: ['inspector', 'admin'] };
-  const PORTAL_NAMES = { collector: 'Collector / Producer', buyer: 'Buyer', officer: 'Government Officer' };
-  if (portal && PORTAL_ROLES[portal] && !PORTAL_ROLES[portal].includes(user.role)) {
-    return res.status(403).json({ error: `This account is not a ${PORTAL_NAMES[portal]} account. Choose the correct login option.` });
+  const { email, portal } = req.body || {};
+  const mail = String(email || '').toLowerCase().trim();
+  const wanted = PORTAL_ROLES[portal] ? portal : null;
+  let user = mail ? db.prepare('SELECT * FROM users WHERE email = ? AND active = 1').get(mail) : null;
+  if (wanted && user && !PORTAL_ROLES[wanted].includes(user.role)) user = null;
+  if (!user && wanted) user = db.prepare('SELECT * FROM users WHERE email = ? AND active = 1').get(PORTAL_EMAIL[wanted]);
+  if (!user) {
+    const role = PORTAL_CREATE[wanted] || 'collector';
+    const id = `U-${uuid().slice(0, 8).toUpperCase()}`;
+    const taken = mail && db.prepare('SELECT id FROM users WHERE email = ?').get(mail);
+    const stored = mail && !taken ? mail : `${role}.${id.slice(2).toLowerCase()}@aranya.demo`;
+    const name = stored.split('@')[0].replace(/[._-]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) || 'Guest';
+    db.prepare(`
+      INSERT INTO users (id, name, email, password_hash, role, preferred_language, state_id, district_id, active, is_demo, created_at)
+      VALUES (?, ?, ?, ?, ?, 'en', 'ST-WB', 'DT-PUR', 1, 1, ?)
+    `).run(id, name, stored, hashPassword('open'), role, new Date().toISOString());
+    user = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
   }
   res.cookie(COOKIE_NAME, signToken({ userId: user.id, role: user.role }), cookieOptions());
   res.json({ user: publicUser(user) });

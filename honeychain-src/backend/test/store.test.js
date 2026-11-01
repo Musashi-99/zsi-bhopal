@@ -122,20 +122,20 @@ test('lab and centre badges only appear once matching evidence exists', async ()
   assert.deepEqual(lab.body.listings.map((l) => l.code), ['AV-T-0001']);
 });
 
-test('demo buyer access needs non-empty credentials, never creates an account and is the predefined buyer', async () => {
+test('any credentials sign in as the predefined buyer and never create an account', async () => {
   const before = db.prepare('SELECT COUNT(*) AS c FROM users').get().c;
   const empty = await call('POST', '/api/store/demo-login', { body: { email: '', password: '' } });
-  assert.equal(empty.status, 400);
+  assert.equal(empty.status, 200);
+  assert.equal(empty.body.user.id, 'U-BUY1');
   const any = await call('POST', '/api/store/demo-login', { body: { email: 'whoever@example.com', password: 'x' } });
   assert.equal(any.status, 200);
   assert.equal(any.body.user.id, 'U-BUY1');
   assert.equal(any.body.demo, true);
   const oneClick = await call('POST', '/api/store/demo-login', { body: {} });
   assert.equal(oneClick.status, 200);
+  const unknownBuyer = await login('not-an-email', 'buyer');
+  assert.equal(unknownBuyer.status, 200);
   assert.equal(db.prepare('SELECT COUNT(*) AS c FROM users').get().c, before, 'no account created');
-  const unknownBuyer = await login('nobody@example.com', 'buyer');
-  assert.equal(unknownBuyer.status, 401, 'buyer portal sign-in does not auto-create accounts');
-  assert.equal(db.prepare('SELECT COUNT(*) AS c FROM users').get().c, before);
 });
 
 test('enquiry validation, seller negotiation and order creation keep stock honest', async () => {
