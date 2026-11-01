@@ -1,11 +1,12 @@
 {
   "name": "frontend",
   "private": true,
+  "engines": { "node": "22.x" },
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node scripts/stage-api.cjs && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
   },
