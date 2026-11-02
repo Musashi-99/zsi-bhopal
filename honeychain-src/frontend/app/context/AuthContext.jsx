@@ -16,6 +16,13 @@ export function AuthProvider({ children }) {
       .finally(() => setReady(true));
   }, []);
 
+  // Another tab signed in as a different role: the cookie changed but this tab still shows the old user.
+  useEffect(() => {
+    const resync = () => api('/api/auth/me').then((d) => { setUser(d.user); qc.clear(); }).catch(() => { setUser(null); qc.clear(); });
+    window.addEventListener('aranya:session-stale', resync);
+    return () => window.removeEventListener('aranya:session-stale', resync);
+  }, [qc]);
+
   const login = useCallback(async (email, password, portal) => {
     const d = await api('/api/auth/login', { method: 'POST', body: { email, password, portal } });
     qc.clear();

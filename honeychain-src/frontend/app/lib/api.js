@@ -21,7 +21,10 @@ export async function api(path, { method = 'GET', body, signal } = {}) {
     throw new ApiError('Cannot reach the server. Check your connection and try again.', 0);
   }
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new ApiError(data.error || 'Request failed', res.status);
+  if (!res.ok) {
+    if (res.status === 403 && /needs one of these roles/.test(data.error || '')) window.dispatchEvent(new Event('aranya:session-stale'));
+    throw new ApiError(data.error || 'Request failed', res.status);
+  }
   return data;
 }
 
